@@ -1,5 +1,4 @@
 import React from 'react';
-// var QRCode = require('qrcode.react');
 import QRCode from 'qrcode.react';
 
 // Style imports

@@ -167,7 +167,7 @@ export const dummyBoard = {
             squareText: 'Meet Jenny',
             description: 'Find Jenny in the library, ask her for a code!',
             task: {
-                type: 'code',
+                taskType: 'code',
                 answer: '',
             },
             complete: false,
@@ -184,7 +184,7 @@ export const dummyBoard = {
             squareText: 'Check this box',
             description: 'Flip this switch, that\'s it!!',
             task: {
-                type: 'click',
+                taskType: 'click',
                 answer: false,
             },
             complete: false,
@@ -207,7 +207,7 @@ export const dummyBoard = {
             squareText: '',
             description: '',
             task: {
-                type: '',
+                taskType: '',
                 answer: '',
             },
             complete: true,
@@ -224,7 +224,7 @@ export const dummyBoard = {
             squareText: 'Rock selfie',
             description: 'Get a selfie with a rock!',
             task: {
-                type: 'picture',
+                taskType: 'picture',
                 answer: '',
             },
             complete: false,
@@ -241,7 +241,7 @@ export const dummyBoard = {
             squareText: 'Dirt video',
             description: 'Get a video of you with dirt!',
             task: {
-                type: 'video',
+                taskType: 'video',
                 answer: '',
             },
             complete: false,
@@ -258,7 +258,7 @@ export const dummyBoard = {
             squareText: 'Septic tank closeness',
             description: 'Get within 100 meters of the company septic tank!',
             task: {
-                type: 'location',
+                taskType: 'location',
                 answer: false,
             },
             complete: false,
@@ -281,7 +281,7 @@ export const dummyBoard = {
             squareText: 'Meet Heidi',
             description: 'Find Heidi in the library, ask her for a code!',
             task: {
-                type: 'code',
+                taskType: 'code',
                 answer: '',
             },
             complete: false,
@@ -298,7 +298,7 @@ export const dummyBoard = {
             squareText: 'Scan QR Code',
             description: 'Find the QR code by the manhole and scan it!',
             task: {
-                type: 'qrCode',
+                taskType: 'qrCode',
                 answer: '',
             },
             complete: false,
@@ -311,7 +311,7 @@ export const dummyBoard = {
             squareText: 'Meet Helga',
             description: 'Find Helga in the library, ask her for a code!',
             task: {
-                type: 'code',
+                taskType: 'code',
                 answer: '',
             },
             complete: false,
@@ -328,7 +328,7 @@ export const dummyBoard = {
             squareText: 'Meet Helga',
             description: 'Find Helga in the library, ask her for a code!',
             task: {
-                type: 'code',
+                taskType: 'code',
                 answer: '',
             },
             complete: false,
@@ -345,7 +345,7 @@ export const dummyBoard = {
             squareText: 'Meet Helga',
             description: 'Find Helga in the library, ask her for a code!',
             task: {
-                type: 'code',
+                taskType: 'code',
                 answer: '',
             },
             complete: false,
@@ -362,7 +362,7 @@ export const dummyBoard = {
             squareText: 'Meet Helga',
             description: 'Find Helga in the library, ask her for a code!',
             task: {
-                type: 'code',
+                taskType: 'code',
                 answer: '',
             },
             complete: false,
@@ -379,7 +379,7 @@ export const dummyBoard = {
             squareText: 'Meet Helga',
             description: 'Find Helga in the library, ask her for a code!',
             task: {
-                type: 'code',
+                taskType: 'code',
                 answer: '',
             },
             complete: false,
@@ -396,7 +396,7 @@ export const dummyBoard = {
             squareText: 'Meet Tiffany',
             description: 'Find Tiffany in the library, ask her for a code!',
             task: {
-                type: 'code',
+                taskType: 'code',
                 answer: '',
             },
             complete: false,
@@ -413,7 +413,7 @@ export const dummyBoard = {
             squareText: 'Meet Beth',
             description: 'Find Beth in the library, ask her for a code!',
             task: {
-                type: 'code',
+                taskType: 'code',
                 answer: '',
             },
             complete: false,
@@ -430,7 +430,7 @@ export const dummyBoard = {
             squareText: 'Enter some text',
             description: 'Enter some text so we know you did it!',
             task: {
-                type: 'text',
+                taskType: 'text',
                 answer: '',
             },
             complete: false,
@@ -447,7 +447,7 @@ export const dummyBoard = {
             squareText: '',
             description: '',
             task: {
-                type: '',
+                taskType: '',
                 answer: '',
             },
             complete: true,
@@ -464,7 +464,7 @@ export const dummyBoard = {
             squareText: '',
             description: '',
             task: {
-                type: '',
+                taskType: '',
                 answer: '',
             },
             complete: true,
@@ -481,7 +481,7 @@ export const dummyBoard = {
             squareText: '',
             description: '',
             task: {
-                type: '',
+                taskType: '',
                 answer: '',
             },
             complete: true,
@@ -498,7 +498,7 @@ export const dummyBoard = {
             squareText: '',
             description: '',
             task: {
-                type: '',
+                taskType: '',
                 answer: '',
             },
             complete: true,
@@ -515,7 +515,7 @@ export const dummyBoard = {
             squareText: '',
             description: '',
             task: {
-                type: '',
+                taskType: '',
                 answer: '',
             },
             complete: true,
@@ -532,7 +532,7 @@ export const dummyBoard = {
             squareText: '',
             description: '',
             task: {
-                type: '',
+                taskType: '',
                 answer: '',
             },
             complete: true,
@@ -549,7 +549,7 @@ export const dummyBoard = {
             squareText: '',
             description: '',
             task: {
-                type: '',
+                taskType: '',
                 answer: '',
             },
             complete: true,
@@ -566,7 +566,7 @@ export const dummyBoard = {
             squareText: '',
             description: '',
             task: {
-                type: '',
+                taskType: '',
                 answer: '',
             },
             complete: true,
@@ -583,7 +583,7 @@ export const dummyBoard = {
             squareText: '',
             description: '',
             task: {
-                type: '',
+                taskType: '',
                 answer: '',
             },
             complete: true,

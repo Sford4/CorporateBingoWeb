@@ -1,8 +1,7 @@
-import { useState, useEffect, useReducer } from 'react';
+import { useState, useEffect, } from 'react';
 import { useRouter } from 'next/router'
 
-// reducer imports
-import { userReducerState, userReducer } from  '../../reducers/userReducer';
+// context imports
 
 // Style imports
 import { MASTER, COLORS } from '../../styles/masterStyles';
@@ -10,7 +9,6 @@ import { MASTER, COLORS } from '../../styles/masterStyles';
 const BoardRewards = () => {
 
     const router = useRouter()
-    const [userState, dispatch] = useReducer(userReducer, userReducerState);
 
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');

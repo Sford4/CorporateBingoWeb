@@ -22,7 +22,7 @@ const Signup = () => {
 
     useEffect(() => {
         if(user._id && localStorage.getItem('bingo_token')){
-            router.push('/home');
+            router.push('/joinGame');
         }
       }, [user])
 

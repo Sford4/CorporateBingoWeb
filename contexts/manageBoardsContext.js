@@ -9,10 +9,6 @@ const ManageBoardsContextProvider = (props) => {
     const [ contextBoard, setContextBoard ] = useState({});
     const [ stuffToSave, setStuffToSave ] = useState(false);
 
-    useEffect(() => {
-        console.log('there\'s stuff to save!')
-    }, [stuffToSave])
-
     const getBoard = async (boardID) => {
         if(boardID && contextBoard._id === boardID){
             console.log('go with same board', contextBoard, boardID)
@@ -53,6 +49,18 @@ const ManageBoardsContextProvider = (props) => {
 
     const saveBoard = async () => {
         console.log('SAVING');
+        if(contextBoard.groups.useTeams){
+            const teamsNoFrontendIDs = contextBoard.groups.teams.map(team => {
+                if(!team._id || team._id.includes('team')){
+                    return {
+                        name: team.name,
+                        accessCode: team.accessCode
+                    }
+                }
+                return team
+            })
+            contextBoard.groups.teams = teamsNoFrontendIDs;
+        }
         try {
             const request = await fetch(`http://localhost:8000/boards/${contextBoard._id}`, {
                 method: 'PATCH',
@@ -62,13 +70,15 @@ const ManageBoardsContextProvider = (props) => {
                   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
                 },
                 body: JSON.stringify({
-                    ...contextBoard
+                    ...contextBoard,
+                    modified: new Date(),
                 })
               })
               const success = await request.json();
               console.log({success})
               if(success){
                 setStuffToSave(false);
+                setContextBoard(success.board);
               } else {
                   alert('There was a problem saving your board... please try again later!')
               }

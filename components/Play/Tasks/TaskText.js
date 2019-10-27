@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect, } from 'react';
 
 
-// reducer imports
-import { playReducerState, playReducer } from  '../../../reducers/playReducer';
+// context imports
 
 // Style imports
 import { MASTER, COLORS } from '../../../styles/masterStyles';
@@ -10,26 +9,17 @@ import { MASTER, COLORS } from '../../../styles/masterStyles';
 const TaskClick = (props) => {
 
     const [text, setText] = useState(props.task.task.answer);
-    const [playState, dispatch] = useReducer(playReducer, playReducerState);
 
     const submitText = text => {
         setComplete(text, true);
     }
 
     const setComplete = (text, bool) => {
-        dispatch({type: 'UPDATE_TASK', payload: {
-            ...props.task,
-            complete: bool,
-            task: {
-                type: 'text',
-                answer: text,
-            }
-        }});
         props.updateTask({
             ...props.task,
             complete: bool,
             task: {
-                type: 'text',
+                taskType: 'text',
                 answer: text,
             }
         })

@@ -1,36 +1,26 @@
 // Must have generated a QR like {"squareID": "8"}
 // if the squareID prop in the object in the QR code matches the id of the task, task completed
 
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect, } from 'react';
 
 // import QrReader from 'react-qr-reader';
 
-// reducer imports
-import { playReducerState, playReducer } from  '../../../reducers/playReducer';
+// context imports
 
 // Style imports
 import { MASTER, COLORS } from '../../../styles/masterStyles';
 
 const TaskQRCode = (props) => {
-
-    const [playState, dispatch] = useReducer(playReducer, playReducerState);
+    
     const [hasQR, setHasQR] = useState(false);
     const [propComplete, setPropComplete] = useState(props.task.complete);
 
     const setComplete = (bool) => {
-        dispatch({type: 'UPDATE_TASK', payload: {
-            ...props.task,
-            complete: bool,
-            task: {
-                type: 'qrCode',
-                answer: bool,
-            }
-        }});
         props.updateTask({
             ...props.task,
             complete: bool,
             task: {
-                type: 'qrCode',
+                taskType: 'qrCode',
                 answer: bool,
             }
         })

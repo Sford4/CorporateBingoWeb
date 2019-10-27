@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useReducer, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {useDropzone} from 'react-dropzone'
 
-// reducer imports
-import { playReducerState, playReducer } from  '../../../reducers/playReducer';
+// context imports
 
 // Style imports
 import { MASTER, COLORS } from '../../../styles/masterStyles';
@@ -11,7 +10,6 @@ import { MASTER, COLORS } from '../../../styles/masterStyles';
 
 const TaskPicture = (props) => {
 
-    const [playState, dispatch] = useReducer(playReducer, playReducerState);
     const [image, setImage] = useState(props.task.task.answer);
     const [cameraOpen, setCameraOpen] = useState(false);
     const [cameraPermission, setCameraPermission] = useState('');
@@ -23,19 +21,11 @@ const TaskPicture = (props) => {
     }, [image])
 
     const setComplete = (picture, bool) => {
-        dispatch({type: 'UPDATE_TASK', payload: {
-            ...props.task,
-            complete: bool,
-            task: {
-                type: 'picture',
-                answer: picture,
-            }
-        }});
         props.updateTask({
             ...props.task,
             complete: bool,
             task: {
-                type: 'picture',
+                taskType: 'picture',
                 answer: picture,
             }
         })

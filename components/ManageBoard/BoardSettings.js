@@ -1,9 +1,10 @@
-import { useState, useEffect, useReducer, useCallback, useContext } from 'react';
+import { useState, useEffect, useCallback, useContext } from 'react';
 import { useRouter } from 'next/router'
 
-// reducer imports
-import { userReducerState, userReducer } from  '../../reducers/userReducer';
-import { manageBoardsReducerState, manageBoardsReducer } from  '../../reducers/manageBoardsReducer';
+// Constants
+import { teamCodePrefix } from '../../constants/constants';
+
+// Context imports
 import { ManageBoardsContext } from '../../contexts/manageBoardsContext';
 
 // Style imports
@@ -11,7 +12,8 @@ import { MASTER, COLORS } from '../../styles/masterStyles';
 
 // Component Imports
 import { ChromePicker } from 'react-color';
-import {useDropzone} from 'react-dropzone'
+import {useDropzone} from 'react-dropzone';
+import QRCode from 'qrcode.react';
 
 // Material UI
 import Switch from '@material-ui/core/Switch';
@@ -23,7 +25,7 @@ const BoardSettings = (props) => {
     const { contextBoard, updateBoard, setStuffToSave } = useContext(ManageBoardsContext);
 
     const [board, setBoard] = useState(contextBoard);
-    const [hasTimelimit, setHasTimelimit] = useState(!!props.board.timeLimit);
+    const [hasTimeLimit, setHasTimeLimit] = useState(!!props.board.timeLimit);
 
     useEffect(() => {
         if(!contextBoard._id){
@@ -44,6 +46,7 @@ const BoardSettings = (props) => {
     const changeUseGroups = bool => {
         updateBoard({
             ...board,
+            accessCode: '',
             groups: {
                 ...board.groups,
                 useTeams: bool
@@ -65,11 +68,25 @@ const BoardSettings = (props) => {
 
 
     const deleteTeam = id => {
+        // show a popup confirming they want to remove a team, let them know it'll delete any games associate with that team
         changeTeams(board.groups.teams.filter(team => team._id !== id));
     }
 
     const addTeam = () => {
-        changeTeams([...board.groups.teams, {id: Math.random(), name: '', accessCode: ''}]);
+        changeTeams([...board.groups.teams, {_id: `team${Math.random()}`, name: '', accessCode: ''}]);
+    }
+
+    const downloadQRCode = (id, type) => {
+            const canvas = document.getElementById(id);
+            const pngUrl = canvas
+                .toDataURL("image/png")
+                .replace("image/png", "image/octet-stream");
+            let downloadLink = document.createElement("a");
+            downloadLink.href = pngUrl;
+            downloadLink.download = `bingo-${type}-code-${id}.png`;
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
     }
 
     const onDrop = useCallback(acceptedFiles => {
@@ -93,7 +110,7 @@ const BoardSettings = (props) => {
     const generateTeams = () => {
         return board.groups.teams.map((team, index) => {
             return (
-                <div key={`team-id-${team._id}`} style={{ ...styles.labelColumn, flexDirection: 'row', alignItems: 'center', marginTop: 10}}>
+                <div key={`team-id-${index}`} style={{ ...styles.labelColumn, flexDirection: 'row', alignItems: 'center', marginTop: 10}}>
                     <span style={{ ...styles.inputLabel,  marginLeft: 5, marginRight: 5}}>Team Name: </span>
                     <input 
                         style={{ ...MASTER.wideRoundInput, marginTop: 5, width: 'auto', padding: '0 20px 0 20px', maxWidth: 700 }} 
@@ -118,7 +135,29 @@ const BoardSettings = (props) => {
                         }))}
                         placeholder={'e.g. teamAlphaRulez'}
                     />
-                    <div onClick={() => deleteTeam(team._id)}>DELETE</div>
+                    {team.accessCode && team.name ?
+                    <button 
+                        style={{ ...MASTER.wideRoundBtn, width: 60, marginTop: 4, marginLeft: 10, height: 35 }} 
+                        onClick={() => downloadQRCode(team.accessCode, 'team')}
+                    >
+                        <img style={{ height: 20 }} src={'../../static/qr_code_white.png'} alt='qr code' />
+                    </button>
+                    : <button 
+                            style={{ ...MASTER.wideRoundBtn, width: 60, marginTop: 4, marginLeft: 10, height: 35, backgroundColor: 'gray' }} 
+                        >
+                            <img style={{ height: 20 }} src={'../../static/qr_code_white.png'} alt='qr code' />
+                        </button>
+                    }
+                    <div style={{ cursor: 'pointer' }} onClick={() => deleteTeam(team._id)}><img src={'../../static/trash.png'} alt='Delete' style={{ height: 30, marginLeft: 10 }} /></div>
+                    <div style={{ display: 'none' }}>
+                        <QRCode
+                            id={team.accessCode}
+                            value={team.accessCode}
+                            size={200}
+                            level={"Q"}
+                            includeMargin={false}
+                        />
+                    </div>
                 </div>
             )
         })
@@ -192,37 +231,37 @@ const BoardSettings = (props) => {
                     <div style={{ ...styles.labelColumn, flexDirection: 'row', alignItems: 'center'}}>
                         <Switch
                             onChange = {() => {
-                                if(!!board.timelimit){
-                                    setHasTimelimit(false);
-                                    changeRegularValues('timelimit', null);
+                                if(!!board.timeLimit){
+                                    setHasTimeLimit(false);
+                                    changeRegularValues('timeLimit', null);
                                 } else {
-                                    setHasTimelimit(true);
-                                    changeRegularValues('timelimit', 'min15');
+                                    setHasTimeLimit(true);
+                                    changeRegularValues('timeLimit', 'min15');
                                 }
                             }}
-                            value = {!!board.timelimit}
-                            checked={!!board.timelimit}
+                            value = {!!board.timeLimit}
+                            checked={!!board.timeLimit}
                         />
                         <span style={{ ...styles.inputLabel, marginRight: 5, marginLeft: 5}}>Time limit:</span>
-                        {hasTimelimit ? 
+                        {hasTimeLimit ? 
                             <Select
                                 displayEmpty={false}
-                                value={board.timelimit}
-                                onChange={(e) => changeRegularValues('timelimit', e.target.value)}
+                                value={board.timeLimit}
+                                onChange={(e) => changeRegularValues('timeLimit', e.target.value)}
                                 inputProps={{
                                     name: 'age',
                                     id: 'demo-controlled-open-select',
                                 }}
                             >
-                                <MenuItem value="min15">15 minutes</MenuItem>
-                                <MenuItem value="min30">30 minutes</MenuItem>
-                                <MenuItem value="hour1">1 hour</MenuItem>
-                                <MenuItem value="hour2">2 hours</MenuItem>
-                                <MenuItem value="hour4">4 hours</MenuItem>
-                                <MenuItem value="hour8">8 hours</MenuItem>
-                                <MenuItem value="hour12">12 hours</MenuItem>
-                                <MenuItem value="day1">24 hours</MenuItem>
-                                <MenuItem value="day7">1 week</MenuItem>
+                                <MenuItem value={900000}>15 minutes</MenuItem>
+                                <MenuItem value={1800000}>30 minutes</MenuItem>
+                                <MenuItem value={3600000}>1 hour</MenuItem>
+                                <MenuItem value={7200000}>2 hours</MenuItem>
+                                <MenuItem value={14400000}>4 hours</MenuItem>
+                                <MenuItem value={28800000}>8 hours</MenuItem>
+                                <MenuItem value={43200000}>12 hours</MenuItem>
+                                <MenuItem value={86400000}>24 hours</MenuItem>
+                                <MenuItem value={604800000}>1 week</MenuItem>
                             </Select>
                             : <span>None</span>
                             }
@@ -236,7 +275,14 @@ const BoardSettings = (props) => {
                             checked={board.groups.useTeams}
                         />
                         <span style={{ ...styles.inputLabel,  marginLeft: 5}}>Teams</span>
-                        {board.groups.useTeams && <div onClick={() => addTeam()}>ADD TEAM</div>}
+                        {board.groups.useTeams &&
+                            <button 
+                                style={{ ...MASTER.wideRoundBtn, width: 80, marginTop: 0, marginLeft: 10, height: 25 }} 
+                                onClick={() => addTeam()}
+                            >
+                                <div style={MASTER.wideRoundBtnText}>+ NEW</div>
+                            </button>
+                        }
                     </div>
                 </div>
                 {board.groups.useTeams &&
@@ -250,12 +296,37 @@ const BoardSettings = (props) => {
                     <div style={styles.row}>
                         <div style={styles.labelColumn}>
                             <span style={styles.inputLabel}>Code to Access Board</span>
-                            <input 
-                                style={{ ...MASTER.wideRoundInput, marginTop: 5, width: 'auto', padding: '0 20px 0 20px', maxWidth: 700 }} 
-                                value={board.accessCode} 
-                                onChange={e => changeRegularValues('accessCode', e.target.value)} 
-                                placeholder={'e.g. Sales'}
-                            />
+                            <div style={{display: 'flex', alignItems: 'center'}}>
+                                <input 
+                                    style={{ ...MASTER.wideRoundInput, marginTop: 5, width: 300, padding: '0 20px 0 20px', maxWidth: 700 }} 
+                                    value={board.accessCode} 
+                                    onChange={e => changeRegularValues('accessCode', e.target.value)} 
+                                    placeholder={'e.g. Sales'}
+                                />
+                                {board.accessCode ? 
+                                    <button 
+                                        style={{ ...MASTER.wideRoundBtn, width: 100, marginTop: 5, marginLeft: 5 }} 
+                                        onClick={() => downloadQRCode(board.accessCode, 'board')}
+                                    >
+                                        <div style={MASTER.wideRoundBtnText}>QR Code</div>
+                                    </button>
+                                    : 
+                                    <button 
+                                        style={{ ...MASTER.wideRoundBtn, width: 100, backgroundColor: 'gray', marginTop: 5, marginLeft: 5, cursor: 'auto' }} 
+                                    >
+                                        <div style={MASTER.wideRoundBtnText}>QR Code</div>
+                                    </button>
+                                }
+                                <div className='QR-maker'>
+                                    <QRCode
+                                        id={board.accessCode}
+                                        value={board.accessCode}
+                                        size={200}
+                                        level={"Q"}
+                                        includeMargin={false}
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 }
@@ -264,12 +335,12 @@ const BoardSettings = (props) => {
                 </div>
                 <div style={styles.row}>
                     <div style={{ ...styles.labelColumn, alignItems: 'center', flexDirection: 'row' }}>
-                        <span className='incomplete-color' style={{ ...styles.exampleSquare, backgroundColor: `#${board.incompleteColor}`}}>Incomplete Square Example</span>
                         <ChromePicker color={board.incompleteColor} onChange={(color, e) => changeRegularValues('incompleteColor', color.hex.substring(1, color.hex.length))} />
+                        <span className='incomplete-color' style={{ ...styles.exampleSquare, backgroundColor: `#${board.incompleteColor}`}}>Incomplete Square Example</span>
                     </div>
                     <div style={{ ...styles.labelColumn, alignItems: 'center', flexDirection: 'row' }}>
-                        <span className='complete-color' style={{ ...styles.exampleSquare, backgroundColor: `#${board.completeColor}`}}>Complete Square Example</span>
                         <ChromePicker color={board.completeColor} onChange={(color, e) => changeRegularValues('completeColor', color.hex.substring(1, color.hex.length))} />
+                        <span className='complete-color' style={{ ...styles.exampleSquare, backgroundColor: `#${board.completeColor}`}}>Complete Square Example</span>
                     </div>
                 </div>
                 <div style={{ ...styles.row, justifyContent: 'flex-start' }}>
@@ -315,6 +386,9 @@ const BoardSettings = (props) => {
                     /* Handle on hover */
                     ::-webkit-scrollbar-thumb:hover {
                       background: #555;
+                    }
+                    .QR-maker {
+                        display: none;
                     }
                 `}
             </style>

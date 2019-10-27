@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
+import moment from 'moment';
 
-// reducer imports
-import { manageBoardsReducerState, manageBoardsReducer } from  '../../reducers/manageBoardsReducer';
+// context imports
 
 // Style imports
 import { MASTER, COLORS } from '../../styles/masterStyles';
@@ -28,12 +28,12 @@ const ManageBoardsHome = (props) => {
 
     const router = useRouter();
 
-    const { org, getOrg } = useContext(OrgContext);
+    const { contextOrg, getOrg } = useContext(OrgContext);
     const { newBoard } = useContext(ManageBoardsContext);
     const { user, storeUser, logout } = useContext(UserContext);
 
   const [searchText, setSearchText] = useState('');
-  const [boards, setBoards] = useState(org.boards || []);
+  const [boards, setBoards] = useState(contextOrg.boards || []);
 
   const searchForBoard = () => {
     setSearchText('');
@@ -48,26 +48,27 @@ const ManageBoardsHome = (props) => {
             logout();
         }
     }
-    if(!org._id && user && user.role && !user.role.org){
-        router.push('/home');
-    }else if(!org._id && user && user.role && user.role.org){
+    if(!contextOrg._id && user && user.role && !user.role.org){
+        router.push('/joinGame');
+    }else if(!contextOrg._id && user && user.role && user.role.org){
         getOrg(user.role.org);
     }
-    if(org && org.boards && org.boards.length !== boards.length){
-        setBoards(org.boards);
+    if(contextOrg && contextOrg.boards && contextOrg.boards.length !== boards.length){
+        setBoards(contextOrg.boards);
     }
-  }, [org, user])
+  }, [contextOrg, user])
 
   const generateBoardRows = () => {
+      console.log({boards})
 		if(boards.length){
 			return boards.map((board, index) => {
 				return (
                     <Link key={board._id} href={`manageBoards/[boardID]`} as={`manageBoards/${board._id}`}>
                         <TableRow style={{ cursor: 'pointer' }}>
                             <TableCell>{board.title}</TableCell>
-                            <TableCell>{board.numPlayers || 0}</TableCell>
-                            <TableCell>{board.numTeams || 0}</TableCell>
-                            <TableCell>{board.numSquare}</TableCell>
+                            <TableCell>{board.numSquares}</TableCell>
+                            <TableCell>{moment(board.created).format("MMM Do, YYYY")}</TableCell>
+                            <TableCell>{moment(board.modified).format("MMM Do, YYYY")}</TableCell>
                         </TableRow>
                     </Link>
 				)
@@ -98,10 +99,9 @@ const ManageBoardsHome = (props) => {
                 <TableHead>
                     <TableRow>
                         <TableCell>NAME</TableCell>
-                        <TableCell>PLAYERS</TableCell>
-                        <TableCell>TEAMS</TableCell>
-                        <TableCell>TASKS COMPLETED</TableCell>
-                        <TableCell>REWARDS EARNED</TableCell>
+                        <TableCell>TASKS</TableCell>
+                        <TableCell>CREATED</TableCell>
+                        <TableCell>LAST MODIFIED</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -110,7 +110,7 @@ const ManageBoardsHome = (props) => {
             </Table>
             <button 
                 style={{ ...MASTER.wideRoundBtn, width: 150, position: 'absolute', bottom: 30, right: 20, height: 45 }} 
-                onClick={() => newBoard(org._id)}
+                onClick={() => newBoard(contextOrg._id)}
             >
                 <div style={MASTER.wideRoundBtnText}>NEW BOARD</div>
             </button>

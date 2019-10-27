@@ -18,13 +18,13 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 const SquareBuilder = (props) => {
 
-    const generateTaskMethod = type => {
-        switch (type) {
+    const generateTaskMethod = taskType => {
+        switch (taskType) {
             case 'click':
                 return null;
             case 'code':
                 return (
-                    <BuildCodeTask task={props.task} />
+                    <BuildCodeTask task={props.task} updateTask={updateTask} />
                 );
             case 'text':
                 return (
@@ -53,11 +53,6 @@ const SquareBuilder = (props) => {
 
   const [task, setTask] = useState(props.task);
 
-  const [squareText, setSquareText] = useState(task.squareText);
-  const [description, setDescription] = useState(task.description);
-  const [taskType, setTaskType] = useState(task.task.type);
-  const [isFree, setIsFree] = useState(task.freeSquare);
-
   useEffect(() => {
     if(!contextBoard._id){
         setTask(props.task);
@@ -71,15 +66,32 @@ const SquareBuilder = (props) => {
     updateBoard({
         ...board,
         squares: board.squares.map(oldTask => {
-            if(oldTask._id === task._id){
+            if(oldTask._id === props.task._id){
                 if(field === 'task'){
                     return {
                         ...oldTask,
                         task: {
-                            type: val,
+                            taskType: val,
                             answer: '',
                         }
                     }
+                }
+                if(field === 'codes'){
+                    return {
+                        ...oldTask,
+                        codes: { 
+                            codeList: val.codeList,
+                            useOnce: val.useOnce,
+                         }
+                    }
+                }
+                if(field === 'freeSquare'){
+                    // if a square is a free square, we set it to complete: true, if not, complete false
+                        return {
+                            ...oldTask,
+                            freeSquare: val,
+                            complete: val,
+                        }
                 }
                 return {
                     ...oldTask,
@@ -93,7 +105,6 @@ const SquareBuilder = (props) => {
 }
 
   const done = () => {
-    // save everything to reduer
     props.openPopup(false);
   }
 
@@ -128,7 +139,7 @@ const SquareBuilder = (props) => {
                 <span style={{ ...styles.inputLabel, marginRight: 10, marginLeft: 5}}>Task to complete:</span>
                 <Select
                     displayEmpty={false}
-                    value={task.task.type}
+                    value={task.task.taskType}
                     onChange={(e) => updateTask('task', e.target.value)}
                     inputProps={{
                         name: 'num squares',
@@ -142,7 +153,7 @@ const SquareBuilder = (props) => {
                     <MenuItem value="qrCode">Scan a QR Code</MenuItem>
                 </Select>
                 <div style={{ marginTop: 20 }}>
-                    {generateTaskMethod(taskType)}
+                    {generateTaskMethod(task.task.taskType)}
                 </div>
                 <button 
                     style={{ ...MASTER.wideRoundBtn, marginTop: 20 }} 

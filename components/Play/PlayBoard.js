@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 
 // Style imports
@@ -7,6 +7,9 @@ import { MASTER, COLORS } from '../../styles/masterStyles';
 // Data imports
 import { boardTemplates } from '../../constants/boardSizes';
 import { checkForRewards } from '../../funcs/boardLogic';
+
+// context imports
+import { PlayContext } from '../../contexts/playContext';
 
 // Component imports
 import TaskDetail from './SquareDetail';
@@ -50,7 +53,9 @@ const DialogTitle = withStyles(materialStyles)(props => {
 
 const PlayBoard = (props) => {
 
-  const SQUARE_WIDTH = 90 / (Math.sqrt(props.board.numSquares) + 1);
+  const { contextGame, saveGame } = useContext(PlayContext);
+
+  const SQUARE_WIDTH = 90 / (Math.sqrt(contextGame.numSquares) + 1);
 
   let taskNum = 1;
 
@@ -71,13 +76,29 @@ const PlayBoard = (props) => {
   }
 
   useEffect(() => {
-    // run setBoard with the result of checkForRewards
+    setBoard(contextGame);
+  }, [contextGame])
+
+  const updateTask = task => {
+    const gameToSave = {
+      ...contextGame, 
+      squares: contextGame.squares.map((square) => {
+          if(square._id === task._id){
+            return task;
+          }
+          return square;
+        }
+      )
+    };
+    // run saveGame with the result of checkForRewards
     let rewardsChanged = false;
-    const earnedRewards = checkForRewards(board);
-    
-    const rewards = board.rewards.map(reward => {
+    const earnedRewards = checkForRewards(gameToSave);
+    console.log({earnedRewards})
+    const rewards = contextGame.rewards.map(reward => {
       if(earnedRewards.includes(reward.position)){
         if(!reward.earned){
+          console.log('setting reward earned', reward.position)
+          
           rewardsChanged = true;
         }
         return {
@@ -91,40 +112,29 @@ const PlayBoard = (props) => {
       }
     });
     if(rewardsChanged){
-      const boardWithRewards = { ...board, rewards };
-      setBoard(boardWithRewards);   
+      console.log('saving reward change')
+      const gameWithRewards = { ...gameToSave, rewards };
+      saveGame(gameWithRewards);   
+    } else {
+      saveGame(gameToSave);
     }
-  })
-
-  const updateTask = task => {
-    setBoard({
-        ...board, 
-        squares: board.squares.map((square) => {
-            if(square._id === task._id){
-              return task;
-            }
-            return square;
-          }
-        )
-      });
-  }
-
-  const goToSquareDetail = (task) => {
-    props.navigation.navigate('SquareDetail', { task, updateTask });
   }
 
   const generateRow = row => {
+    const SOMETHING_RIGHT = contextGame.rewards.filter(reward => (reward.position.includes('row') || reward.position.includes('diagonalUpRight')) && reward.title)[0];
     return row.map((square, index) => {
       switch (square.type) {
         case 'reward':
-          const reward = board.rewards.length ?  board.rewards.filter(reward => reward.position === square._id)[0] : null;
+          const reward = contextGame.rewards.length ?  contextGame.rewards.filter(reward => reward.position === square.id && reward.title)[0] : null;
           if(!reward){
             return <div key={`empty${index}`} 
                       style={{
-                        width: `${SQUARE_WIDTH}%`,
+                        width: !SOMETHING_RIGHT && (square.id.includes('row') || square.id.includes('diagonalUpRight')) ? 1 : `${SQUARE_WIDTH}%`,
                         aspectRatio: 1,
-                        maxWidth: 100,
-                        maxHeight: 100,
+                        maxWidth: 150,
+                        maxHeight: 150,
+                        minWidth: !SOMETHING_RIGHT && (square.id.includes('row') || square.id.includes('diagonalUpRight')) ? 1 : 100,
+                        minHeight: 100,
                       }} 
                     />;
           }
@@ -143,6 +153,8 @@ const PlayBoard = (props) => {
                   cursor: 'pointer',
                   maxWidth: 150,
                   maxHeight: 150,
+                  minWidth: 100,
+                  minHeight: 100,
                 }} 
                 onClick={() => openRewardDetailPopup(reward)}
               >
@@ -160,8 +172,8 @@ const PlayBoard = (props) => {
           if(!taskNum){
             return;
           }
-          const task = board.squares[taskNum - 1];
-          if(taskNum === board.numSquares){
+          const task = contextGame.squares[taskNum - 1];
+          if(taskNum === contextGame.numSquares){
             taskNum = 0;
           }else {
             taskNum++;
@@ -172,7 +184,7 @@ const PlayBoard = (props) => {
                 style={{ 
                   width: `${SQUARE_WIDTH}%`,
                   aspectRatio: 1,
-                  backgroundColor: `#${board.completeColor}`,
+                  backgroundColor: `#${contextGame.completeColor}`,
                   borderWidth: 1,
                   borderColor: 'black',
                   display: 'flex',
@@ -193,7 +205,7 @@ const PlayBoard = (props) => {
               style={{
                 width: `${SQUARE_WIDTH}%`,
                 aspectRatio: 1,
-                backgroundColor: task.complete ? `#${board.completeColor}` : `#${board.incompleteColor}`,
+                backgroundColor: task.complete ? `#${contextGame.completeColor}` : `#${contextGame.incompleteColor}`,
                 borderWidth: 1,
                 borderColor: 'black',
                 display: 'flex',
@@ -236,6 +248,7 @@ const PlayBoard = (props) => {
   }
 
   const generateBoard = () => {
+    console.log('generating rows', contextGame)
     const template = boardTemplates[props.size];
     return template.spaces.map((row, index) => {
       return (
@@ -252,7 +265,7 @@ const PlayBoard = (props) => {
   if(props.board){
     return (
       <div style={styles.container}>
-        {generateBoard(props.board)}
+        {generateBoard()}
         <Dialog open={rewardDialogOpen} onBackdropClick={() => setRewardDialogOpen(false)}>
           <DialogTitle onClose={() => setRewardDialogOpen(false)}>
             REWARD

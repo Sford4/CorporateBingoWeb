@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 // context imports
 import { ManageBoardsContext } from '../../../contexts/manageBoardsContext';
@@ -93,7 +93,7 @@ const BoardBuilder = (props) => {
 
   return (
       <div style={styles.container}>
-        {board.rewards.length && board.rewards[board.rewards.length - 1].position.includes('wholeBoard') ? generateWholeBoardRewardIcon(board.rewards[0]) : null}
+        {board.rewards.length && board.rewards[board.rewards.length - 1].position.includes('wholeBoard') ? generateWholeBoardRewardIcon(board.rewards[board.rewards.length - 1]) : null}
         <BoardBuilderBoard 
           board={board}
           navigation={props.navigation}

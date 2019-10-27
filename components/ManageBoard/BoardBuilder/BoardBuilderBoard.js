@@ -217,7 +217,7 @@ const BoardBuilderBoard = (props) => {
     });
   }
 
-  if(props.board){
+  if(board){
     return (
       <div style={styles.container}>
         {generateBoard(props.board)}

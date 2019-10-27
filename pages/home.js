@@ -1,11 +1,10 @@
-import { useState, useEffect, useReducer } from 'react';
+import { useState, useEffect, } from 'react';
 import { useRouter } from 'next/router'
 
 // component imports
 import Layout from '../components/Layout';
 
-// reducer imports
-import { userReducerState, userReducer } from  '../reducers/userReducer';
+// context imports
 
 const Index = () => {
 

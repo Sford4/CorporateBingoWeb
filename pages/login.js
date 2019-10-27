@@ -11,7 +11,7 @@ import { MASTER, COLORS } from '../styles/masterStyles';
 const Login = () => {
 
     const { user, storeUser } = useContext(UserContext);
-    const { org, getOrg } = useContext(OrgContext);
+    const { contextOrg, getOrg } = useContext(OrgContext);
 
     const router = useRouter()
 
@@ -20,12 +20,11 @@ const Login = () => {
 
     useEffect(() => {
         if(user._id && localStorage.getItem('bingo_token')){
-            router.push('/home');
+            router.push('/joinGame');
         }
       }, [user])
 
     const login = async () => {
-        console.log('startign login')
         if(!email || !password){
             alert('Must have both email and password!')
             return;
@@ -49,11 +48,10 @@ const Login = () => {
               }
               storeUser(user);
               console.log({user})
-              if(user.role.org && !org._id){
-                  console.log('gettting org')
+              if(user.role.org && !contextOrg._id){
                   getOrg(user.role.org);
               }
-            //   router.push('/home');
+              router.push('/joinGame');
             } catch(err) {alert(err)}
     }
 

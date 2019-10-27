@@ -1,7 +1,7 @@
-import { useState, useEffect, useReducer } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router'
 
-// reducer imports
+// context imports
 
 // Style imports
 import { MASTER, COLORS } from '../../styles/masterStyles';

@@ -5,6 +5,8 @@ import Head from 'next/head'
 import UserContextProvider from '../contexts/userContext';
 import OrgContextProvider from '../contexts/orgContext';
 import ManageBoardsContextProvider from '../contexts/manageBoardsContext';
+import JoinGameContextProvider from '../contexts/joinGameContext';
+import PlayContextProvider from '../contexts/playContext';
 
 class MyApp extends App {
   // Only uncomment this method if you have blocking data requirements for
@@ -33,16 +35,21 @@ class MyApp extends App {
                 <style jsx global>{`
                     body { 
                         margin: 0px;
+                        font-family: roboto;
                     }
                 `}</style>
             </div>
-            <ManageBoardsContextProvider>
-                <OrgContextProvider>
-                    <UserContextProvider>
-                        <Component {...pageProps} />
-                    </UserContextProvider>
-                </OrgContextProvider>
-            </ManageBoardsContextProvider>
+            <PlayContextProvider>
+                <JoinGameContextProvider>
+                    <ManageBoardsContextProvider>
+                        <OrgContextProvider>
+                            <UserContextProvider>
+                                <Component {...pageProps} />
+                            </UserContextProvider>
+                        </OrgContextProvider>
+                    </ManageBoardsContextProvider>
+                </JoinGameContextProvider>
+            </PlayContextProvider>
         </div>
     )
   }

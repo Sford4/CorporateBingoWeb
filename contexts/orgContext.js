@@ -23,8 +23,26 @@ const OrgContextProvider = (props) => {
             } catch(err) {alert(err)}
     }
 
+    const saveOrg = async (orgToSave) => {
+        console.log('in save org', orgToSave)
+        try {
+            const request = await fetch(`http://localhost:8000/orgs/${orgToSave._id}`, {
+                method: 'PATCH',
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+                },
+                body: JSON.stringify(orgToSave),
+              })
+              const org = await request.json();
+              console.log({org})
+              setOrg(org);
+            } catch(err) {alert(err)}
+    }
+
     return (
-        <OrgContext.Provider value={{ org, updateOrg: setOrg, getOrg: getOrg }}>
+        <OrgContext.Provider value={{ contextOrg: org, updateOrg: setOrg, getOrg: getOrg, saveOrg }}>
             {props.children}
         </OrgContext.Provider>
     )

@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useReducer, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router'
 
-// reducer imports
-import { manageBoardsReducerState, manageBoardsReducer } from  '../../reducers/manageBoardsReducer';
+// context imports
 import { ManageBoardsContext } from '../../contexts/manageBoardsContext';
 
 // Style imports
@@ -36,7 +35,6 @@ const ManageBoardsIndex = (props) => {
   
 if(board && board._id){
     return (
-
           <Layout>
             <div style={styles.container}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>

@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect } from 'react';
 
-// reducer imports
-import { playReducerState, playReducer } from  '../../../reducers/playReducer';
+// context imports
 
 // Style imports
 // import { MASTER } from '../../../styles/masterStyles';
@@ -13,27 +12,17 @@ const TaskClick = (props) => {
 
     const [isClicked, setIsClicked] = useState(props.task.complete);
 
-    const [playState, dispatch] = useReducer(playReducer, playReducerState);
-
     const handleSwitchChange = val => {
-        setIsClicked(val);
-        dispatch({type: 'UPDATE_TASK', payload: {
-            ...props.task,
-            complete: val,
-            task: {
-                type: 'click',
-                answer: val,
-            }
-        }});
         props.updateTask({
             ...props.task,
             complete: val,
             task: {
-                type: 'click',
-                answer: val,
+                taskType: 'click',
+                answer: val ? 'done' : '',
             }
         })
         props.completeSquare(val);
+        setIsClicked(val)
     }
 
   return (

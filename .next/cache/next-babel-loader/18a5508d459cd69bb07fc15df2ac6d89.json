@@ -1,0 +1,1 @@
+{"ast":null,"code":"export const teamCodePrefix = \"_T__E__A__M_\";","map":{"version":3,"sources":["/Users/spencerford/Documents/DEVyall/PersonalProjects/CorporateBingoWeb/constants/constants.js"],"names":["teamCodePrefix"],"mappings":"AAAA,OAAO,MAAMA,cAAc,GAAG,cAAvB","sourcesContent":["export const teamCodePrefix = \"_T__E__A__M_\";"]},"metadata":{},"sourceType":"module"}

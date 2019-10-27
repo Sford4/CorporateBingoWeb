@@ -25,8 +25,9 @@ const RewardDetail = (props) => {
 
   return (
     <div style={styles.container}>
-      <div style={{ height: 200, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
-        {reward.img.length && 
+      <div style={{ height: reward.img ? 200 : 0, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
+        {console.log(reward.img, reward.img.length)}
+        {reward.img && 
           <img 
             style={styles.pic} 
             src={reward.img} 

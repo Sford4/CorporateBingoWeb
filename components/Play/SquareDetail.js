@@ -18,7 +18,7 @@ const SquareDetail = (props) => {
   const [isComplete, setIsComplete] = useState(task.complete);
 
   const generateTaskMethod = task => {
-    switch (task.task.type) {
+    switch (task.task.taskType) {
       case 'click':
         return <TaskClick task={task} updateTask={updateTask} completeSquare={setIsComplete} />;
       case 'code':

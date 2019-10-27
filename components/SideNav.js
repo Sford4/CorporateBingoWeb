@@ -31,6 +31,7 @@ const SideNav = (props) => {
             <Link href='/joinGame'><a className='sidenavLink' style={{color: COLORS.primary}}>JOIN GAME</a></Link>
             {user && user.role.level < 3 && <Link href='/manageBoards'><a className='sidenavLink' style={{color: COLORS.primary}}>MANAGE BOARDS</a></Link>}
             {user && user.role.level < 3 && <Link href='/usersAndOrg'><a className='sidenavLink' style={{color: COLORS.primary}}>USERS & ORG</a></Link>}
+            {user && user.role.level !== 2 && <Link href='/profile'><a className='sidenavLink' style={{color: COLORS.primary}}>MY PROFILE</a></Link>}
             <a className='sidenavLink' style={{color: COLORS.primary, cursor: 'pointer'}} onClick={() => handleLogoutClick()}>LOGOUT</a>
             <style jsx>
                 {`

@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
 import SideNav from './SideNav';
-import { loadGetInitialProps } from '../node_modules/next/dist/next-server/lib/utils';
 
 // context imports
-import UserContextProvider from '../contexts/userContext';
-import OrgContextProvider from '../contexts/orgContext';
 import { UserContext } from '../contexts/userContext';
+import { OrgContext } from '../contexts/orgContext';
 
 const Layout = (props => {
 
     const { user, storeUser, logout } = useContext(UserContext);
+    const { org, getOrg } = useContext(OrgContext);
 
     useEffect(() => {
         if(!user._id && localStorage.getItem('bingo_user') && localStorage.getItem('bingo_token')){
@@ -17,7 +16,14 @@ const Layout = (props => {
         } else if(!localStorage.getItem('bingo_token') || !user){
             logout();
         }
-    },[user])
+        if(user && user.role && user.role.org && !org){
+            getOrg(user.role.org);
+        }
+    },[user]);
+
+    if(!user || !user._id){
+        return <div>loading</div>
+    }
 
     return (
         <div id='layout'>

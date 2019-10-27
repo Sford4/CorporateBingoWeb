@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useCallback, useReducer, useContext } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 
 
 // Style imports
 import { MASTER, COLORS } from '../../../styles/masterStyles';
 
-// Reducer imports
+// Context imports
 import { ManageBoardsContext } from '../../../contexts/manageBoardsContext';
 
 // Component imports
@@ -97,7 +97,6 @@ const RewardBuilder = (props) => {
     }
 
   const done = () => {
-      // save everything to reducer
     props.openPopup(false);
   }
 

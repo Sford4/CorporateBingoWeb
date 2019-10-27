@@ -16,12 +16,12 @@ const Index = () => {
     useEffect(() => {
         if(!user && localStorage.getItem('bingo_user') && localStorage.getItem('bingo_token')){
             storeUser(JSON.parse(localStorage.getItem('bingo_user')));
-            router.push('/home');
+            router.push('/joinGame');
         } else if(!localStorage.getItem('bingo_token') || !user){
             logout();
             router.push('/login');
         } else {
-            router.push('/home');
+            router.push('/joinGame');
         }
     },[user])
  
