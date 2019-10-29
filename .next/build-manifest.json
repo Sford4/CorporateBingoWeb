@@ -11,14 +11,6 @@
     "/_error": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
-    ],
-    "/joinGame": [
-      "static/runtime/webpack.js",
-      "static/runtime/main.js"
-    ],
-    "/playGame/[findID]/[userID]": [
-      "static/runtime/webpack.js",
-      "static/runtime/main.js"
     ]
   }
 }

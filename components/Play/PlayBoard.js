@@ -14,6 +14,7 @@ import { PlayContext } from '../../contexts/playContext';
 // Component imports
 import TaskDetail from './SquareDetail';
 import RewardDetail from './RewardDetail';
+import PlayHints from './Tasks/PlayHints';
 
 // Material ui
 import { withStyles } from '@material-ui/core/styles';
@@ -130,9 +131,10 @@ const PlayBoard = (props) => {
             return <div key={`empty${index}`} 
                       style={{
                         width: !SOMETHING_RIGHT && (square.id.includes('row') || square.id.includes('diagonalUpRight')) ? 1 : `${SQUARE_WIDTH}%`,
-                        aspectRatio: 1,
-                        maxWidth: 150,
-                        maxHeight: 150,
+                        // paddingTop: `${SQUARE_WIDTH * .72}%`,
+                        // position: 'relative',
+                        maxWidth: 120,
+                        maxHeight: 100,
                         minWidth: !SOMETHING_RIGHT && (square.id.includes('row') || square.id.includes('diagonalUpRight')) ? 1 : 100,
                         minHeight: 100,
                       }} 
@@ -143,7 +145,8 @@ const PlayBoard = (props) => {
                 key={`reward${index}`} 
                 style={{
                   width: `${SQUARE_WIDTH}%`,
-                  aspectRatio: 1,
+                  // paddingTop: `${SQUARE_WIDTH * .72}%`,
+                  position: 'relative',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -151,10 +154,10 @@ const PlayBoard = (props) => {
                   border: 'none',
                   outline: 'none',
                   cursor: 'pointer',
-                  maxWidth: 150,
-                  maxHeight: 150,
-                  minWidth: 100,
-                  minHeight: 100,
+                  maxWidth: 120,
+                  maxHeight: 100,
+                  // minWidth: 100,
+                  // minHeight: 100,
                 }} 
                 onClick={() => openRewardDetailPopup(reward)}
               >
@@ -183,7 +186,8 @@ const PlayBoard = (props) => {
               <button key={`free${index}`} 
                 style={{ 
                   width: `${SQUARE_WIDTH}%`,
-                  aspectRatio: 1,
+                  // paddingTop: `${SQUARE_WIDTH * .72}%`,
+                  position: 'relative',
                   backgroundColor: `#${contextGame.completeColor}`,
                   borderWidth: 1,
                   borderColor: 'black',
@@ -191,8 +195,8 @@ const PlayBoard = (props) => {
                   justifyContent: 'center',
                   alignItems: 'center',
                   outline: 'none',
-                  maxWidth: 150,
-                  maxHeight: 150,
+                  maxWidth: 120,
+                  maxHeight: 100,
                 }}
               >
                 <img style={MASTER.freeSquareIcon} src={'../../static/circle_check.png'} />
@@ -204,7 +208,8 @@ const PlayBoard = (props) => {
               key={`task${index}`} 
               style={{
                 width: `${SQUARE_WIDTH}%`,
-                aspectRatio: 1,
+                // paddingTop: `${SQUARE_WIDTH * .72}%`,
+                position: 'relative',
                 backgroundColor: task.complete ? `#${contextGame.completeColor}` : `#${contextGame.incompleteColor}`,
                 borderWidth: 1,
                 borderColor: 'black',
@@ -213,12 +218,12 @@ const PlayBoard = (props) => {
                 alignItems: 'center',
                 outline: 'none',
                 cursor: 'pointer',
-                maxWidth: 150,
-                maxHeight: 150,
+                maxWidth: 120,
+                maxHeight: 100,
               }}
               onClick={() => openTaskDetailPopup(task)}
             >
-              <div>{task.squareText}</div>
+              <div style={{ ...MASTER.squareText, maxHeight: 100 }}>{task.squareText}</div>
             </button>
           );
         case 'empty':
@@ -226,9 +231,10 @@ const PlayBoard = (props) => {
             <div key={`empty${index}`} 
               style={{
                 width: `${SQUARE_WIDTH}%`,
-                aspectRatio: 1,
-                maxWidth: 150,
-                maxHeight: 150,
+                // paddingTop: `${SQUARE_WIDTH * .72}%`,
+                position: 'relative',
+                maxWidth: 120,
+                maxHeight: 100,
               }} 
             />
           );
@@ -237,9 +243,10 @@ const PlayBoard = (props) => {
             <div key={`empty${index}`} 
               style={{
                 width: `${SQUARE_WIDTH}%`,
-                aspectRatio: 1,
-                maxWidth: 150,
-                maxHeight: 150,
+                // paddingTop: `${SQUARE_WIDTH * .72}%`,
+                position: 'relative',
+                maxWidth: 120,
+                maxHeight: 100,
               }} 
             />
           );
@@ -273,8 +280,11 @@ const PlayBoard = (props) => {
           <RewardDetail reward={reward} />
         </Dialog>
         <Dialog open={taskDialogOpen} onBackdropClick={() => setTaskDialogOpen(false)}>
+        {console.log({task})}
            <DialogTitle onClose={() => setTaskDialogOpen(false)}>
-            TASK
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              TASK {task.hints && task.hints.length ? <PlayHints hints={task.hints} /> : null}
+            </div>
           </DialogTitle>
           <TaskDetail task={task} updateTask={updateTask} />
         </Dialog>

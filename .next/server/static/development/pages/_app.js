@@ -109,10 +109,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! next/router */ "next/router");
 /* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! isomorphic-unfetch */ "isomorphic-unfetch");
+/* harmony import */ var isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_3__);
 
 var _jsxFileName = "/Users/spencerford/Documents/DEVyall/PersonalProjects/CorporateBingoWeb/contexts/joinGameContext.js";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement;
 
+
+ // import FULL_URL from '../constants/constants';
 
 const JoinGameContext = Object(react__WEBPACK_IMPORTED_MODULE_1__["createContext"])();
 
@@ -139,7 +143,7 @@ const JoinGameContextProvider = props => {
     console.log('getting access boards', userID);
 
     try {
-      const request = await fetch(`http://localhost:8000/games/user/${userID}`, {
+      const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_3___default()(`http://localhost:8000/games/user/${userID}`, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
@@ -161,7 +165,7 @@ const JoinGameContextProvider = props => {
 
   const findBoards = async accessCode => {
     try {
-      const request = await fetch(`http://localhost:8000/games/search`, {
+      const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_3___default()(`http://localhost:8000/games/search`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -179,6 +183,11 @@ const JoinGameContextProvider = props => {
         success
       });
 
+      if (success.error) {
+        alert(success.error.message);
+        return;
+      }
+
       if (success) {
         setFoundBoards(success);
       } else {
@@ -194,11 +203,12 @@ const JoinGameContextProvider = props => {
       accessBoards,
       getAccessBoards,
       foundBoards,
-      findBoards
+      findBoards,
+      setFoundBoards
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 62
+      lineNumber: 68
     },
     __self: undefined
   }, props.children);
@@ -225,11 +235,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! next/router */ "next/router");
 /* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! isomorphic-unfetch */ "isomorphic-unfetch");
+/* harmony import */ var isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_4__);
 
 
 var _jsxFileName = "/Users/spencerford/Documents/DEVyall/PersonalProjects/CorporateBingoWeb/contexts/manageBoardsContext.js";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement;
 
+
+ // import FULL_URL from '../constants/constants';
 
 const ManageBoardsContext = Object(react__WEBPACK_IMPORTED_MODULE_2__["createContext"])();
 
@@ -239,6 +253,10 @@ const ManageBoardsContextProvider = props => {
     0: contextBoard,
     1: setContextBoard
   } = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])({});
+  const {
+    0: gamesForBoard,
+    1: setGamesForBoard
+  } = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])([]);
   const {
     0: stuffToSave,
     1: setStuffToSave
@@ -251,7 +269,7 @@ const ManageBoardsContextProvider = props => {
     }
 
     try {
-      const request = await fetch(`http://localhost:8000/boards/${boardID}`, {
+      const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_4___default()(`http://localhost:8000/boards/${boardID}`, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
@@ -268,7 +286,7 @@ const ManageBoardsContextProvider = props => {
 
   const newBoard = async orgID => {
     try {
-      const request = await fetch(`http://localhost:8000/boards`, {
+      const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_4___default()(`http://localhost:8000/boards`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -304,7 +322,7 @@ const ManageBoardsContextProvider = props => {
     }
 
     try {
-      const request = await fetch(`http://localhost:8000/boards/${contextBoard._id}`, {
+      const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_4___default()(`http://localhost:8000/boards/${contextBoard._id}`, {
         method: 'PATCH',
         headers: {
           'Accept': 'application/json',
@@ -331,6 +349,23 @@ const ManageBoardsContextProvider = props => {
     }
   };
 
+  const getAllGamesForBoard = async boardID => {
+    try {
+      const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_4___default()(`http://localhost:8000/boards/gamesForBoard/${boardID}`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+        }
+      });
+      const games = await request.json();
+      setGamesForBoard(!games.length ? ['none'] : games);
+    } catch (err) {
+      alert(err);
+    }
+  };
+
   return __jsx(ManageBoardsContext.Provider, {
     value: {
       contextBoard,
@@ -339,11 +374,13 @@ const ManageBoardsContextProvider = props => {
       newBoard,
       setStuffToSave,
       stuffToSave,
-      saveBoard
+      saveBoard,
+      getAllGamesForBoard,
+      gamesForBoard
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 92
+      lineNumber: 110
     },
     __self: undefined
   }, props.children);
@@ -367,9 +404,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! isomorphic-unfetch */ "isomorphic-unfetch");
+/* harmony import */ var isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_2__);
 
 var _jsxFileName = "/Users/spencerford/Documents/DEVyall/PersonalProjects/CorporateBingoWeb/contexts/orgContext.js";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement;
+
+ // import FULL_URL from '../constants/constants';
 
 const OrgContext = Object(react__WEBPACK_IMPORTED_MODULE_1__["createContext"])();
 
@@ -378,12 +419,16 @@ const OrgContextProvider = props => {
     0: org,
     1: setOrg
   } = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])({});
+  const {
+    0: stuffToSave,
+    1: setStuffToSave
+  } = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false);
 
   const getOrg = async orgID => {
     console.log('in get org', orgID);
 
     try {
-      const request = await fetch(`http://localhost:8000/orgs/${orgID}`, {
+      const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_2___default()(`http://localhost:8000/orgs/${orgID}`, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
@@ -392,9 +437,6 @@ const OrgContextProvider = props => {
         }
       });
       const org = await request.json();
-      console.log({
-        org
-      });
       setOrg(org);
     } catch (err) {
       alert(err);
@@ -405,7 +447,7 @@ const OrgContextProvider = props => {
     console.log('in save org', orgToSave);
 
     try {
-      const request = await fetch(`http://localhost:8000/orgs/${orgToSave._id}`, {
+      const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_2___default()(`http://localhost:8000/orgs/${orgToSave._id}`, {
         method: 'PATCH',
         headers: {
           'Accept': 'application/json',
@@ -415,10 +457,8 @@ const OrgContextProvider = props => {
         body: _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0___default()(orgToSave)
       });
       const org = await request.json();
-      console.log({
-        org
-      });
       setOrg(org);
+      setStuffToSave(false);
     } catch (err) {
       alert(err);
     }
@@ -429,11 +469,13 @@ const OrgContextProvider = props => {
       contextOrg: org,
       updateOrg: setOrg,
       getOrg: getOrg,
-      saveOrg
+      saveOrg,
+      setStuffToSave,
+      stuffToSave
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 45
+      lineNumber: 47
     },
     __self: undefined
   }, props.children);
@@ -458,10 +500,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! isomorphic-unfetch */ "isomorphic-unfetch");
+/* harmony import */ var isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_3__);
 
 
 var _jsxFileName = "/Users/spencerford/Documents/DEVyall/PersonalProjects/CorporateBingoWeb/contexts/playContext.js";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement;
+
+ // import FULL_URL from '../constants/constants';
 
 const PlayContext = Object(react__WEBPACK_IMPORTED_MODULE_2__["createContext"])();
 
@@ -483,7 +529,7 @@ const PlayContextProvider = props => {
 
     if (gameID && userID) {
       try {
-        const request = await fetch(`http://localhost:8000/games/${gameID}/${userID}`, {
+        const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_3___default()(`http://localhost:8000/games/${gameID}/${userID}`, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
@@ -507,7 +553,7 @@ const PlayContextProvider = props => {
     console.log('SAVING GAME');
 
     try {
-      const request = await fetch(`http://localhost:8000/games/${contextGame._id}`, {
+      const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_3___default()(`http://localhost:8000/games/${contextGame._id}`, {
         method: 'PATCH',
         headers: {
           'Accept': 'application/json',
@@ -540,7 +586,7 @@ const PlayContextProvider = props => {
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 61
+      lineNumber: 63
     },
     __self: undefined
   }, props.children);
@@ -2406,7 +2452,7 @@ class MyApp extends next_app__WEBPACK_IMPORTED_MODULE_3___default.a {
       },
       __self: this
     }, __jsx("div", {
-      className: "jsx-3594239518",
+      className: "jsx-3259204506",
       __source: {
         fileName: _jsxFileName,
         lineNumber: 29
@@ -2421,7 +2467,7 @@ class MyApp extends next_app__WEBPACK_IMPORTED_MODULE_3___default.a {
     }, __jsx("meta", {
       name: "viewport",
       content: "width=device-width, initial-scale=1",
-      className: "jsx-3594239518",
+      className: "jsx-3259204506",
       __source: {
         fileName: _jsxFileName,
         lineNumber: 31
@@ -2429,7 +2475,7 @@ class MyApp extends next_app__WEBPACK_IMPORTED_MODULE_3___default.a {
       __self: this
     }), __jsx("meta", {
       charSet: "utf-8",
-      className: "jsx-3594239518",
+      className: "jsx-3259204506",
       __source: {
         fileName: _jsxFileName,
         lineNumber: 32
@@ -2439,16 +2485,16 @@ class MyApp extends next_app__WEBPACK_IMPORTED_MODULE_3___default.a {
       rel: "icon",
       type: "image/x-icon",
       href: "../static/favicon.ico",
-      className: "jsx-3594239518",
+      className: "jsx-3259204506",
       __source: {
         fileName: _jsxFileName,
         lineNumber: 33
       },
       __self: this
     })), __jsx(styled_jsx_style__WEBPACK_IMPORTED_MODULE_1___default.a, {
-      id: "3594239518",
+      id: "3259204506",
       __self: this
-    }, "body{margin:0px;font-family:roboto;}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9zcGVuY2VyZm9yZC9Eb2N1bWVudHMvREVWeWFsbC9QZXJzb25hbFByb2plY3RzL0NvcnBvcmF0ZUJpbmdvV2ViL3BhZ2VzL19hcHAuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBa0NtQyxBQUdvQyxXQUNRLG1CQUN2QiIsImZpbGUiOiIvVXNlcnMvc3BlbmNlcmZvcmQvRG9jdW1lbnRzL0RFVnlhbGwvUGVyc29uYWxQcm9qZWN0cy9Db3Jwb3JhdGVCaW5nb1dlYi9wYWdlcy9fYXBwLmpzIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IFJlYWN0IGZyb20gJ3JlYWN0J1xuaW1wb3J0IEFwcCBmcm9tICduZXh0L2FwcCdcbmltcG9ydCBIZWFkIGZyb20gJ25leHQvaGVhZCdcblxuaW1wb3J0IFVzZXJDb250ZXh0UHJvdmlkZXIgZnJvbSAnLi4vY29udGV4dHMvdXNlckNvbnRleHQnO1xuaW1wb3J0IE9yZ0NvbnRleHRQcm92aWRlciBmcm9tICcuLi9jb250ZXh0cy9vcmdDb250ZXh0JztcbmltcG9ydCBNYW5hZ2VCb2FyZHNDb250ZXh0UHJvdmlkZXIgZnJvbSAnLi4vY29udGV4dHMvbWFuYWdlQm9hcmRzQ29udGV4dCc7XG5pbXBvcnQgSm9pbkdhbWVDb250ZXh0UHJvdmlkZXIgZnJvbSAnLi4vY29udGV4dHMvam9pbkdhbWVDb250ZXh0JztcbmltcG9ydCBQbGF5Q29udGV4dFByb3ZpZGVyIGZyb20gJy4uL2NvbnRleHRzL3BsYXlDb250ZXh0JztcblxuY2xhc3MgTXlBcHAgZXh0ZW5kcyBBcHAge1xuICAvLyBPbmx5IHVuY29tbWVudCB0aGlzIG1ldGhvZCBpZiB5b3UgaGF2ZSBibG9ja2luZyBkYXRhIHJlcXVpcmVtZW50cyBmb3JcbiAgLy8gZXZlcnkgc2luZ2xlIHBhZ2UgaW4geW91ciBhcHBsaWNhdGlvbi4gVGhpcyBkaXNhYmxlcyB0aGUgYWJpbGl0eSB0b1xuICAvLyBwZXJmb3JtIGF1dG9tYXRpYyBzdGF0aWMgb3B0aW1pemF0aW9uLCBjYXVzaW5nIGV2ZXJ5IHBhZ2UgaW4geW91ciBhcHAgdG9cbiAgLy8gYmUgc2VydmVyLXNpZGUgcmVuZGVyZWQuXG4gIC8vXG4vLyAgIHN0YXRpYyBhc3luYyBnZXRJbml0aWFsUHJvcHMoYXBwQ29udGV4dCkge1xuLy8gICAgIC8vIGNhbGxzIHBhZ2UncyBgZ2V0SW5pdGlhbFByb3BzYCBhbmQgZmlsbHMgYGFwcFByb3BzLnBhZ2VQcm9wc2Bcbi8vICAgICBjb25zdCBhcHBQcm9wcyA9IGF3YWl0IEFwcC5nZXRJbml0aWFsUHJvcHMoYXBwQ29udGV4dCk7XG4gIFxuLy8gICAgIHJldHVybiB7IC4uLmFwcFByb3BzIH1cbi8vICAgfVxuXG4gIHJlbmRlcigpIHtcbiAgICBjb25zdCB7IENvbXBvbmVudCwgcGFnZVByb3BzIH0gPSB0aGlzLnByb3BzO1xuXG4gICAgcmV0dXJuIChcbiAgICAgICAgPGRpdj5cbiAgICAgICAgICAgIDxkaXY+XG4gICAgICAgICAgICAgICAgPEhlYWQ+XG4gICAgICAgICAgICAgICAgICAgIDxtZXRhIG5hbWU9XCJ2aWV3cG9ydFwiIGNvbnRlbnQ9XCJ3aWR0aD1kZXZpY2Utd2lkdGgsIGluaXRpYWwtc2NhbGU9MVwiIC8+XG4gICAgICAgICAgICAgICAgICAgIDxtZXRhIGNoYXJTZXQ9XCJ1dGYtOFwiIC8+XG4gICAgICAgICAgICAgICAgICAgIDxsaW5rIHJlbD1cImljb25cIiB0eXBlPVwiaW1hZ2UveC1pY29uXCIgaHJlZj1cIi4uL3N0YXRpYy9mYXZpY29uLmljb1wiIC8+XG4gICAgICAgICAgICAgICAgPC9IZWFkPlxuICAgICAgICAgICAgICAgIDxzdHlsZSBqc3ggZ2xvYmFsPntgXG4gICAgICAgICAgICAgICAgICAgIGJvZHkgeyBcbiAgICAgICAgICAgICAgICAgICAgICAgIG1hcmdpbjogMHB4O1xuICAgICAgICAgICAgICAgICAgICAgICAgZm9udC1mYW1pbHk6IHJvYm90bztcbiAgICAgICAgICAgICAgICAgICAgfVxuICAgICAgICAgICAgICAgIGB9PC9zdHlsZT5cbiAgICAgICAgICAgIDwvZGl2PlxuICAgICAgICAgICAgPFBsYXlDb250ZXh0UHJvdmlkZXI+XG4gICAgICAgICAgICAgICAgPEpvaW5HYW1lQ29udGV4dFByb3ZpZGVyPlxuICAgICAgICAgICAgICAgICAgICA8TWFuYWdlQm9hcmRzQ29udGV4dFByb3ZpZGVyPlxuICAgICAgICAgICAgICAgICAgICAgICAgPE9yZ0NvbnRleHRQcm92aWRlcj5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICA8VXNlckNvbnRleHRQcm92aWRlcj5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPENvbXBvbmVudCB7Li4ucGFnZVByb3BzfSAvPlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvVXNlckNvbnRleHRQcm92aWRlcj5cbiAgICAgICAgICAgICAgICAgICAgICAgIDwvT3JnQ29udGV4dFByb3ZpZGVyPlxuICAgICAgICAgICAgICAgICAgICA8L01hbmFnZUJvYXJkc0NvbnRleHRQcm92aWRlcj5cbiAgICAgICAgICAgICAgICA8L0pvaW5HYW1lQ29udGV4dFByb3ZpZGVyPlxuICAgICAgICAgICAgPC9QbGF5Q29udGV4dFByb3ZpZGVyPlxuICAgICAgICA8L2Rpdj5cbiAgICApXG4gIH1cbn1cblxuZXhwb3J0IGRlZmF1bHQgTXlBcHAiXX0= */\n/*@ sourceURL=/Users/spencerford/Documents/DEVyall/PersonalProjects/CorporateBingoWeb/pages/_app.js */")), __jsx(_contexts_playContext__WEBPACK_IMPORTED_MODULE_9__["default"], {
+    }, "body{margin:0px;font-family:'Roboto',sans-serif;}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9zcGVuY2VyZm9yZC9Eb2N1bWVudHMvREVWeWFsbC9QZXJzb25hbFByb2plY3RzL0NvcnBvcmF0ZUJpbmdvV2ViL3BhZ2VzL19hcHAuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBa0NtQyxBQUdvQyxXQUNzQixnQ0FDckMiLCJmaWxlIjoiL1VzZXJzL3NwZW5jZXJmb3JkL0RvY3VtZW50cy9ERVZ5YWxsL1BlcnNvbmFsUHJvamVjdHMvQ29ycG9yYXRlQmluZ29XZWIvcGFnZXMvX2FwcC5qcyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBSZWFjdCBmcm9tICdyZWFjdCdcbmltcG9ydCBBcHAgZnJvbSAnbmV4dC9hcHAnXG5pbXBvcnQgSGVhZCBmcm9tICduZXh0L2hlYWQnXG5cbmltcG9ydCBVc2VyQ29udGV4dFByb3ZpZGVyIGZyb20gJy4uL2NvbnRleHRzL3VzZXJDb250ZXh0JztcbmltcG9ydCBPcmdDb250ZXh0UHJvdmlkZXIgZnJvbSAnLi4vY29udGV4dHMvb3JnQ29udGV4dCc7XG5pbXBvcnQgTWFuYWdlQm9hcmRzQ29udGV4dFByb3ZpZGVyIGZyb20gJy4uL2NvbnRleHRzL21hbmFnZUJvYXJkc0NvbnRleHQnO1xuaW1wb3J0IEpvaW5HYW1lQ29udGV4dFByb3ZpZGVyIGZyb20gJy4uL2NvbnRleHRzL2pvaW5HYW1lQ29udGV4dCc7XG5pbXBvcnQgUGxheUNvbnRleHRQcm92aWRlciBmcm9tICcuLi9jb250ZXh0cy9wbGF5Q29udGV4dCc7XG5cbmNsYXNzIE15QXBwIGV4dGVuZHMgQXBwIHtcbiAgLy8gT25seSB1bmNvbW1lbnQgdGhpcyBtZXRob2QgaWYgeW91IGhhdmUgYmxvY2tpbmcgZGF0YSByZXF1aXJlbWVudHMgZm9yXG4gIC8vIGV2ZXJ5IHNpbmdsZSBwYWdlIGluIHlvdXIgYXBwbGljYXRpb24uIFRoaXMgZGlzYWJsZXMgdGhlIGFiaWxpdHkgdG9cbiAgLy8gcGVyZm9ybSBhdXRvbWF0aWMgc3RhdGljIG9wdGltaXphdGlvbiwgY2F1c2luZyBldmVyeSBwYWdlIGluIHlvdXIgYXBwIHRvXG4gIC8vIGJlIHNlcnZlci1zaWRlIHJlbmRlcmVkLlxuICAvL1xuLy8gICBzdGF0aWMgYXN5bmMgZ2V0SW5pdGlhbFByb3BzKGFwcENvbnRleHQpIHtcbi8vICAgICAvLyBjYWxscyBwYWdlJ3MgYGdldEluaXRpYWxQcm9wc2AgYW5kIGZpbGxzIGBhcHBQcm9wcy5wYWdlUHJvcHNgXG4vLyAgICAgY29uc3QgYXBwUHJvcHMgPSBhd2FpdCBBcHAuZ2V0SW5pdGlhbFByb3BzKGFwcENvbnRleHQpO1xuICBcbi8vICAgICByZXR1cm4geyAuLi5hcHBQcm9wcyB9XG4vLyAgIH1cblxuICByZW5kZXIoKSB7XG4gICAgY29uc3QgeyBDb21wb25lbnQsIHBhZ2VQcm9wcyB9ID0gdGhpcy5wcm9wcztcblxuICAgIHJldHVybiAoXG4gICAgICAgIDxkaXY+XG4gICAgICAgICAgICA8ZGl2PlxuICAgICAgICAgICAgICAgIDxIZWFkPlxuICAgICAgICAgICAgICAgICAgICA8bWV0YSBuYW1lPVwidmlld3BvcnRcIiBjb250ZW50PVwid2lkdGg9ZGV2aWNlLXdpZHRoLCBpbml0aWFsLXNjYWxlPTFcIiAvPlxuICAgICAgICAgICAgICAgICAgICA8bWV0YSBjaGFyU2V0PVwidXRmLThcIiAvPlxuICAgICAgICAgICAgICAgICAgICA8bGluayByZWw9XCJpY29uXCIgdHlwZT1cImltYWdlL3gtaWNvblwiIGhyZWY9XCIuLi9zdGF0aWMvZmF2aWNvbi5pY29cIiAvPlxuICAgICAgICAgICAgICAgIDwvSGVhZD5cbiAgICAgICAgICAgICAgICA8c3R5bGUganN4IGdsb2JhbD57YFxuICAgICAgICAgICAgICAgICAgICBib2R5IHsgXG4gICAgICAgICAgICAgICAgICAgICAgICBtYXJnaW46IDBweDtcbiAgICAgICAgICAgICAgICAgICAgICAgIGZvbnQtZmFtaWx5OiAnUm9ib3RvJywgc2Fucy1zZXJpZjtcbiAgICAgICAgICAgICAgICAgICAgfVxuICAgICAgICAgICAgICAgIGB9PC9zdHlsZT5cbiAgICAgICAgICAgIDwvZGl2PlxuICAgICAgICAgICAgPFBsYXlDb250ZXh0UHJvdmlkZXI+XG4gICAgICAgICAgICAgICAgPEpvaW5HYW1lQ29udGV4dFByb3ZpZGVyPlxuICAgICAgICAgICAgICAgICAgICA8TWFuYWdlQm9hcmRzQ29udGV4dFByb3ZpZGVyPlxuICAgICAgICAgICAgICAgICAgICAgICAgPE9yZ0NvbnRleHRQcm92aWRlcj5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICA8VXNlckNvbnRleHRQcm92aWRlcj5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPENvbXBvbmVudCB7Li4ucGFnZVByb3BzfSAvPlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvVXNlckNvbnRleHRQcm92aWRlcj5cbiAgICAgICAgICAgICAgICAgICAgICAgIDwvT3JnQ29udGV4dFByb3ZpZGVyPlxuICAgICAgICAgICAgICAgICAgICA8L01hbmFnZUJvYXJkc0NvbnRleHRQcm92aWRlcj5cbiAgICAgICAgICAgICAgICA8L0pvaW5HYW1lQ29udGV4dFByb3ZpZGVyPlxuICAgICAgICAgICAgPC9QbGF5Q29udGV4dFByb3ZpZGVyPlxuICAgICAgICA8L2Rpdj5cbiAgICApXG4gIH1cbn1cblxuZXhwb3J0IGRlZmF1bHQgTXlBcHAiXX0= */\n/*@ sourceURL=/Users/spencerford/Documents/DEVyall/PersonalProjects/CorporateBingoWeb/pages/_app.js */")), __jsx(_contexts_playContext__WEBPACK_IMPORTED_MODULE_9__["default"], {
       __source: {
         fileName: _jsxFileName,
         lineNumber: 42
@@ -2590,6 +2636,17 @@ module.exports = require("core-js/library/fn/object/keys");
 /***/ (function(module, exports) {
 
 module.exports = require("core-js/library/fn/promise");
+
+/***/ }),
+
+/***/ "isomorphic-unfetch":
+/*!*************************************!*\
+  !*** external "isomorphic-unfetch" ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("isomorphic-unfetch");
 
 /***/ }),
 

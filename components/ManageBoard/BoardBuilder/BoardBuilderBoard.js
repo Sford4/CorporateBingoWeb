@@ -88,7 +88,7 @@ const BoardBuilderBoard = (props) => {
             return <div key={`empty${index}`} 
                       style={{
                         width: `${SQUARE_WIDTH}%`,
-                        aspectRatio: 1,
+                        paddingTop: `${SQUARE_WIDTH * .72}%`,
                         maxWidth: 100,
                         maxHeight: 100,
                       }} 
@@ -99,7 +99,7 @@ const BoardBuilderBoard = (props) => {
                 key={`reward${index}`} 
                 style={{
                   width: `${SQUARE_WIDTH}%`,
-                  aspectRatio: 1,
+                  // paddingTop: `${SQUARE_WIDTH * .72}%`,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -107,8 +107,9 @@ const BoardBuilderBoard = (props) => {
                   border: 'none',
                   outline: 'none',
                   cursor: 'pointer',
-                  maxWidth: 150,
-                  maxHeight: 150,
+                  maxWidth: 120,
+                  // maxHeight: 120,
+                  position: 'relative',
                 }} 
                 onClick={() => openRewardBuilderPopup(reward)}
               >
@@ -137,7 +138,7 @@ const BoardBuilderBoard = (props) => {
               <button key={`free${index}`} 
                 style={{ 
                   width: `${SQUARE_WIDTH}%`,
-                  aspectRatio: 1,
+                  paddingTop: `${SQUARE_WIDTH * .72}%`,
                   backgroundColor: `#${board.completeColor}`,
                   borderWidth: 1,
                   borderColor: 'black',
@@ -146,8 +147,10 @@ const BoardBuilderBoard = (props) => {
                   alignItems: 'center',
                   outline: 'none',
                   cursor: 'pointer',
-                  maxWidth: 150,
-                  maxHeight: 150,
+                  maxWidth: 120,
+                  // maxHeight: 120,
+                  position: 'relative',
+                  
                 }}
                 onClick={() => openSquareBuilderPopup(task)}
               >
@@ -160,7 +163,7 @@ const BoardBuilderBoard = (props) => {
               key={`task${index}`} 
               style={{
                 width: `${SQUARE_WIDTH}%`,
-                aspectRatio: 1,
+                paddingTop: `${SQUARE_WIDTH * .72}%`,
                 backgroundColor: task.freeSquare ? `#${board.completeColor}` : `#${board.incompleteColor}`,
                 borderWidth: 1,
                 borderColor: 'black',
@@ -169,12 +172,13 @@ const BoardBuilderBoard = (props) => {
                 alignItems: 'center',
                 outline: 'none',
                 cursor: 'pointer',
-                maxWidth: 150,
-                maxHeight: 150,
+                maxWidth: 120,
+                // maxHeight: 120,
+                position: 'relative',
               }}
               onClick={() => openSquareBuilderPopup(task)}
             >
-              <div>{task.squareText}</div>
+              <div style={MASTER.squareText}>{task.squareText}</div>
             </button>
           );
         case 'empty':
@@ -182,9 +186,10 @@ const BoardBuilderBoard = (props) => {
             <div key={`empty${index}`} 
               style={{
                 width: `${SQUARE_WIDTH}%`,
-                aspectRatio: 1,
-                maxWidth: 150,
-                maxHeight: 150,
+                paddingTop: `${SQUARE_WIDTH * .72}%`,
+                maxWidth: 120,
+                // maxHeight: 120,
+                position: 'relative',
               }} 
             />
           );
@@ -193,9 +198,10 @@ const BoardBuilderBoard = (props) => {
             <div key={`empty${index}`} 
               style={{
                 width: `${SQUARE_WIDTH}%`,
-                aspectRatio: 1,
-                maxWidth: 150,
-                maxHeight: 150,
+                paddingTop: `${SQUARE_WIDTH * .72}%`,
+                maxWidth: 120,
+                // maxHeight: 120,
+                position: 'relative',
               }} 
             />
           );

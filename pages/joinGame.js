@@ -15,6 +15,7 @@ import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import Paper from '@material-ui/core/Paper';
 
 // context imports
 import { JoinGameContext } from '../contexts/joinGameContext';
@@ -56,7 +57,7 @@ const BoardFind = (props) => {
   const [foundBoardsPopup, openFoundBoardsPopup] = useState(false);
   const [pastFoundBoards, setPastFoundBoards] = useState([]);
 
-  const { accessBoards, getAccessBoards, foundBoards, findBoards } = useContext(JoinGameContext);
+  const { accessBoards, getAccessBoards, foundBoards, findBoards, setFoundBoards } = useContext(JoinGameContext);
   const { user } = useContext(UserContext);
 
   useEffect(() => {
@@ -68,6 +69,7 @@ const BoardFind = (props) => {
         setAccessBoardsFound(true);
     }
     if(foundBoards.length !== pastFoundBoards.length){
+      console.log('setting found boards popup open', foundBoards.length)
       openFoundBoardsPopup(true);
       setPastFoundBoards(foundBoards);
     }
@@ -85,7 +87,7 @@ const BoardFind = (props) => {
 
   const generateBoardCards = boards => {
     if(boards[0] === 'none'){
-      return <div style={{ marginTop: 10 }}>We couldn't find any games you've already played, try searching for one using it's access code!</div>;
+      return <div style={{ marginTop: 15 }}>We couldn't find any games you've already played, try searching for one using it's access code!</div>;
     }
     return boards.map((board, index) => {
       return (
@@ -104,13 +106,25 @@ const BoardFind = (props) => {
 
   const generateSearchFoundOptions = () => {
     if(!foundBoards.length){
-      return <div>We couldn't find any games with that access code... check your code and try again!</div>
+      return <div>No games found, double check your code or make sure you don't already already have a game on that board!</div>
     }
     return foundBoards.map((board, index) => {
       console.log('found board',)
       return (
-        <Link href={`playGame/[findID]/[userID]`} as={`playGame/${board.team === 'No teams' ? 'board' : 'game'}-${board._id}/${user._id}`} key={index}>
-          <div key={`found-board-${index}`} style={ styles.foundOption }>
+        <Link 
+          href={`playGame/[findID]/[userID]`} 
+          as={`playGame/${board.team === 'No teams' ? 'board' : 'game'}-${board._id}/${user._id}`} 
+          key={index}
+        >
+          <div 
+            onClick={() => {
+              openFoundBoardsPopup(false); 
+              setPastFoundBoards([]);
+              setFoundBoards([]);
+            }} 
+            key={`found-board-${index}`} 
+            style={ styles.foundOption }
+          >
             <div style={{ fontSize: 20, color: COLORS.primary}}>{board.title}</div>
             <div style={{ display: 'flex' }}>
               <div>{board.org} - </div>
@@ -130,26 +144,30 @@ const BoardFind = (props) => {
       <Layout>
         <div style={styles.container}>
             <div style={MASTER.pageTitle}>FIND GAME</div>
-            <div style={{ display: 'flex' }}>
-                <input 
-                    style={{ ...MASTER.wideRoundInput, maxWidth: 300 }} 
-                    value={findCode} 
-                    onChange={(e) => setFindCode(e.target.value)} 
-                    placeholder={'Type code here'}
-                />
-                <button 
-                    style={{ ...MASTER.wideRoundBtn, width: 100 }} 
-                    onClick={() => searchForBoard()}
-                >
-                    <div style={MASTER.wideRoundBtnText}>SEARCH</div>
-                </button>
-            </div>
-            {accessBoards.length && generateBoardCards(accessBoards)}
+            <Paper>
+              <div style={{ padding: '1% 3%', minHeight: 150 }}>
+              <div style={{ display: 'flex' }}>
+                  <input 
+                      style={{ ...MASTER.wideRoundInput, maxWidth: 300 }} 
+                      value={findCode} 
+                      onChange={(e) => setFindCode(e.target.value)} 
+                      placeholder={'Type code here'}
+                  />
+                  <button 
+                      style={{ ...MASTER.wideRoundBtn, width: 100 }} 
+                      onClick={() => searchForBoard()}
+                  >
+                      <div style={MASTER.wideRoundBtnText}>SEARCH</div>
+                  </button>
+              </div>
+              {accessBoards.length && generateBoardCards(accessBoards)}
+              </div>
+            </Paper>
         </div>
         <Dialog open={foundBoardsPopup} onBackdropClick={() => closeSearchFoundOptionsPopup()}>
           <DialogTitle onClose={() => closeSearchFoundOptionsPopup()}>
               GAMES WE FOUND...
-            </DialogTitle>
+          </DialogTitle>
             <div style={{ padding: 20, minWidth: 300 }}>
               {generateSearchFoundOptions()}    
             </div>

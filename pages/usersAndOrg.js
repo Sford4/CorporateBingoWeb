@@ -16,11 +16,10 @@ import OrgAndUsersContainer from '../components/orgAndUsers/orgAndUsersContainer
 const OrgAndUsersIndex = (props) => {
     const router = useRouter()
     
-    const { contextOrg, saveOrg, getOrg } = useContext(OrgContext);
+    const { contextOrg, saveOrg, getOrg, setStuffToSave, stuffToSave } = useContext(OrgContext);
     const { user } = useContext(UserContext);
 
   const [org, setOrg] = useState({});
-  const [changesToSave, setChangesToSave] = useState(false)
 
   useEffect(() => {
     if(!contextOrg._id && user && user.org){
@@ -28,16 +27,16 @@ const OrgAndUsersIndex = (props) => {
     } else if(contextOrg && contextOrg._id) {
         setOrg(contextOrg);
     }
-}, [contextOrg, changesToSave])
+}, [contextOrg, stuffToSave])
 
   
 if(contextOrg && contextOrg._id){
     return (
-          <Layout>
+        <Layout>
             <div style={styles.container}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
                     <div style={{ ...MASTER.pageTitle }}>MANAGING ORG: {contextOrg.name}</div>
-                    {changesToSave ?
+                    {stuffToSave ?
                     <button 
                         style={{ ...MASTER.wideRoundBtn, width: 150, margin: 0 }} 
                         onClick={() => saveOrg(contextOrg)}
@@ -51,7 +50,7 @@ if(contextOrg && contextOrg._id){
                         <div style={MASTER.wideRoundBtnText}>SAVE</div>
                     </button>}
                 </div>
-                <OrgAndUsersContainer org={contextOrg} changesMade={setChangesToSave} />
+                <OrgAndUsersContainer org={contextOrg} changesMade={setStuffToSave} />
             </div>
             <style jsx>
                 {`

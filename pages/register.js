@@ -1,7 +1,9 @@
 
 
 import { useState, useEffect, useContext } from 'react';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
+import fetch from 'isomorphic-unfetch';
+// import FULL_URL from '../constants/constants';
 
 // context imports
 import { UserContext } from '../contexts/userContext';
@@ -52,7 +54,7 @@ const Register = () => {
             return;
         }
         try {
-            const request = await fetch('http://localhost:8000/orgs/register', {
+            const request = await fetch(`http://localhost:8000/orgs/register`, {
                 method: 'POST',
                 headers: {
                   'Accept': 'application/json',

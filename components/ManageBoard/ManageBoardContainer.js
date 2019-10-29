@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router'
+import { useState } from 'react';
 
 // context imports
 
@@ -8,7 +7,7 @@ import { MASTER, COLORS } from '../../styles/masterStyles';
 
 // Component imports
 import BoardSettings from './BoardSettings';
-import BoardTeamsOrPlayers from './BoardTeamsOrPlayers';
+import BoardTeamsOrPlayers from './TeamOrPlayers/BoardTeamsOrPlayers';
 import BoardBuilder from './BoardBuilder/BoardBuilder';
 import BoardRewards from './BoardRewards';
 
@@ -31,7 +30,7 @@ const ManageBoardContainer = (props) => {
                 setComponent(<BoardBuilder changesMade={props.changesMade} board={props.board} />);
                 return;
             case 2:
-                setComponent(<BoardTeamsOrPlayers changesMade={props.changesMade} board={props.board} />);
+                setComponent(<BoardTeamsOrPlayers changesMade={props.changesMade} boardID={props.board._id} />);
                 return;
             case 3:
                 setComponent(<BoardRewards changesMade={props.changesMade} board={props.board} />);
@@ -57,10 +56,10 @@ const ManageBoardContainer = (props) => {
             >
                 <Tab label="Settings" />
                 <Tab label="Board" />
-                <Tab label={props.board.groups.useTeams ? 'Teams' : 'Players'} />
+                <Tab label="Games" />
                 <Tab label="Rewards" />
             </Tabs>
-            <div style={{ borderTop: `1px solid ${COLORS.primary}`, maxHeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+            <div style={{ borderTop: `1px solid ${COLORS.primary}`, maxHeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', overflowY: 'scroll' }}>
                 {component}
             </div>
 

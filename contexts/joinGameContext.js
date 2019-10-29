@@ -1,5 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
+import fetch from 'isomorphic-unfetch';
+// import FULL_URL from '../constants/constants';
 
 export const JoinGameContext = createContext();
 
@@ -47,6 +49,10 @@ const JoinGameContextProvider = (props) => {
               })
               const success = await request.json();
               console.log({success})
+              if(success.error){
+                  alert(success.error.message);
+                  return;
+              }
               if(success){
                 setFoundBoards(success);
               } else {
@@ -64,7 +70,8 @@ const JoinGameContextProvider = (props) => {
                 accessBoards, 
                 getAccessBoards, 
                 foundBoards, 
-                findBoards
+                findBoards,
+                setFoundBoards
             }}>
             {props.children}
         </JoinGameContext.Provider>

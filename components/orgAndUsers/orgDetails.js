@@ -14,7 +14,7 @@ import {useDropzone} from 'react-dropzone';
 
 const OrgDetails = (props) => {
 
-    const { contextOrg, updateOrg } = useContext(OrgContext);
+    const { contextOrg, updateOrg, setStuffToSave } = useContext(OrgContext);
 
     const [org, setOrg] = useState(contextOrg);
 
@@ -31,7 +31,7 @@ const OrgDetails = (props) => {
             ...org,
             [name]: val
         })
-        props.changesMade(true);
+        setStuffToSave(true);
     }
 
     const onDrop = useCallback(acceptedFiles => {
@@ -109,7 +109,7 @@ const OrgDetails = (props) => {
                     </div>
                     <div style={{ ...styles.labelColumn, alignItems: 'center', flexDirection: 'row' }}>
                         <ChromePicker color={org.primaryColor} onChange={(color, e) => changeRegularValues('primaryColor', color.hex.substring(1, color.hex.length))} />
-                        <span className='complete-color' style={{ ...styles.exampleSquare, color: 'white', backgroundColor: `#${org.completeColor}`}}>Branding Primary Color</span>
+                        <span className='complete-color' style={{ ...styles.exampleSquare, color: 'white', backgroundColor: `#${org.primaryColor}`}}>Branding Primary Color</span>
                     </div>
                 </div>    
             </div>

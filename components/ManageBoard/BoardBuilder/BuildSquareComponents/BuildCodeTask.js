@@ -5,7 +5,7 @@ import { CSVDownload } from "react-csv";
 
 // Material UI
 // import Switch from '@material-ui/core/Switch';
-import Chip from '@material-ui/core/Chip';
+// import Chip from '@material-ui/core/Chip';
 
 // Style imports
 import { MASTER, COLORS } from '../../../../styles/masterStyles';
@@ -74,11 +74,12 @@ const BuildCodeTask = (props) => {
   const generateCodes = () => {
     return codes.map((code, index) => {
         return (
-            <Chip
-                key={`code${index}`}
-                label={code}
-                onDelete={() => handleCodeDelete(code)}
-            />
+            // <Chip
+            //     key={`code${index}`}
+            //     label={code}
+            //     onDelete={() => handleCodeDelete(code)}
+            // />
+            <span key={`code${index}`}>{code}</span>
         )
     })
   }

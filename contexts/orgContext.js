@@ -1,9 +1,12 @@
 import React, { createContext, useState, useEffect } from 'react';
+import fetch from 'isomorphic-unfetch';
+// import FULL_URL from '../constants/constants';
 
 export const OrgContext = createContext();
 
 const OrgContextProvider = (props) => {
-    const [ org, setOrg ] = useState({})
+    const [ org, setOrg ] = useState({});
+    const [ stuffToSave, setStuffToSave ] = useState(false);
 
 
     const getOrg = async (orgID) => {
@@ -18,7 +21,6 @@ const OrgContextProvider = (props) => {
                 },
               })
               const org = await request.json();
-              console.log({org})
               setOrg(org);
             } catch(err) {alert(err)}
     }
@@ -36,13 +38,20 @@ const OrgContextProvider = (props) => {
                 body: JSON.stringify(orgToSave),
               })
               const org = await request.json();
-              console.log({org})
               setOrg(org);
+              setStuffToSave(false);
             } catch(err) {alert(err)}
     }
 
     return (
-        <OrgContext.Provider value={{ contextOrg: org, updateOrg: setOrg, getOrg: getOrg, saveOrg }}>
+        <OrgContext.Provider value={{ 
+            contextOrg: org, 
+            updateOrg: setOrg, 
+            getOrg: getOrg, 
+            saveOrg, 
+            setStuffToSave,
+            stuffToSave,
+        }}>
             {props.children}
         </OrgContext.Provider>
     )

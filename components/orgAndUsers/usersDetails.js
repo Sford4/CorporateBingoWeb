@@ -119,6 +119,7 @@ const UsersDetails = (props) => {
                         <TableRow style={{ cursor: 'pointer' }} onClick={() => setUserToEdit(user, false)} key={index}>
                             <TableCell>{user.userName}</TableCell>
                             <TableCell>{user.email}</TableCell>
+                            <TableCell>{moment(user.modified).format("MMM Do, YYYY")}</TableCell>
                         </TableRow>
 				)
 			})
@@ -140,6 +141,7 @@ const UsersDetails = (props) => {
                     <TableRow>
                         <TableCell>USER NAME</TableCell>
                         <TableCell>EMAIL</TableCell>
+                        <TableCell>MODIFIED</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>

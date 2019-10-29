@@ -35,7 +35,7 @@ class MyApp extends App {
                 <style jsx global>{`
                     body { 
                         margin: 0px;
-                        font-family: roboto;
+                        font-family: 'Roboto', sans-serif;
                     }
                 `}</style>
             </div>

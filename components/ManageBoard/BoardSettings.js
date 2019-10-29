@@ -362,7 +362,7 @@ const BoardSettings = (props) => {
                         }
                     </div>
                     <div style={{ ...styles.exampleSquare, backgroundColor: `#${board.completeColor}`}}>
-                        <img style={styles.image} src={!board.freeSquareIcon ? '../../static/circle_check.png'  : board.freeSquareIcon}  />
+                        <img style={styles.image} src={!board.freeSquareIcon || board.freeSquareIcon === 'default' ? '../../static/circle_check.png'  : board.freeSquareIcon}  />
                     </div>
                 </div>    
             </div>
@@ -433,7 +433,8 @@ const BoardSettings = (props) => {
           justifyContent: 'center',
           alignItems: 'center',
           border: '1px solid black',
-          marginRight: 10
+          marginRight: 10,
+          textAlign: 'center',
       },
       image: {
           width: '80%',

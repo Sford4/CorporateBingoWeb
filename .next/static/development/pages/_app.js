@@ -19,12 +19,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! next/router */ "./node_modules/next/dist/client/router.js");
 /* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! isomorphic-unfetch */ "./node_modules/isomorphic-unfetch/browser.js");
+/* harmony import */ var isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_5__);
 
 
 
 var _jsxFileName = "/Users/spencerford/Documents/DEVyall/PersonalProjects/CorporateBingoWeb/contexts/joinGameContext.js";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement;
 
+
+ // import FULL_URL from '../constants/constants';
 
 var JoinGameContext = Object(react__WEBPACK_IMPORTED_MODULE_3__["createContext"])();
 
@@ -61,7 +65,7 @@ var JoinGameContextProvider = function JoinGameContextProvider(props) {
               console.log('getting access boards', userID);
               _context.prev = 1;
               _context.next = 4;
-              return fetch("http://localhost:8000/games/user/".concat(userID), {
+              return isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_5___default()("http://localhost:8000/games/user/".concat(userID), {
                 method: 'GET',
                 headers: {
                   'Accept': 'application/json',
@@ -117,7 +121,7 @@ var JoinGameContextProvider = function JoinGameContextProvider(props) {
             case 0:
               _context2.prev = 0;
               _context2.next = 3;
-              return fetch("http://localhost:8000/games/search", {
+              return isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_5___default()("http://localhost:8000/games/search", {
                 method: 'POST',
                 headers: {
                   'Accept': 'application/json',
@@ -142,26 +146,35 @@ var JoinGameContextProvider = function JoinGameContextProvider(props) {
                 success: success
               });
 
+              if (!success.error) {
+                _context2.next = 11;
+                break;
+              }
+
+              alert(success.error.message);
+              return _context2.abrupt("return");
+
+            case 11:
               if (success) {
                 setFoundBoards(success);
               } else {
                 alert('There was a problem finding the game you searched for... please try again later!');
               }
 
-              _context2.next = 14;
+              _context2.next = 17;
               break;
 
-            case 11:
-              _context2.prev = 11;
+            case 14:
+              _context2.prev = 14;
               _context2.t0 = _context2["catch"](0);
               alert(_context2.t0);
 
-            case 14:
+            case 17:
             case "end":
               return _context2.stop();
           }
         }
-      }, _callee2, null, [[0, 11]]);
+      }, _callee2, null, [[0, 14]]);
     }));
 
     return function findBoards(_x2) {
@@ -174,11 +187,12 @@ var JoinGameContextProvider = function JoinGameContextProvider(props) {
       accessBoards: accessBoards,
       getAccessBoards: getAccessBoards,
       foundBoards: foundBoards,
-      findBoards: findBoards
+      findBoards: findBoards,
+      setFoundBoards: setFoundBoards
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 62
+      lineNumber: 68
     },
     __self: this
   }, props.children);
@@ -208,6 +222,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! next/router */ "./node_modules/next/dist/client/router.js");
 /* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! isomorphic-unfetch */ "./node_modules/isomorphic-unfetch/browser.js");
+/* harmony import */ var isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_6__);
 
 
 
@@ -215,6 +231,8 @@ __webpack_require__.r(__webpack_exports__);
 var _jsxFileName = "/Users/spencerford/Documents/DEVyall/PersonalProjects/CorporateBingoWeb/contexts/manageBoardsContext.js";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_4___default.a.createElement;
 
+
+ // import FULL_URL from '../constants/constants';
 
 var ManageBoardsContext = Object(react__WEBPACK_IMPORTED_MODULE_4__["createContext"])();
 
@@ -225,9 +243,13 @@ var ManageBoardsContextProvider = function ManageBoardsContextProvider(props) {
       contextBoard = _useState[0],
       setContextBoard = _useState[1];
 
-  var _useState2 = Object(react__WEBPACK_IMPORTED_MODULE_4__["useState"])(false),
-      stuffToSave = _useState2[0],
-      setStuffToSave = _useState2[1];
+  var _useState2 = Object(react__WEBPACK_IMPORTED_MODULE_4__["useState"])([]),
+      gamesForBoard = _useState2[0],
+      setGamesForBoard = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_4__["useState"])(false),
+      stuffToSave = _useState3[0],
+      setStuffToSave = _useState3[1];
 
   var getBoard =
   /*#__PURE__*/
@@ -251,7 +273,7 @@ var ManageBoardsContextProvider = function ManageBoardsContextProvider(props) {
             case 3:
               _context.prev = 3;
               _context.next = 6;
-              return fetch("http://localhost:8000/boards/".concat(boardID), {
+              return isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_6___default()("http://localhost:8000/boards/".concat(boardID), {
                 method: 'GET',
                 headers: {
                   'Accept': 'application/json',
@@ -302,7 +324,7 @@ var ManageBoardsContextProvider = function ManageBoardsContextProvider(props) {
             case 0:
               _context2.prev = 0;
               _context2.next = 3;
-              return fetch("http://localhost:8000/boards", {
+              return isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_6___default()("http://localhost:8000/boards", {
                 method: 'POST',
                 headers: {
                   'Accept': 'application/json',
@@ -372,7 +394,7 @@ var ManageBoardsContextProvider = function ManageBoardsContextProvider(props) {
 
               _context3.prev = 2;
               _context3.next = 5;
-              return fetch("http://localhost:8000/boards/".concat(contextBoard._id), {
+              return isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_6___default()("http://localhost:8000/boards/".concat(contextBoard._id), {
                 method: 'PATCH',
                 headers: {
                   'Accept': 'application/json',
@@ -423,6 +445,57 @@ var ManageBoardsContextProvider = function ManageBoardsContextProvider(props) {
     };
   }();
 
+  var getAllGamesForBoard =
+  /*#__PURE__*/
+  function () {
+    var _ref4 = Object(_babel_runtime_corejs2_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_3__["default"])(
+    /*#__PURE__*/
+    _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_2___default.a.mark(function _callee4(boardID) {
+      var request, games;
+      return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_2___default.a.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              _context4.prev = 0;
+              _context4.next = 3;
+              return isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_6___default()("http://localhost:8000/boards/gamesForBoard/".concat(boardID), {
+                method: 'GET',
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                  'Authorization': "Bearer ".concat(localStorage.getItem('bingo_token'))
+                }
+              });
+
+            case 3:
+              request = _context4.sent;
+              _context4.next = 6;
+              return request.json();
+
+            case 6:
+              games = _context4.sent;
+              setGamesForBoard(!games.length ? ['none'] : games);
+              _context4.next = 13;
+              break;
+
+            case 10:
+              _context4.prev = 10;
+              _context4.t0 = _context4["catch"](0);
+              alert(_context4.t0);
+
+            case 13:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4, null, [[0, 10]]);
+    }));
+
+    return function getAllGamesForBoard(_x3) {
+      return _ref4.apply(this, arguments);
+    };
+  }();
+
   return __jsx(ManageBoardsContext.Provider, {
     value: {
       contextBoard: contextBoard,
@@ -431,11 +504,13 @@ var ManageBoardsContextProvider = function ManageBoardsContextProvider(props) {
       newBoard: newBoard,
       setStuffToSave: setStuffToSave,
       stuffToSave: stuffToSave,
-      saveBoard: saveBoard
+      saveBoard: saveBoard,
+      getAllGamesForBoard: getAllGamesForBoard,
+      gamesForBoard: gamesForBoard
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 92
+      lineNumber: 110
     },
     __self: this
   }, props.children);
@@ -462,11 +537,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_corejs2_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime-corejs2/helpers/esm/asyncToGenerator.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! isomorphic-unfetch */ "./node_modules/isomorphic-unfetch/browser.js");
+/* harmony import */ var isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_4__);
 
 
 
 var _jsxFileName = "/Users/spencerford/Documents/DEVyall/PersonalProjects/CorporateBingoWeb/contexts/orgContext.js";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement;
+
+ // import FULL_URL from '../constants/constants';
 
 var OrgContext = Object(react__WEBPACK_IMPORTED_MODULE_3__["createContext"])();
 
@@ -474,6 +553,10 @@ var OrgContextProvider = function OrgContextProvider(props) {
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_3__["useState"])({}),
       org = _useState[0],
       setOrg = _useState[1];
+
+  var _useState2 = Object(react__WEBPACK_IMPORTED_MODULE_3__["useState"])(false),
+      stuffToSave = _useState2[0],
+      setStuffToSave = _useState2[1];
 
   var getOrg =
   /*#__PURE__*/
@@ -490,7 +573,7 @@ var OrgContextProvider = function OrgContextProvider(props) {
               console.log('in get org', orgID);
               _context.prev = 1;
               _context.next = 4;
-              return fetch("http://localhost:8000/orgs/".concat(orgID), {
+              return isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_4___default()("http://localhost:8000/orgs/".concat(orgID), {
                 method: 'GET',
                 headers: {
                   'Accept': 'application/json',
@@ -506,24 +589,21 @@ var OrgContextProvider = function OrgContextProvider(props) {
 
             case 7:
               _org = _context.sent;
-              console.log({
-                org: _org
-              });
               setOrg(_org);
-              _context.next = 15;
+              _context.next = 14;
               break;
 
-            case 12:
-              _context.prev = 12;
+            case 11:
+              _context.prev = 11;
               _context.t0 = _context["catch"](1);
               alert(_context.t0);
 
-            case 15:
+            case 14:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[1, 12]]);
+      }, _callee, null, [[1, 11]]);
     }));
 
     return function getOrg(_x) {
@@ -546,7 +626,7 @@ var OrgContextProvider = function OrgContextProvider(props) {
               console.log('in save org', orgToSave);
               _context2.prev = 1;
               _context2.next = 4;
-              return fetch("http://localhost:8000/orgs/".concat(orgToSave._id), {
+              return isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_4___default()("http://localhost:8000/orgs/".concat(orgToSave._id), {
                 method: 'PATCH',
                 headers: {
                   'Accept': 'application/json',
@@ -563,10 +643,8 @@ var OrgContextProvider = function OrgContextProvider(props) {
 
             case 7:
               _org2 = _context2.sent;
-              console.log({
-                org: _org2
-              });
               setOrg(_org2);
+              setStuffToSave(false);
               _context2.next = 15;
               break;
 
@@ -593,11 +671,13 @@ var OrgContextProvider = function OrgContextProvider(props) {
       contextOrg: org,
       updateOrg: setOrg,
       getOrg: getOrg,
-      saveOrg: saveOrg
+      saveOrg: saveOrg,
+      setStuffToSave: setStuffToSave,
+      stuffToSave: stuffToSave
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 45
+      lineNumber: 47
     },
     __self: this
   }, props.children);
@@ -625,12 +705,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_corejs2_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime-corejs2/helpers/esm/asyncToGenerator.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! isomorphic-unfetch */ "./node_modules/isomorphic-unfetch/browser.js");
+/* harmony import */ var isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_5__);
 
 
 
 
 var _jsxFileName = "/Users/spencerford/Documents/DEVyall/PersonalProjects/CorporateBingoWeb/contexts/playContext.js";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_4___default.a.createElement;
+
+ // import FULL_URL from '../constants/constants';
 
 var PlayContext = Object(react__WEBPACK_IMPORTED_MODULE_4__["createContext"])();
 
@@ -670,7 +754,7 @@ var PlayContextProvider = function PlayContextProvider(props) {
 
               _context.prev = 5;
               _context.next = 8;
-              return fetch("http://localhost:8000/games/".concat(gameID, "/").concat(userID), {
+              return isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_5___default()("http://localhost:8000/games/".concat(gameID, "/").concat(userID), {
                 method: 'GET',
                 headers: {
                   'Accept': 'application/json',
@@ -726,7 +810,7 @@ var PlayContextProvider = function PlayContextProvider(props) {
               console.log('SAVING GAME');
               _context2.prev = 2;
               _context2.next = 5;
-              return fetch("http://localhost:8000/games/".concat(contextGame._id), {
+              return isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_5___default()("http://localhost:8000/games/".concat(contextGame._id), {
                 method: 'PATCH',
                 headers: {
                   'Accept': 'application/json',
@@ -783,7 +867,7 @@ var PlayContextProvider = function PlayContextProvider(props) {
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 61
+      lineNumber: 63
     },
     __self: this
   }, props.children);
@@ -5716,6 +5800,18 @@ for (var i = 0; i < DOMIterables.length; i++) {
   if (proto && !proto[TO_STRING_TAG]) hide(proto, TO_STRING_TAG, NAME);
   Iterators[NAME] = Iterators.Array;
 }
+
+
+/***/ }),
+
+/***/ "./node_modules/isomorphic-unfetch/browser.js":
+/*!****************************************************!*\
+  !*** ./node_modules/isomorphic-unfetch/browser.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = window.fetch || (window.fetch = __webpack_require__(/*! unfetch */ "./node_modules/unfetch/dist/unfetch.mjs").default || __webpack_require__(/*! unfetch */ "./node_modules/unfetch/dist/unfetch.mjs"));
 
 
 /***/ }),
@@ -11163,6 +11259,21 @@ module.exports = __webpack_require__(/*! ./dist/style */ "./node_modules/styled-
 
 /***/ }),
 
+/***/ "./node_modules/unfetch/dist/unfetch.mjs":
+/*!***********************************************!*\
+  !*** ./node_modules/unfetch/dist/unfetch.mjs ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(__webpack_module__, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (function(e,n){return n=n||{},new Promise(function(t,r){var s=new XMLHttpRequest,o=[],u=[],i={},a=function(){return{ok:2==(s.status/100|0),statusText:s.statusText,status:s.status,url:s.responseURL,text:function(){return Promise.resolve(s.responseText)},json:function(){return Promise.resolve(JSON.parse(s.responseText))},blob:function(){return Promise.resolve(new Blob([s.response]))},clone:a,headers:{keys:function(){return o},entries:function(){return u},get:function(e){return i[e.toLowerCase()]},has:function(e){return e.toLowerCase()in i}}}};for(var l in s.open(n.method||"get",e,!0),s.onload=function(){s.getAllResponseHeaders().replace(/^(.*?):[^\S\n]*([\s\S]*?)$/gm,function(e,n,t){o.push(n=n.toLowerCase()),u.push([n,t]),i[n]=i[n]?i[n]+","+t:t}),t(a())},s.onerror=r,s.withCredentials="include"==n.credentials,n.headers)s.setRequestHeader(l,n.headers[l]);s.send(n.body||null)})});
+//# sourceMappingURL=unfetch.mjs.map
+
+
+/***/ }),
+
 /***/ "./node_modules/url/url.js":
 /*!*********************************!*\
   !*** ./node_modules/url/url.js ***!
@@ -12079,7 +12190,7 @@ function (_App) {
         },
         __self: this
       }, __jsx("div", {
-        className: "jsx-3594239518",
+        className: "jsx-3259204506",
         __source: {
           fileName: _jsxFileName,
           lineNumber: 29
@@ -12094,7 +12205,7 @@ function (_App) {
       }, __jsx("meta", {
         name: "viewport",
         content: "width=device-width, initial-scale=1",
-        className: "jsx-3594239518",
+        className: "jsx-3259204506",
         __source: {
           fileName: _jsxFileName,
           lineNumber: 31
@@ -12102,7 +12213,7 @@ function (_App) {
         __self: this
       }), __jsx("meta", {
         charSet: "utf-8",
-        className: "jsx-3594239518",
+        className: "jsx-3259204506",
         __source: {
           fileName: _jsxFileName,
           lineNumber: 32
@@ -12112,16 +12223,16 @@ function (_App) {
         rel: "icon",
         type: "image/x-icon",
         href: "../static/favicon.ico",
-        className: "jsx-3594239518",
+        className: "jsx-3259204506",
         __source: {
           fileName: _jsxFileName,
           lineNumber: 33
         },
         __self: this
       })), __jsx(styled_jsx_style__WEBPACK_IMPORTED_MODULE_6___default.a, {
-        id: "3594239518",
+        id: "3259204506",
         __self: this
-      }, "body{margin:0px;font-family:roboto;}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9zcGVuY2VyZm9yZC9Eb2N1bWVudHMvREVWeWFsbC9QZXJzb25hbFByb2plY3RzL0NvcnBvcmF0ZUJpbmdvV2ViL3BhZ2VzL19hcHAuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBa0NtQyxBQUdvQyxXQUNRLG1CQUN2QiIsImZpbGUiOiIvVXNlcnMvc3BlbmNlcmZvcmQvRG9jdW1lbnRzL0RFVnlhbGwvUGVyc29uYWxQcm9qZWN0cy9Db3Jwb3JhdGVCaW5nb1dlYi9wYWdlcy9fYXBwLmpzIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IFJlYWN0IGZyb20gJ3JlYWN0J1xuaW1wb3J0IEFwcCBmcm9tICduZXh0L2FwcCdcbmltcG9ydCBIZWFkIGZyb20gJ25leHQvaGVhZCdcblxuaW1wb3J0IFVzZXJDb250ZXh0UHJvdmlkZXIgZnJvbSAnLi4vY29udGV4dHMvdXNlckNvbnRleHQnO1xuaW1wb3J0IE9yZ0NvbnRleHRQcm92aWRlciBmcm9tICcuLi9jb250ZXh0cy9vcmdDb250ZXh0JztcbmltcG9ydCBNYW5hZ2VCb2FyZHNDb250ZXh0UHJvdmlkZXIgZnJvbSAnLi4vY29udGV4dHMvbWFuYWdlQm9hcmRzQ29udGV4dCc7XG5pbXBvcnQgSm9pbkdhbWVDb250ZXh0UHJvdmlkZXIgZnJvbSAnLi4vY29udGV4dHMvam9pbkdhbWVDb250ZXh0JztcbmltcG9ydCBQbGF5Q29udGV4dFByb3ZpZGVyIGZyb20gJy4uL2NvbnRleHRzL3BsYXlDb250ZXh0JztcblxuY2xhc3MgTXlBcHAgZXh0ZW5kcyBBcHAge1xuICAvLyBPbmx5IHVuY29tbWVudCB0aGlzIG1ldGhvZCBpZiB5b3UgaGF2ZSBibG9ja2luZyBkYXRhIHJlcXVpcmVtZW50cyBmb3JcbiAgLy8gZXZlcnkgc2luZ2xlIHBhZ2UgaW4geW91ciBhcHBsaWNhdGlvbi4gVGhpcyBkaXNhYmxlcyB0aGUgYWJpbGl0eSB0b1xuICAvLyBwZXJmb3JtIGF1dG9tYXRpYyBzdGF0aWMgb3B0aW1pemF0aW9uLCBjYXVzaW5nIGV2ZXJ5IHBhZ2UgaW4geW91ciBhcHAgdG9cbiAgLy8gYmUgc2VydmVyLXNpZGUgcmVuZGVyZWQuXG4gIC8vXG4vLyAgIHN0YXRpYyBhc3luYyBnZXRJbml0aWFsUHJvcHMoYXBwQ29udGV4dCkge1xuLy8gICAgIC8vIGNhbGxzIHBhZ2UncyBgZ2V0SW5pdGlhbFByb3BzYCBhbmQgZmlsbHMgYGFwcFByb3BzLnBhZ2VQcm9wc2Bcbi8vICAgICBjb25zdCBhcHBQcm9wcyA9IGF3YWl0IEFwcC5nZXRJbml0aWFsUHJvcHMoYXBwQ29udGV4dCk7XG4gIFxuLy8gICAgIHJldHVybiB7IC4uLmFwcFByb3BzIH1cbi8vICAgfVxuXG4gIHJlbmRlcigpIHtcbiAgICBjb25zdCB7IENvbXBvbmVudCwgcGFnZVByb3BzIH0gPSB0aGlzLnByb3BzO1xuXG4gICAgcmV0dXJuIChcbiAgICAgICAgPGRpdj5cbiAgICAgICAgICAgIDxkaXY+XG4gICAgICAgICAgICAgICAgPEhlYWQ+XG4gICAgICAgICAgICAgICAgICAgIDxtZXRhIG5hbWU9XCJ2aWV3cG9ydFwiIGNvbnRlbnQ9XCJ3aWR0aD1kZXZpY2Utd2lkdGgsIGluaXRpYWwtc2NhbGU9MVwiIC8+XG4gICAgICAgICAgICAgICAgICAgIDxtZXRhIGNoYXJTZXQ9XCJ1dGYtOFwiIC8+XG4gICAgICAgICAgICAgICAgICAgIDxsaW5rIHJlbD1cImljb25cIiB0eXBlPVwiaW1hZ2UveC1pY29uXCIgaHJlZj1cIi4uL3N0YXRpYy9mYXZpY29uLmljb1wiIC8+XG4gICAgICAgICAgICAgICAgPC9IZWFkPlxuICAgICAgICAgICAgICAgIDxzdHlsZSBqc3ggZ2xvYmFsPntgXG4gICAgICAgICAgICAgICAgICAgIGJvZHkgeyBcbiAgICAgICAgICAgICAgICAgICAgICAgIG1hcmdpbjogMHB4O1xuICAgICAgICAgICAgICAgICAgICAgICAgZm9udC1mYW1pbHk6IHJvYm90bztcbiAgICAgICAgICAgICAgICAgICAgfVxuICAgICAgICAgICAgICAgIGB9PC9zdHlsZT5cbiAgICAgICAgICAgIDwvZGl2PlxuICAgICAgICAgICAgPFBsYXlDb250ZXh0UHJvdmlkZXI+XG4gICAgICAgICAgICAgICAgPEpvaW5HYW1lQ29udGV4dFByb3ZpZGVyPlxuICAgICAgICAgICAgICAgICAgICA8TWFuYWdlQm9hcmRzQ29udGV4dFByb3ZpZGVyPlxuICAgICAgICAgICAgICAgICAgICAgICAgPE9yZ0NvbnRleHRQcm92aWRlcj5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICA8VXNlckNvbnRleHRQcm92aWRlcj5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPENvbXBvbmVudCB7Li4ucGFnZVByb3BzfSAvPlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvVXNlckNvbnRleHRQcm92aWRlcj5cbiAgICAgICAgICAgICAgICAgICAgICAgIDwvT3JnQ29udGV4dFByb3ZpZGVyPlxuICAgICAgICAgICAgICAgICAgICA8L01hbmFnZUJvYXJkc0NvbnRleHRQcm92aWRlcj5cbiAgICAgICAgICAgICAgICA8L0pvaW5HYW1lQ29udGV4dFByb3ZpZGVyPlxuICAgICAgICAgICAgPC9QbGF5Q29udGV4dFByb3ZpZGVyPlxuICAgICAgICA8L2Rpdj5cbiAgICApXG4gIH1cbn1cblxuZXhwb3J0IGRlZmF1bHQgTXlBcHAiXX0= */\n/*@ sourceURL=/Users/spencerford/Documents/DEVyall/PersonalProjects/CorporateBingoWeb/pages/_app.js */")), __jsx(_contexts_playContext__WEBPACK_IMPORTED_MODULE_14__["default"], {
+      }, "body{margin:0px;font-family:'Roboto',sans-serif;}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9zcGVuY2VyZm9yZC9Eb2N1bWVudHMvREVWeWFsbC9QZXJzb25hbFByb2plY3RzL0NvcnBvcmF0ZUJpbmdvV2ViL3BhZ2VzL19hcHAuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBa0NtQyxBQUdvQyxXQUNzQixnQ0FDckMiLCJmaWxlIjoiL1VzZXJzL3NwZW5jZXJmb3JkL0RvY3VtZW50cy9ERVZ5YWxsL1BlcnNvbmFsUHJvamVjdHMvQ29ycG9yYXRlQmluZ29XZWIvcGFnZXMvX2FwcC5qcyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBSZWFjdCBmcm9tICdyZWFjdCdcbmltcG9ydCBBcHAgZnJvbSAnbmV4dC9hcHAnXG5pbXBvcnQgSGVhZCBmcm9tICduZXh0L2hlYWQnXG5cbmltcG9ydCBVc2VyQ29udGV4dFByb3ZpZGVyIGZyb20gJy4uL2NvbnRleHRzL3VzZXJDb250ZXh0JztcbmltcG9ydCBPcmdDb250ZXh0UHJvdmlkZXIgZnJvbSAnLi4vY29udGV4dHMvb3JnQ29udGV4dCc7XG5pbXBvcnQgTWFuYWdlQm9hcmRzQ29udGV4dFByb3ZpZGVyIGZyb20gJy4uL2NvbnRleHRzL21hbmFnZUJvYXJkc0NvbnRleHQnO1xuaW1wb3J0IEpvaW5HYW1lQ29udGV4dFByb3ZpZGVyIGZyb20gJy4uL2NvbnRleHRzL2pvaW5HYW1lQ29udGV4dCc7XG5pbXBvcnQgUGxheUNvbnRleHRQcm92aWRlciBmcm9tICcuLi9jb250ZXh0cy9wbGF5Q29udGV4dCc7XG5cbmNsYXNzIE15QXBwIGV4dGVuZHMgQXBwIHtcbiAgLy8gT25seSB1bmNvbW1lbnQgdGhpcyBtZXRob2QgaWYgeW91IGhhdmUgYmxvY2tpbmcgZGF0YSByZXF1aXJlbWVudHMgZm9yXG4gIC8vIGV2ZXJ5IHNpbmdsZSBwYWdlIGluIHlvdXIgYXBwbGljYXRpb24uIFRoaXMgZGlzYWJsZXMgdGhlIGFiaWxpdHkgdG9cbiAgLy8gcGVyZm9ybSBhdXRvbWF0aWMgc3RhdGljIG9wdGltaXphdGlvbiwgY2F1c2luZyBldmVyeSBwYWdlIGluIHlvdXIgYXBwIHRvXG4gIC8vIGJlIHNlcnZlci1zaWRlIHJlbmRlcmVkLlxuICAvL1xuLy8gICBzdGF0aWMgYXN5bmMgZ2V0SW5pdGlhbFByb3BzKGFwcENvbnRleHQpIHtcbi8vICAgICAvLyBjYWxscyBwYWdlJ3MgYGdldEluaXRpYWxQcm9wc2AgYW5kIGZpbGxzIGBhcHBQcm9wcy5wYWdlUHJvcHNgXG4vLyAgICAgY29uc3QgYXBwUHJvcHMgPSBhd2FpdCBBcHAuZ2V0SW5pdGlhbFByb3BzKGFwcENvbnRleHQpO1xuICBcbi8vICAgICByZXR1cm4geyAuLi5hcHBQcm9wcyB9XG4vLyAgIH1cblxuICByZW5kZXIoKSB7XG4gICAgY29uc3QgeyBDb21wb25lbnQsIHBhZ2VQcm9wcyB9ID0gdGhpcy5wcm9wcztcblxuICAgIHJldHVybiAoXG4gICAgICAgIDxkaXY+XG4gICAgICAgICAgICA8ZGl2PlxuICAgICAgICAgICAgICAgIDxIZWFkPlxuICAgICAgICAgICAgICAgICAgICA8bWV0YSBuYW1lPVwidmlld3BvcnRcIiBjb250ZW50PVwid2lkdGg9ZGV2aWNlLXdpZHRoLCBpbml0aWFsLXNjYWxlPTFcIiAvPlxuICAgICAgICAgICAgICAgICAgICA8bWV0YSBjaGFyU2V0PVwidXRmLThcIiAvPlxuICAgICAgICAgICAgICAgICAgICA8bGluayByZWw9XCJpY29uXCIgdHlwZT1cImltYWdlL3gtaWNvblwiIGhyZWY9XCIuLi9zdGF0aWMvZmF2aWNvbi5pY29cIiAvPlxuICAgICAgICAgICAgICAgIDwvSGVhZD5cbiAgICAgICAgICAgICAgICA8c3R5bGUganN4IGdsb2JhbD57YFxuICAgICAgICAgICAgICAgICAgICBib2R5IHsgXG4gICAgICAgICAgICAgICAgICAgICAgICBtYXJnaW46IDBweDtcbiAgICAgICAgICAgICAgICAgICAgICAgIGZvbnQtZmFtaWx5OiAnUm9ib3RvJywgc2Fucy1zZXJpZjtcbiAgICAgICAgICAgICAgICAgICAgfVxuICAgICAgICAgICAgICAgIGB9PC9zdHlsZT5cbiAgICAgICAgICAgIDwvZGl2PlxuICAgICAgICAgICAgPFBsYXlDb250ZXh0UHJvdmlkZXI+XG4gICAgICAgICAgICAgICAgPEpvaW5HYW1lQ29udGV4dFByb3ZpZGVyPlxuICAgICAgICAgICAgICAgICAgICA8TWFuYWdlQm9hcmRzQ29udGV4dFByb3ZpZGVyPlxuICAgICAgICAgICAgICAgICAgICAgICAgPE9yZ0NvbnRleHRQcm92aWRlcj5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICA8VXNlckNvbnRleHRQcm92aWRlcj5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPENvbXBvbmVudCB7Li4ucGFnZVByb3BzfSAvPlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvVXNlckNvbnRleHRQcm92aWRlcj5cbiAgICAgICAgICAgICAgICAgICAgICAgIDwvT3JnQ29udGV4dFByb3ZpZGVyPlxuICAgICAgICAgICAgICAgICAgICA8L01hbmFnZUJvYXJkc0NvbnRleHRQcm92aWRlcj5cbiAgICAgICAgICAgICAgICA8L0pvaW5HYW1lQ29udGV4dFByb3ZpZGVyPlxuICAgICAgICAgICAgPC9QbGF5Q29udGV4dFByb3ZpZGVyPlxuICAgICAgICA8L2Rpdj5cbiAgICApXG4gIH1cbn1cblxuZXhwb3J0IGRlZmF1bHQgTXlBcHAiXX0= */\n/*@ sourceURL=/Users/spencerford/Documents/DEVyall/PersonalProjects/CorporateBingoWeb/pages/_app.js */")), __jsx(_contexts_playContext__WEBPACK_IMPORTED_MODULE_14__["default"], {
         __source: {
           fileName: _jsxFileName,
           lineNumber: 42

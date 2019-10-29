@@ -128,6 +128,7 @@ const styles = {
     minWidth: 300,
     paddingHorizontal: 'auto',
     padding: '3% 5%',
+    marginTop: 12,
   },
 };
 

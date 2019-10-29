@@ -12,6 +12,7 @@ import Link from 'next/link';
 import Layout from '../../components/Layout';
 
 // Material UI
+import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -81,33 +82,37 @@ const ManageBoardsHome = (props) => {
       <Layout>
         <div style={styles.container}>
             <div style={MASTER.pageTitle}>MANAGE BOARDS</div>
-            <div style={{ display: 'flex' }}>
-                <input 
-                    style={{ ...MASTER.wideRoundInput, maxWidth: 300 }} 
-                    value={searchText} 
-                    onChange={(e) => setSearchText(e.target.value)} 
-                    placeholder={'Search by name or access code '}
-                />
-                <button 
-                    style={{ ...MASTER.wideRoundBtn, width: 100 }} 
-                    onClick={() => searchForBoard()}
-                >
-                    <div style={MASTER.wideRoundBtnText}>SEARCH</div>
-                </button>
-            </div>
-            <Table style={{ width:"100%" }}>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>NAME</TableCell>
-                        <TableCell>TASKS</TableCell>
-                        <TableCell>CREATED</TableCell>
-                        <TableCell>LAST MODIFIED</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {generateBoardRows()}
-                </TableBody>
-            </Table>
+            <Paper>
+                <div style={{ padding: '1% 3%' }}>
+                    <div style={{ display: 'flex' }}>
+                        <input 
+                            style={{ ...MASTER.wideRoundInput, maxWidth: 300 }} 
+                            value={searchText} 
+                            onChange={(e) => setSearchText(e.target.value)} 
+                            placeholder={'Search by name or access code '}
+                        />
+                        <button 
+                            style={{ ...MASTER.wideRoundBtn, width: 100 }} 
+                            onClick={() => searchForBoard()}
+                        >
+                            <div style={MASTER.wideRoundBtnText}>SEARCH</div>
+                        </button>
+                    </div>
+                    <Table style={{ width:"100%" }}>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>NAME</TableCell>
+                                <TableCell>TASKS</TableCell>
+                                <TableCell>CREATED</TableCell>
+                                <TableCell>LAST MODIFIED</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {generateBoardRows()}
+                        </TableBody>
+                    </Table>
+                </div>
+            </Paper>
             <button 
                 style={{ ...MASTER.wideRoundBtn, width: 150, position: 'absolute', bottom: 30, right: 20, height: 45 }} 
                 onClick={() => newBoard(contextOrg._id)}

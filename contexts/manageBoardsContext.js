@@ -1,5 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
+import fetch from 'isomorphic-unfetch';
+// import FULL_URL from '../constants/constants';
 
 export const ManageBoardsContext = createContext();
 
@@ -7,6 +9,7 @@ const ManageBoardsContextProvider = (props) => {
     const router = useRouter();
 
     const [ contextBoard, setContextBoard ] = useState({});
+    const [ gamesForBoard, setGamesForBoard ] = useState([]);
     const [ stuffToSave, setStuffToSave ] = useState(false);
 
     const getBoard = async (boardID) => {
@@ -87,6 +90,21 @@ const ManageBoardsContextProvider = (props) => {
         
     }
 
+    const getAllGamesForBoard = async boardID => {
+        try {
+            const request = await fetch(`http://localhost:8000/boards/gamesForBoard/${boardID}`, {
+                method: 'GET',
+                headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+                    },
+                })
+                const games = await request.json();
+                setGamesForBoard(!games.length ? ['none'] : games);
+        } catch(err) {alert(err)}
+    }
+
 
     return (
         <ManageBoardsContext.Provider 
@@ -97,7 +115,9 @@ const ManageBoardsContextProvider = (props) => {
                 newBoard, 
                 setStuffToSave,
                 stuffToSave,
-                saveBoard
+                saveBoard,
+                getAllGamesForBoard,
+                gamesForBoard,
             }}>
             {props.children}
         </ManageBoardsContext.Provider>

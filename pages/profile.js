@@ -1,6 +1,8 @@
 
 
 import { useState, useEffect, useContext } from 'react';
+import fetch from 'isomorphic-unfetch';
+// import FULL_URL from '../constants/constants';
 
 // context imports
 import { UserContext } from '../contexts/userContext';
@@ -79,7 +81,7 @@ const EditUser = (props) => {
               if(res && res._id){
                 storeUser(res);
               } else {
-                  alert('There was a problem creating this user...');
+                  alert('There was a problem updating this user...');
               }
         } catch (err) { alert( err ) }
     }

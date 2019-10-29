@@ -1,6 +1,8 @@
 
 
 import { useState, useEffect, useContext } from 'react';
+import fetch from 'isomorphic-unfetch';
+// import FULL_URL from '../../constants/constants';
 
 // context imports
 
@@ -39,7 +41,7 @@ const EditUser = (props) => {
             return;
         }
         try {
-            const request = await fetch('http://localhost:8000/users/signup', {
+            const request = await fetch(`http://localhost:8000/users/signup`, {
                 method: 'POST',
                 headers: {
                   'Accept': 'application/json',

@@ -9,6 +9,7 @@ import { ManageBoardsContext } from '../../../contexts/manageBoardsContext';
 // Component Imports
 import BuildQRCodeTask from './BuildSquareComponents/BuildQRCodeTask';
 import BuildCodeTask from './BuildSquareComponents/BuildCodeTask';
+import TaskHints from './BuildSquareComponents/TaskHints';
 
 // Material UI
 import Switch from '@material-ui/core/Switch';
@@ -127,6 +128,7 @@ const SquareBuilder = (props) => {
                     value={task.squareText} 
                     onChange={e => updateTask('squareText', e.target.value)} 
                     placeholder={'e.g. Two sales in one hour'}
+                    maxlength="90"
                 />
                 <span style={styles.inputLabel}>Description</span>
                 <textarea
@@ -136,6 +138,8 @@ const SquareBuilder = (props) => {
                     value={task.description} 
                     placeholder={'e.g. Make two sales in one hour and enter their ids below!'}
                 />
+                <span style={{ ...styles.inputLabel, marginRight: 10, marginLeft: 5}}>Hints:</span>
+                <TaskHints updateTask={updateTask} hints={task.hints} />
                 <span style={{ ...styles.inputLabel, marginRight: 10, marginLeft: 5}}>Task to complete:</span>
                 <Select
                     displayEmpty={false}
