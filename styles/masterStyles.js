@@ -90,6 +90,16 @@ export const MASTER = {
         alignItems: 'center',
         justifyContent: 'center',
     },
+    squareOrderNum: {
+        position: 'absolute',
+        top: 2,
+        left: 2,
+        width: 15,
+        height: 15,
+        borderRadius: 10,
+        backgroundColor: 'white',
+        fontWeight: 'bold',
+    },
     smallRewardIcon: {
         width: 40, 
         height: 40

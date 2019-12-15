@@ -8,7 +8,6 @@ import { ManageBoardsContext } from '../../contexts/manageBoardsContext';
 import { MASTER, COLORS } from '../../styles/masterStyles';
 
 // component imports
-import Link from 'next/link';
 import Layout from '../Layout';
 import ManageBoardContainer from './ManageBoardContainer';
 

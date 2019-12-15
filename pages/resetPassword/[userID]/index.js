@@ -1,7 +1,7 @@
-import { useState, } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import fetch from 'isomorphic-unfetch';
-// import FULL_URL from '../../../constants/constants';
+import FULL_URL from '../../../constants/constants';
 
 // Style imports
 import { MASTER, COLORS } from '../../../styles/masterStyles';
@@ -11,8 +11,14 @@ const ResetPassword = (props) => {
     const router = useRouter()
 
     const [userID] = useState(props.userID);
+    const [ checkingCurrPasswordMatch, setCheckingCurrPasswordMatch ] = useState(true);
+    const [ incorrectPassword, setIncorrectPassword ] = useState(false);
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+
+    useEffect(() => {
+        checkCurrPassword(props.userID, props.currPassword);
+    }, [])
 
     const openWarning = (message) => {
         alert(
@@ -31,7 +37,7 @@ const ResetPassword = (props) => {
         }
         console.log({userID})
         try {
-            const request = await fetch(`http://localhost:8000/users/${userID}/passwordReset`, {
+            const request = await fetch(`${FULL_URL}/users/${userID}/passwordReset`, {
                 method: 'PATCH',
                 headers: {
                   'Accept': 'application/json',
@@ -51,8 +57,57 @@ const ResetPassword = (props) => {
         } catch (err) { alert( err ) }
     }
 
+    const checkCurrPassword = async (userID, currPassword) => {
+        if(!currPassword || !userID){
+            setCheckingCurrPasswordMatch(false);
+            setIncorrectPassword(true);
+            return;
+        }
+        console.log({userID})
+        console.log({currPassword})
+        try {
+            const request = await fetch(`${FULL_URL}/users/checkResetCredentials`, {
+                method: 'POST',
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    password: currPassword,
+                    userID
+                })
+              })
+              const res = await request.json();
+              console.log('from backend', {res})
+              if(res && !res.success){
+                setCheckingCurrPasswordMatch(false);
+                setIncorrectPassword(true);
+                return;
+              } else {
+                setCheckingCurrPasswordMatch(false);
+                setIncorrectPassword(false);
+              }
+        } catch (err) { alert( err ) }
+    }
+
     const goToLogin = () => {
         router.push('/login');
+    }
+
+    if(checkingCurrPasswordMatch){
+        return (<div style={styles.container}>
+            <div style={styles.subcontainer}>
+                <div>Just making sure you've come to the right place...</div>
+            </div>
+        </div>)
+    }
+
+    if(incorrectPassword){
+        return (<div style={styles.container}>
+            <div style={styles.subcontainer}>
+                <div>Looks like you came here with a bad link.</div>
+            </div>
+        </div>)
     }
 
 
@@ -92,7 +147,7 @@ const ResetPassword = (props) => {
   };
 
   ResetPassword.getInitialProps = async ({ query }) => {
-    return { userID: query.userID }
+    return { userID: query.userID, currPassword: query.code }
   }
 
   const styles = {

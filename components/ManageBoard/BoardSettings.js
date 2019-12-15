@@ -108,7 +108,7 @@ const BoardSettings = (props) => {
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
 
     const generateTeams = () => {
-        return board.groups.teams.map((team, index) => {
+        return contextBoard.groups.teams.map((team, index) => {
             return (
                 <div key={`team-id-${index}`} style={{ ...styles.labelColumn, flexDirection: 'row', alignItems: 'center', marginTop: 10}}>
                     <span style={{ ...styles.inputLabel,  marginLeft: 5, marginRight: 5}}>Team Name: </span>
@@ -148,11 +148,11 @@ const BoardSettings = (props) => {
                             <img style={{ height: 20 }} src={'../../static/qr_code_white.png'} alt='qr code' />
                         </button>
                     }
-                    <div style={{ cursor: 'pointer' }} onClick={() => deleteTeam(team._id)}><img src={'../../static/trash.png'} alt='Delete' style={{ height: 30, marginLeft: 10 }} /></div>
+                    <div style={{ cursor: 'pointer' }} onClick={() => deleteTeam(team._id)}><img src={'../../static/GarbageCan.png'} alt='Delete' style={{ height: 40, marginLeft: 10 }} /></div>
                     <div style={{ display: 'none' }}>
                         <QRCode
                             id={team.accessCode}
-                            value={team.accessCode}
+                            value={`{"i": "${board._id}", "c": "${team.accessCode}"}`}
                             size={200}
                             level={"Q"}
                             includeMargin={false}
@@ -175,7 +175,7 @@ const BoardSettings = (props) => {
                         <span style={styles.inputLabel}>Title</span>
                         <input 
                             style={{ ...MASTER.wideRoundInput, marginTop: 5, width: 'auto', padding: '0 20px 0 20px', maxWidth: 700 }} 
-                            value={board.title} 
+                            value={contextBoard.title} 
                             onChange={e => changeRegularValues('title', e.target.value)} 
                             placeholder={'e.g. Sales'}
                         />
@@ -186,7 +186,7 @@ const BoardSettings = (props) => {
                         <span style={styles.inputLabel}>Description/Instructions/Hint</span>
                         <textarea 
                             style={{ ...MASTER.wideRoundTextArea, marginTop: 5, width: 'auto', padding: '5px 20px', maxWidth: 700 }} 
-                            value={board.description} 
+                            value={contextBoard.description} 
                             onChange={e => changeRegularValues('description', e.target.value)} 
                             placeholder={'e.g. To be done on the first day in a new office'}
                         />
@@ -253,6 +253,7 @@ const BoardSettings = (props) => {
                                     id: 'demo-controlled-open-select',
                                 }}
                             >
+                                <MenuItem value={10000}>10 seconds</MenuItem>
                                 <MenuItem value={900000}>15 minutes</MenuItem>
                                 <MenuItem value={1800000}>30 minutes</MenuItem>
                                 <MenuItem value={3600000}>1 hour</MenuItem>
@@ -266,6 +267,14 @@ const BoardSettings = (props) => {
                             : <span>None</span>
                             }
                     </div>
+                </div>
+                <div style={{ ...styles.labelColumn, marginTop: 15, flexDirection: 'row', alignItems: 'center'}}>
+                    <Switch
+                        onChange = {() => changeRegularValues('redeemRewards', !board.redeemRewards)}
+                        value = {board.redeemRewards}
+                        checked={board.redeemRewards}
+                    />
+                    <span style={{ ...styles.inputLabel,  marginLeft: 5}}>Rewards must be redeemed</span>
                 </div>
                 <div style={styles.row}>
                     <div style={{ ...styles.labelColumn, flexDirection: 'row', alignItems: 'center'}}>
@@ -299,7 +308,7 @@ const BoardSettings = (props) => {
                             <div style={{display: 'flex', alignItems: 'center'}}>
                                 <input 
                                     style={{ ...MASTER.wideRoundInput, marginTop: 5, width: 300, padding: '0 20px 0 20px', maxWidth: 700 }} 
-                                    value={board.accessCode} 
+                                    value={contextBoard.accessCode} 
                                     onChange={e => changeRegularValues('accessCode', e.target.value)} 
                                     placeholder={'e.g. Sales'}
                                 />
@@ -320,7 +329,7 @@ const BoardSettings = (props) => {
                                 <div className='QR-maker'>
                                     <QRCode
                                         id={board.accessCode}
-                                        value={board.accessCode}
+                                        value={`{"i": "${board._id}", "c": ""}`}
                                         size={200}
                                         level={"Q"}
                                         includeMargin={false}
@@ -435,6 +444,7 @@ const BoardSettings = (props) => {
           border: '1px solid black',
           marginRight: 10,
           textAlign: 'center',
+          color: 'white',
       },
       image: {
           width: '80%',

@@ -59,7 +59,7 @@ const ManageBoardContainer = (props) => {
                 <Tab label="Games" />
                 <Tab label="Rewards" />
             </Tabs>
-            <div style={{ borderTop: `1px solid ${COLORS.primary}`, maxHeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', overflowY: 'scroll' }}>
+            <div style={{ borderTop: `1px solid ${COLORS.primary}`, maxHeight: 800, display: 'flex', justifyContent: 'center', overflowY: 'scroll' }}>
                 {component}
             </div>
 

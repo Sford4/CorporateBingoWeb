@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
 import fetch from 'isomorphic-unfetch';
-// import FULL_URL from '../constants/constants';
+import FULL_URL from '../constants/constants';
 
 // context imports
 import { UserContext } from '../contexts/userContext';
@@ -32,7 +32,7 @@ const Login = () => {
             return;
         }
         try {
-            const request = await fetch(`http://localhost:8000/users/login`, {
+            const request = await fetch(`${FULL_URL}/users/login`, {
                 method: 'POST',
                 headers: {
                   'Accept': 'application/json',
@@ -61,6 +61,9 @@ const Login = () => {
         router.push('/signup');
     }
 
+    const goToForgotPassword = () => {
+        router.push('/forgotPassword');
+    }
 
     return (
         <div style={styles.container}>
@@ -92,6 +95,12 @@ const Login = () => {
                 >
                     <span style={MASTER.wideRoundBtnText}>No account yet? Signup!</span>
                 </button>
+                <button 
+                    style={{ ...MASTER.wideRoundBtn, marginTop: 20, backgroundColor: 'lightgray' }} 
+                    onClick={() => goToForgotPassword()}
+                >
+                    <span style={MASTER.wideRoundBtnText}>Forgot my password</span>
+                </button>
             </div>
         </div>
     )
@@ -115,7 +124,7 @@ const Login = () => {
         width: '100%',
         height: '100%',
         maxWidth: 400,
-    }
+    },
   }
   
   export default Login;

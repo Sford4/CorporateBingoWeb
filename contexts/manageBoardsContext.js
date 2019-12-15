@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import fetch from 'isomorphic-unfetch';
-// import FULL_URL from '../constants/constants';
+import FULL_URL from '../constants/constants';
 
 export const ManageBoardsContext = createContext();
 
@@ -18,7 +18,7 @@ const ManageBoardsContextProvider = (props) => {
             return;
         }
         try {
-            const request = await fetch(`http://localhost:8000/boards/${boardID}`, {
+            const request = await fetch(`${FULL_URL}/boards/${boardID}`, {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -33,7 +33,7 @@ const ManageBoardsContextProvider = (props) => {
 
     const newBoard = async (orgID) => {
         try {
-            const request = await fetch(`http://localhost:8000/boards`, {
+            const request = await fetch(`${FULL_URL}/boards`, {
                 method: 'POST',
                 headers: {
                   'Accept': 'application/json',
@@ -65,7 +65,7 @@ const ManageBoardsContextProvider = (props) => {
             contextBoard.groups.teams = teamsNoFrontendIDs;
         }
         try {
-            const request = await fetch(`http://localhost:8000/boards/${contextBoard._id}`, {
+            const request = await fetch(`${FULL_URL}/boards/${contextBoard._id}`, {
                 method: 'PATCH',
                 headers: {
                   'Accept': 'application/json',
@@ -92,7 +92,7 @@ const ManageBoardsContextProvider = (props) => {
 
     const getAllGamesForBoard = async boardID => {
         try {
-            const request = await fetch(`http://localhost:8000/boards/gamesForBoard/${boardID}`, {
+            const request = await fetch(`${FULL_URL}/boards/gamesForBoard/${boardID}`, {
                 method: 'GET',
                 headers: {
                         'Accept': 'application/json',

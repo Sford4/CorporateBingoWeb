@@ -126,15 +126,21 @@ const SquareBuilder = (props) => {
                 <input 
                     style={{ ...MASTER.wideRoundInput, marginTop: 2 }} 
                     value={task.squareText} 
-                    onChange={e => updateTask('squareText', e.target.value)} 
+                    onChange={e => {
+                        updateTask('squareText', e.target.value);
+                        setTask({...task, squareText: e.target.value});
+                    }} 
                     placeholder={'e.g. Two sales in one hour'}
-                    maxlength="90"
+                    maxLength="90"
                 />
                 <span style={styles.inputLabel}>Description</span>
                 <textarea
                     autoFocus
                     style={MASTER.wideRoundTextArea}
-                    onChange={(e) => updateTask('description', e.target.value)}
+                    onChange={(e) => {
+                        updateTask('description', e.target.value);
+                        setTask({...task, description: e.target.value});
+                    }}
                     value={task.description} 
                     placeholder={'e.g. Make two sales in one hour and enter their ids below!'}
                 />

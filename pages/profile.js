@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useContext } from 'react';
 import fetch from 'isomorphic-unfetch';
-// import FULL_URL from '../constants/constants';
+import FULL_URL from '../constants/constants';
 
 // context imports
 import { UserContext } from '../contexts/userContext';
@@ -58,7 +58,7 @@ const EditUser = (props) => {
         }
         console.log({userID})
         try {
-            const request = await fetch(`http://localhost:8000/users/${userID}`, {
+            const request = await fetch(`${FULL_URL}/users/${userID}`, {
                 method: 'PATCH',
                 headers: {
                   'Accept': 'application/json',
@@ -89,7 +89,7 @@ const EditUser = (props) => {
     const deleteUser = async () => {
         if(confirm(`Are you sure? This will delete ${userName} forever!`)){
             try {
-                const request = await fetch(`http://localhost:8000/users/${userID}`, {
+                const request = await fetch(`${FULL_URL}/users/${userID}`, {
                     method: 'DELETE',
                     headers: {
                       'Accept': 'application/json',

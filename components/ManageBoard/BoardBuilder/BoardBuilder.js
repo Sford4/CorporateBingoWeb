@@ -127,7 +127,7 @@ const styles = {
     maxWidth: 800,
     minWidth: 300,
     paddingHorizontal: 'auto',
-    padding: '3% 5%',
+    padding: '0 5%',
     marginTop: 12,
   },
 };

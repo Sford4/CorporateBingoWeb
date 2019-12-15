@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import fetch from 'isomorphic-unfetch';
-// import FULL_URL from '../constants/constants';
+import FULL_URL from '../constants/constants';
 
 export const OrgContext = createContext();
 
@@ -12,7 +12,7 @@ const OrgContextProvider = (props) => {
     const getOrg = async (orgID) => {
         console.log('in get org', orgID)
         try {
-            const request = await fetch(`http://localhost:8000/orgs/${orgID}`, {
+            const request = await fetch(`${FULL_URL}/orgs/${orgID}`, {
                 method: 'GET',
                 headers: {
                   'Accept': 'application/json',
@@ -28,7 +28,7 @@ const OrgContextProvider = (props) => {
     const saveOrg = async (orgToSave) => {
         console.log('in save org', orgToSave)
         try {
-            const request = await fetch(`http://localhost:8000/orgs/${orgToSave._id}`, {
+            const request = await fetch(`${FULL_URL}/orgs/${orgToSave._id}`, {
                 method: 'PATCH',
                 headers: {
                   'Accept': 'application/json',

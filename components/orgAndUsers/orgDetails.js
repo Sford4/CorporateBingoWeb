@@ -66,7 +66,10 @@ const OrgDetails = (props) => {
                         <input 
                             style={{ ...MASTER.wideRoundInput, marginTop: 5, width: 'auto', padding: '0 20px 0 20px', maxWidth: 700 }} 
                             value={org.name} 
-                            onChange={e => changeRegularValues('name', e.target.value)} 
+                            onChange={e => {
+                                changeRegularValues('name', e.target.value);
+                                setOrg({...org, name: e.target.value });
+                            }} 
                             placeholder={'e.g. Example Co'}
                         />
                     </div>
@@ -77,11 +80,11 @@ const OrgDetails = (props) => {
                 <div style={styles.row}>
                     <div style={{ ...styles.labelColumn, alignItems: 'center', flexDirection: 'row' }}>
                         <ChromePicker color={org.incompleteColor} onChange={(color, e) => changeRegularValues('incompleteColor', color.hex.substring(1, color.hex.length))} />
-                        <span className='incomplete-color' style={{ ...styles.exampleSquare, backgroundColor: `#${org.incompleteColor}`}}>Incomplete Square Example</span>
+                        <span className='incomplete-color' style={{ ...styles.exampleSquare, color: 'white', backgroundColor: `#${org.incompleteColor}`, textAlign: 'center'}}>Incomplete Square Example</span>
                     </div>
                     <div style={{ ...styles.labelColumn, alignItems: 'center', flexDirection: 'row' }}>
                         <ChromePicker color={org.completeColor} onChange={(color, e) => changeRegularValues('completeColor', color.hex.substring(1, color.hex.length))} />
-                        <span className='complete-color' style={{ ...styles.exampleSquare, backgroundColor: `#${org.completeColor}`}}>Complete Square Example</span>
+                        <span className='complete-color' style={{ ...styles.exampleSquare, color: 'white', backgroundColor: `#${org.completeColor}`, textAlign: 'center'}}>Complete Square Example</span>
                     </div>
                 </div>
                 <div style={{ ...styles.row, justifyContent: 'flex-start' }}>

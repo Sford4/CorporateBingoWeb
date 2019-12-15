@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import fetch from 'isomorphic-unfetch';
-// import FULL_URL from '../constants/constants';
+import FULL_URL from '../constants/constants';
 
 export const PlayContext = createContext();
 
@@ -16,7 +16,7 @@ const PlayContextProvider = (props) => {
         console.log({gameID})
         if(gameID && userID){
             try {
-                const request = await fetch(`http://localhost:8000/games/${gameID}/${userID}`, {
+                const request = await fetch(`${FULL_URL}/games/${gameID}/${userID}`, {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
@@ -35,7 +35,7 @@ const PlayContextProvider = (props) => {
         setContextGame(game);
         console.log('SAVING GAME');
         try {
-            const request = await fetch(`http://localhost:8000/games/${contextGame._id}`, {
+            const request = await fetch(`${FULL_URL}/games/${contextGame._id}`, {
                 method: 'PATCH',
                 headers: {
                   'Accept': 'application/json',

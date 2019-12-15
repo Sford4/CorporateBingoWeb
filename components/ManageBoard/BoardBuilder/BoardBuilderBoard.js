@@ -53,7 +53,7 @@ const DialogTitle = withStyles(materialStyles)(props => {
 
 const BoardBuilderBoard = (props) => {
 
-  const SQUARE_WIDTH = 90 / (Math.sqrt(props.board.numSquares) + 1);
+  const SQUARE_WIDTH = 60 / (Math.sqrt(props.board.numSquares) + 1);
 
   let taskNum = 1;
 
@@ -87,10 +87,11 @@ const BoardBuilderBoard = (props) => {
           if(!reward){
             return <div key={`empty${index}`} 
                       style={{
-                        width: `${SQUARE_WIDTH}%`,
+                        width: `${SQUARE_WIDTH}vw`,
+                        height: `${SQUARE_WIDTH}vw`,
                         paddingTop: `${SQUARE_WIDTH * .72}%`,
-                        maxWidth: 100,
-                        maxHeight: 100,
+                        maxWidth: 110,
+                        maxHeight: 110,
                       }} 
                     />;
           }
@@ -98,7 +99,8 @@ const BoardBuilderBoard = (props) => {
               <button 
                 key={`reward${index}`} 
                 style={{
-                  width: `${SQUARE_WIDTH}%`,
+                  width: `${SQUARE_WIDTH}vw`,
+                  height: `${SQUARE_WIDTH}vw`,
                   // paddingTop: `${SQUARE_WIDTH * .72}%`,
                   display: 'flex',
                   alignItems: 'center',
@@ -107,8 +109,8 @@ const BoardBuilderBoard = (props) => {
                   border: 'none',
                   outline: 'none',
                   cursor: 'pointer',
-                  maxWidth: 120,
-                  // maxHeight: 120,
+                  maxWidth: 110,
+                  maxHeight: 110,
                   position: 'relative',
                 }} 
                 onClick={() => openRewardBuilderPopup(reward)}
@@ -137,7 +139,8 @@ const BoardBuilderBoard = (props) => {
             return (
               <button key={`free${index}`} 
                 style={{ 
-                  width: `${SQUARE_WIDTH}%`,
+                  width: `${SQUARE_WIDTH}vw`,
+                  height: `${SQUARE_WIDTH}vw`,
                   paddingTop: `${SQUARE_WIDTH * .72}%`,
                   backgroundColor: `#${board.completeColor}`,
                   borderWidth: 1,
@@ -147,8 +150,8 @@ const BoardBuilderBoard = (props) => {
                   alignItems: 'center',
                   outline: 'none',
                   cursor: 'pointer',
-                  maxWidth: 120,
-                  // maxHeight: 120,
+                  maxWidth: 110,
+                  maxHeight: 110,
                   position: 'relative',
                   
                 }}
@@ -162,7 +165,8 @@ const BoardBuilderBoard = (props) => {
             <button 
               key={`task${index}`} 
               style={{
-                width: `${SQUARE_WIDTH}%`,
+                width: `${SQUARE_WIDTH}vw`,
+                height: `${SQUARE_WIDTH}vw`,
                 paddingTop: `${SQUARE_WIDTH * .72}%`,
                 backgroundColor: task.freeSquare ? `#${board.completeColor}` : `#${board.incompleteColor}`,
                 borderWidth: 1,
@@ -172,8 +176,8 @@ const BoardBuilderBoard = (props) => {
                 alignItems: 'center',
                 outline: 'none',
                 cursor: 'pointer',
-                maxWidth: 120,
-                // maxHeight: 120,
+                maxWidth: 110,
+                maxHeight: 110,
                 position: 'relative',
               }}
               onClick={() => openSquareBuilderPopup(task)}
@@ -185,10 +189,11 @@ const BoardBuilderBoard = (props) => {
           return (
             <div key={`empty${index}`} 
               style={{
-                width: `${SQUARE_WIDTH}%`,
+                width: `${SQUARE_WIDTH}vw`,
+                height: `${SQUARE_WIDTH}vw`,
                 paddingTop: `${SQUARE_WIDTH * .72}%`,
-                maxWidth: 120,
-                // maxHeight: 120,
+                maxWidth: 110,
+                maxHeight: 110,
                 position: 'relative',
               }} 
             />
@@ -197,10 +202,11 @@ const BoardBuilderBoard = (props) => {
           return (
             <div key={`empty${index}`} 
               style={{
-                width: `${SQUARE_WIDTH}%`,
+                width: `${SQUARE_WIDTH}vw`,
+                height: `${SQUARE_WIDTH}vw`,
                 paddingTop: `${SQUARE_WIDTH * .72}%`,
-                maxWidth: 120,
-                // maxHeight: 120,
+                maxWidth: 110,
+                maxHeight: 110,
                 position: 'relative',
               }} 
             />

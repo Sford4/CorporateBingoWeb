@@ -18,6 +18,9 @@ const SquareDetail = (props) => {
   const [isComplete, setIsComplete] = useState(task.complete);
 
   const generateTaskMethod = task => {
+    if(props.mustBeDoneInOrder && props.previousSquareComplete){
+      return <div>Must do previous square first!!!</div>
+    }
     switch (task.task.taskType) {
       case 'click':
         return <TaskClick task={task} updateTask={updateTask} completeSquare={setIsComplete} />;

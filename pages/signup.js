@@ -3,7 +3,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
 import fetch from 'isomorphic-unfetch';
-// import FULL_URL from '../constants/constants';
+import FULL_URL from '../constants/constants';
 
 // context imports
 import { UserContext } from '../contexts/userContext';
@@ -53,7 +53,7 @@ const Signup = () => {
             return;
         }
         try {
-            const request = await fetch(`http://localhost:8000/users/signup`, {
+            const request = await fetch(`${FULL_URL}/users/signup`, {
                 method: 'POST',
                 headers: {
                   'Accept': 'application/json',

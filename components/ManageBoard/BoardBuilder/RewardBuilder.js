@@ -129,22 +129,51 @@ const RewardBuilder = (props) => {
       <input 
             style={{ ...MASTER.wideRoundInput, marginTop: 2 }} 
             value={reward.title} 
-            onChange={e => updateReward('title', e.target.value)} 
+            onChange={e => {
+                updateReward('title', e.target.value);
+                setReward({...reward, title: e.target.value});
+            }} 
             placeholder={'e.g. $10 gift card!'}
         />
         <span style={styles.inputLabel}>Description</span>
         <textarea
             autoFocus
             style={MASTER.wideRoundTextArea}
-            onChange={(e) => updateReward('description', e.target.value)}
+            onChange={(e) => {
+                updateReward('description', e.target.value);
+                setReward({...reward, description: e.target.value});
+            }}
             value={reward.description} 
-            placeholder={'e.g. A gift card to any store you want!'}
+            placeholder={'e.g. A t shirt!'}
+        />
+         <span style={styles.inputLabel}>Item they'll earn (for their player record)</span>
+        <input 
+            style={{ ...MASTER.wideRoundInput, marginTop: 2 }} 
+            value={reward.item} 
+            onChange={e => {
+                updateReward('item', e.target.value);
+                setReward({...reward, item: e.target.value});
+            }} 
+            placeholder={'e.g. $10 gift card!'}
+        />
+         <span style={styles.inputLabel}>Points they'll earn (for their player record)</span>
+        <input 
+            style={{ ...MASTER.wideRoundInput, marginTop: 2 }} 
+            value={reward.points} 
+            onChange={e => {
+                updateReward('points', e.target.value);
+                setReward({...reward, points: e.target.value});
+            }} 
+            type="number"
         />
         <span style={styles.inputLabel}>How to earn</span>
         <textarea
             autoFocus
             style={MASTER.wideRoundTextArea}
-            onChange={(e) => updateReward('howToEarn', e.target.value)}
+            onChange={(e) => {
+                updateReward('howToEarn', e.target.value);
+                setReward({...reward, howToEarn: e.target.value});
+            }}
             value={reward.howToEarn} 
             placeholder={'e.g. Complete all the speed goals'}
             

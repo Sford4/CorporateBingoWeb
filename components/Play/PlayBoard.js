@@ -56,11 +56,26 @@ const PlayBoard = (props) => {
 
   const { contextGame, saveGame } = useContext(PlayContext);
 
-  const SQUARE_WIDTH = 90 / (Math.sqrt(contextGame.numSquares) + 1);
+  const SQUARE_WIDTH = 60 / (Math.sqrt(props.board.numSquares) + 1);
 
   let taskNum = 1;
+  let taskOrderNum = 0;
+
+  const getNumCompleted = squares => {
+    let numCompleted = 0;
+    squares.map(square => {
+      if(square.complete && !square.freeSquare){
+        numCompleted++;
+      } else if (!square.completed && !square.freeSquare){
+        return
+      }
+    })
+    return numCompleted;
+  }
 
   const [board, setBoard] = useState(props.board);
+  const [previousSquareComplete, setPreviousSquareComplete] = useState(true);
+  const [numCompleted, setNumCompleted] = useState(getNumCompleted(board.squares))
   const [rewardDialogOpen, setRewardDialogOpen] = useState(false);
   const [reward, setReward] = useState({});
   const [taskDialogOpen, setTaskDialogOpen] = useState(false);
@@ -71,13 +86,15 @@ const PlayBoard = (props) => {
     setReward(reward);
   }
 
-  const openTaskDetailPopup = (task) => {
+  const openTaskDetailPopup = (task, previousSquareComplete) => {
     setTaskDialogOpen(true);
     setTask(task);
+    setPreviousSquareComplete(previousSquareComplete);
   }
 
   useEffect(() => {
     setBoard(contextGame);
+    setNumCompleted(getNumCompleted(contextGame.squares));
   }, [contextGame])
 
   const updateTask = task => {
@@ -130,13 +147,14 @@ const PlayBoard = (props) => {
           if(!reward){
             return <div key={`empty${index}`} 
                       style={{
-                        width: !SOMETHING_RIGHT && (square.id.includes('row') || square.id.includes('diagonalUpRight')) ? 1 : `${SQUARE_WIDTH}%`,
+                        width: !SOMETHING_RIGHT && (square.id.includes('row') || square.id.includes('diagonalUpRight')) ? 1 : `${SQUARE_WIDTH}vw`,
+                        height: !SOMETHING_RIGHT && (square.id.includes('row') || square.id.includes('diagonalUpRight')) ? 1 : `${SQUARE_WIDTH}vw`,
                         // paddingTop: `${SQUARE_WIDTH * .72}%`,
                         // position: 'relative',
-                        maxWidth: 120,
-                        maxHeight: 100,
+                        maxWidth: 110,
+                        maxHeight: 110,
                         minWidth: !SOMETHING_RIGHT && (square.id.includes('row') || square.id.includes('diagonalUpRight')) ? 1 : 100,
-                        minHeight: 100,
+                        // minHeight: 100,
                       }} 
                     />;
           }
@@ -144,7 +162,8 @@ const PlayBoard = (props) => {
               <button 
                 key={`reward${index}`} 
                 style={{
-                  width: `${SQUARE_WIDTH}%`,
+                  width: `${SQUARE_WIDTH}vw`,
+                  height: `${SQUARE_WIDTH}vw`,
                   // paddingTop: `${SQUARE_WIDTH * .72}%`,
                   position: 'relative',
                   display: 'flex',
@@ -154,8 +173,8 @@ const PlayBoard = (props) => {
                   border: 'none',
                   outline: 'none',
                   cursor: 'pointer',
-                  maxWidth: 120,
-                  maxHeight: 100,
+                  maxWidth: 110,
+                  maxHeight: 110,
                   // minWidth: 100,
                   // minHeight: 100,
                 }} 
@@ -185,7 +204,8 @@ const PlayBoard = (props) => {
             return (
               <button key={`free${index}`} 
                 style={{ 
-                  width: `${SQUARE_WIDTH}%`,
+                  width: `${SQUARE_WIDTH}vw`,
+                  height: `${SQUARE_WIDTH}vw`,
                   // paddingTop: `${SQUARE_WIDTH * .72}%`,
                   position: 'relative',
                   backgroundColor: `#${contextGame.completeColor}`,
@@ -195,46 +215,55 @@ const PlayBoard = (props) => {
                   justifyContent: 'center',
                   alignItems: 'center',
                   outline: 'none',
-                  maxWidth: 120,
-                  maxHeight: 100,
+                  maxWidth: 110,
+                  maxHeight: 110,
                 }}
               >
                 <img style={MASTER.freeSquareIcon} src={'../../static/circle_check.png'} />
               </button>
             )
+          } else {
+            taskOrderNum++;
+            task.taskOrderNum = taskOrderNum;
+            return (
+              <button 
+                key={`task${index}`} 
+                style={{
+                  width: `${SQUARE_WIDTH}vw`,
+                  height: `${SQUARE_WIDTH}vw`,
+                  // paddingTop: `${SQUARE_WIDTH * .72}%`,
+                  position: 'relative',
+                  backgroundColor: task.complete ? `#${contextGame.completeColor}` : `#${contextGame.incompleteColor}`,
+                  borderWidth: 1,
+                  borderColor: 'black',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  outline: 'none',
+                  cursor: 'pointer',
+                  maxWidth: 110,
+                  maxHeight: 110,
+                }}
+                onClick={() => openTaskDetailPopup(
+                  task, 
+                  ((task.taskOrderNum - 1) !== numCompleted)
+                )}
+              >
+                {contextGame.mustBeDoneInOrder && <div style={{ ...MASTER.squareOrderNum, color: task.complete ? `#${contextGame.completeColor}` : `#${contextGame.incompleteColor}` }}>{taskOrderNum}</div>}
+                <div style={{ ...MASTER.squareText, maxHeight: 100 }}>{task.squareText}</div>
+              </button>
+            );
           }
-          return (
-            <button 
-              key={`task${index}`} 
-              style={{
-                width: `${SQUARE_WIDTH}%`,
-                // paddingTop: `${SQUARE_WIDTH * .72}%`,
-                position: 'relative',
-                backgroundColor: task.complete ? `#${contextGame.completeColor}` : `#${contextGame.incompleteColor}`,
-                borderWidth: 1,
-                borderColor: 'black',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                outline: 'none',
-                cursor: 'pointer',
-                maxWidth: 120,
-                maxHeight: 100,
-              }}
-              onClick={() => openTaskDetailPopup(task)}
-            >
-              <div style={{ ...MASTER.squareText, maxHeight: 100 }}>{task.squareText}</div>
-            </button>
-          );
         case 'empty':
           return (
             <div key={`empty${index}`} 
               style={{
-                width: `${SQUARE_WIDTH}%`,
+                width: `${SQUARE_WIDTH}vw`,
+                height: `${SQUARE_WIDTH}vw`,
                 // paddingTop: `${SQUARE_WIDTH * .72}%`,
                 position: 'relative',
-                maxWidth: 120,
-                maxHeight: 100,
+                maxWidth: 110,
+                maxHeight: 110,
               }} 
             />
           );
@@ -242,11 +271,12 @@ const PlayBoard = (props) => {
           return (
             <div key={`empty${index}`} 
               style={{
-                width: `${SQUARE_WIDTH}%`,
+                width: `${SQUARE_WIDTH}vw`,
+                height: `${SQUARE_WIDTH}vw`,
                 // paddingTop: `${SQUARE_WIDTH * .72}%`,
                 position: 'relative',
-                maxWidth: 120,
-                maxHeight: 100,
+                maxWidth: 110,
+                maxHeight: 110,
               }} 
             />
           );
@@ -255,7 +285,6 @@ const PlayBoard = (props) => {
   }
 
   const generateBoard = () => {
-    console.log('generating rows', contextGame)
     const template = boardTemplates[props.size];
     return template.spaces.map((row, index) => {
       return (
@@ -277,16 +306,20 @@ const PlayBoard = (props) => {
           <DialogTitle onClose={() => setRewardDialogOpen(false)}>
             REWARD
           </DialogTitle>
-          <RewardDetail reward={reward} />
+          <RewardDetail reward={reward} mustRedeem={contextGame.redeemRewards} />
         </Dialog>
         <Dialog open={taskDialogOpen} onBackdropClick={() => setTaskDialogOpen(false)}>
-        {console.log({task})}
            <DialogTitle onClose={() => setTaskDialogOpen(false)}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               TASK {task.hints && task.hints.length ? <PlayHints hints={task.hints} /> : null}
             </div>
           </DialogTitle>
-          <TaskDetail task={task} updateTask={updateTask} />
+          <TaskDetail 
+            task={task} 
+            updateTask={updateTask} 
+            previousSquareComplete={previousSquareComplete}
+            mustBeDoneInOrder={props.board.mustBeDoneInOrder}  
+          />
         </Dialog>
       </div>
     );

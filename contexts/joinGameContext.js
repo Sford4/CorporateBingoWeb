@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import fetch from 'isomorphic-unfetch';
-// import FULL_URL from '../constants/constants';
+import FULL_URL from '../constants/constants';
 
 export const JoinGameContext = createContext();
 
@@ -16,7 +16,7 @@ const JoinGameContextProvider = (props) => {
     const getAccessBoards = async (userID) => {
         console.log('getting access boards', userID)
         try {  
-            const request = await fetch(`http://localhost:8000/games/user/${userID}`, {
+            const request = await fetch(`${FULL_URL}/games/user/${userID}`, {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -34,7 +34,7 @@ const JoinGameContextProvider = (props) => {
 
     const findBoards = async (accessCode) => {
         try {
-            const request = await fetch(`http://localhost:8000/games/search`, {
+            const request = await fetch(`${FULL_URL}/games/search`, {
                 method: 'POST',
                 headers: {
                   'Accept': 'application/json',

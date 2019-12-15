@@ -5,5 +5,9 @@ const PORT = '8000';
 
 // export default FULL_URL = `${URL}:${PORT}`;
 
-export default FULL_URL = 'http://localhost:8000';
+const FULL_URL = 'http://localhost:8000';
+
+// const FULL_URL = 'http://ec2-3-86-157-120.compute-1.amazonaws.com:8000';
+
+export default FULL_URL; 
 

@@ -121,7 +121,7 @@ const updateGame = game => {
           <DialogTitle onClose={() => setRewardDialogOpen(false)}>
               REWARD
             </DialogTitle>
-          <RewardDetail reward={reward} openPopup={setRewardDialogOpen} />
+          <RewardDetail reward={reward} mustRedeem={game.redeemRewards} openPopup={setRewardDialogOpen} />
         </Dialog>
       </Layout>
     );

@@ -24,7 +24,9 @@ const SideNav = (props) => {
     }
     router.events.on('routeChangeComplete', handleRouteChangeComplete)
 
-
+    const addDefaultPic = (ev) => {
+        ev.target.src = "https://i.ytimg.com/vi/bKcF7JUbCpo/maxresdefault.jpg";
+    };
 
     const handleLogoutClick = () => {
         logout();
@@ -38,8 +40,9 @@ const SideNav = (props) => {
         <div id='sidenav' style={{ borderRight: `2px solid ${COLORS.primary}` }}>
             <img 
                 alt='Bingo Builder' 
-                src={'../static/bingoBuilderLogo.png'} 
+                src={'/static/bingoBuilderLogo.png'} 
                 style={{ width: '90%', margin: '10px 0 10px 0' }}
+                onError={addDefaultPic}
             />
             <Link href='/joinGame'><a className='sidenavLink' style={currRoute && currRoute.includes('joinGame') ? styles.currLink : styles.link}>JOIN GAME</a></Link>
             {user && user.role.level < 3 && <Link href='/manageBoards'><a className='sidenavLink' style={currRoute && currRoute.includes('manageBoards') ? styles.currLink : styles.link}>MANAGE BOARDS</a></Link>}
