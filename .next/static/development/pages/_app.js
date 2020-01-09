@@ -11,8 +11,9 @@
 __webpack_require__.r(__webpack_exports__);
 var URL = "http://localhost";
 var PORT = '8000'; // export default FULL_URL = `${URL}:${PORT}`;
+// const FULL_URL = 'http://localhost:8000';
 
-var FULL_URL = 'http://localhost:8000'; // const FULL_URL = 'http://ec2-3-86-157-120.compute-1.amazonaws.com:8000';
+var FULL_URL = 'https://api.gamifytech.com/v1'; // const FULL_URL = 'http://ec2-3-86-157-120.compute-1.amazonaws.com:8000';
 
 /* harmony default export */ __webpack_exports__["default"] = (FULL_URL);
 
@@ -28,10 +29,10 @@ var FULL_URL = 'http://localhost:8000'; // const FULL_URL = 'http://ec2-3-86-157
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "JoinGameContext", function() { return JoinGameContext; });
-/* harmony import */ var _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/json/stringify */ "./node_modules/@babel/runtime-corejs2/core-js/json/stringify.js");
-/* harmony import */ var _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs2/regenerator */ "./node_modules/@babel/runtime-corejs2/regenerator/index.js");
-/* harmony import */ var _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/regenerator */ "./node_modules/@babel/runtime-corejs2/regenerator/index.js");
+/* harmony import */ var _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/json/stringify */ "./node_modules/@babel/runtime-corejs2/core-js/json/stringify.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _babel_runtime_corejs2_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime-corejs2/helpers/esm/asyncToGenerator.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
@@ -75,22 +76,25 @@ var JoinGameContextProvider = function JoinGameContextProvider(props) {
   function () {
     var _ref = Object(_babel_runtime_corejs2_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__["default"])(
     /*#__PURE__*/
-    _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee(userID) {
+    _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(userID) {
       var request, result;
-      return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee$(_context) {
+      return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               console.log('getting access boards', userID);
               _context.prev = 1;
               _context.next = 4;
-              return isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_5___default()("".concat(_constants_constants__WEBPACK_IMPORTED_MODULE_6__["default"], "/games/user/").concat(userID), {
-                method: 'GET',
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json',
-                  'Authorization': "Bearer ".concat(localStorage.getItem('bingo_token'))
-                }
+              return isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_5___default()("".concat(_constants_constants__WEBPACK_IMPORTED_MODULE_6__["default"], "/games/user"), {
+                method: 'POST',
+                // headers: {
+                //     'Accept': 'application/json',
+                //     'Content-Type': 'application/json',
+                //     'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+                // },
+                body: _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_1___default()({
+                  userID: userID
+                })
               });
 
             case 4:
@@ -132,9 +136,9 @@ var JoinGameContextProvider = function JoinGameContextProvider(props) {
   function () {
     var _ref2 = Object(_babel_runtime_corejs2_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__["default"])(
     /*#__PURE__*/
-    _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee2(accessCode) {
+    _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(accessCode) {
       var request, success;
-      return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee2$(_context2) {
+      return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
@@ -142,12 +146,12 @@ var JoinGameContextProvider = function JoinGameContextProvider(props) {
               _context2.next = 3;
               return isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_5___default()("".concat(_constants_constants__WEBPACK_IMPORTED_MODULE_6__["default"], "/games/search"), {
                 method: 'POST',
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json',
-                  'Authorization': "Bearer ".concat(localStorage.getItem('bingo_token'))
-                },
-                body: _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0___default()({
+                // headers: {
+                //   'Accept': 'application/json',
+                //   'Content-Type': 'application/json',
+                //   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+                // },
+                body: _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_1___default()({
                   accessCode: accessCode,
                   gamesAlreadyFound: usedGameIDs,
                   boardsAlreadyFound: usedBoardIDs
@@ -211,7 +215,7 @@ var JoinGameContextProvider = function JoinGameContextProvider(props) {
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 68
+      lineNumber: 71
     },
     __self: this
   }, props.children);
@@ -232,10 +236,10 @@ var JoinGameContextProvider = function JoinGameContextProvider(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ManageBoardsContext", function() { return ManageBoardsContext; });
 /* harmony import */ var _babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/objectSpread */ "./node_modules/@babel/runtime-corejs2/helpers/esm/objectSpread.js");
-/* harmony import */ var _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/json/stringify */ "./node_modules/@babel/runtime-corejs2/core-js/json/stringify.js");
-/* harmony import */ var _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime-corejs2/regenerator */ "./node_modules/@babel/runtime-corejs2/regenerator/index.js");
-/* harmony import */ var _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs2/regenerator */ "./node_modules/@babel/runtime-corejs2/regenerator/index.js");
+/* harmony import */ var _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/json/stringify */ "./node_modules/@babel/runtime-corejs2/core-js/json/stringify.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _babel_runtime_corejs2_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime-corejs2/helpers/esm/asyncToGenerator.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__);
@@ -254,6 +258,9 @@ var __jsx = react__WEBPACK_IMPORTED_MODULE_4___default.a.createElement;
 
 
 
+
+var uuidv4 = __webpack_require__(/*! uuid/v4 */ "./node_modules/uuid/v4.js");
+
 var ManageBoardsContext = Object(react__WEBPACK_IMPORTED_MODULE_4__["createContext"])();
 
 var ManageBoardsContextProvider = function ManageBoardsContextProvider(props) {
@@ -271,116 +278,119 @@ var ManageBoardsContextProvider = function ManageBoardsContextProvider(props) {
       stuffToSave = _useState3[0],
       setStuffToSave = _useState3[1];
 
-  var getBoard =
+  var newBoard =
   /*#__PURE__*/
   function () {
     var _ref = Object(_babel_runtime_corejs2_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_3__["default"])(
     /*#__PURE__*/
-    _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_2___default.a.mark(function _callee(boardID) {
-      var request, board;
-      return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_2___default.a.wrap(function _callee$(_context) {
+    _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee(orgID) {
+      var request, boardID;
+      return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              if (!(boardID && contextBoard._id === boardID)) {
-                _context.next = 3;
-                break;
-              }
-
-              console.log('go with same board', contextBoard, boardID);
-              return _context.abrupt("return");
-
-            case 3:
-              _context.prev = 3;
-              _context.next = 6;
-              return isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_6___default()("".concat(_constants_constants__WEBPACK_IMPORTED_MODULE_7__["default"], "/boards/").concat(boardID), {
-                method: 'GET',
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json',
-                  'Authorization': "Bearer ".concat(localStorage.getItem('bingo_token'))
-                }
-              });
-
-            case 6:
-              request = _context.sent;
-              _context.next = 9;
-              return request.json();
-
-            case 9:
-              board = _context.sent;
-              setContextBoard(board);
-              _context.next = 16;
-              break;
-
-            case 13:
-              _context.prev = 13;
-              _context.t0 = _context["catch"](3);
-              alert(_context.t0);
-
-            case 16:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, _callee, null, [[3, 13]]);
-    }));
-
-    return function getBoard(_x) {
-      return _ref.apply(this, arguments);
-    };
-  }();
-
-  var newBoard =
-  /*#__PURE__*/
-  function () {
-    var _ref2 = Object(_babel_runtime_corejs2_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_3__["default"])(
-    /*#__PURE__*/
-    _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_2___default.a.mark(function _callee2(orgID) {
-      var request, boardID;
-      return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_2___default.a.wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              _context2.prev = 0;
-              _context2.next = 3;
+              _context.prev = 0;
+              _context.next = 3;
               return isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_6___default()("".concat(_constants_constants__WEBPACK_IMPORTED_MODULE_7__["default"], "/boards"), {
                 method: 'POST',
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json',
-                  'Authorization': "Bearer ".concat(localStorage.getItem('bingo_token'))
-                },
-                body: _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_1___default()({
+                // headers: {
+                //   'Accept': 'application/json',
+                //   'Content-Type': 'application/json',
+                //   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+                // },
+                body: _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_2___default()({
                   orgID: orgID
                 })
               });
 
             case 3:
-              request = _context2.sent;
-              _context2.next = 6;
+              request = _context.sent;
+              _context.next = 6;
               return request.json();
 
             case 6:
-              boardID = _context2.sent;
+              boardID = _context.sent;
+              console.log({
+                boardID: boardID
+              });
               router.push("/manageBoards/".concat(boardID));
-              _context2.next = 13;
+              _context.next = 14;
               break;
 
-            case 10:
-              _context2.prev = 10;
-              _context2.t0 = _context2["catch"](0);
-              alert(_context2.t0);
+            case 11:
+              _context.prev = 11;
+              _context.t0 = _context["catch"](0);
+              alert(_context.t0);
+
+            case 14:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, null, [[0, 11]]);
+    }));
+
+    return function newBoard(_x) {
+      return _ref.apply(this, arguments);
+    };
+  }();
+
+  var getBoard =
+  /*#__PURE__*/
+  function () {
+    var _ref2 = Object(_babel_runtime_corejs2_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_3__["default"])(
+    /*#__PURE__*/
+    _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee2(boardID) {
+      var request, board;
+      return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              if (!(boardID && contextBoard.id === boardID)) {
+                _context2.next = 3;
+                break;
+              }
+
+              console.log('go with same board', contextBoard, boardID);
+              return _context2.abrupt("return");
+
+            case 3:
+              _context2.prev = 3;
+              _context2.next = 6;
+              return isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_6___default()("".concat(_constants_constants__WEBPACK_IMPORTED_MODULE_7__["default"], "/boards/").concat(boardID), {
+                method: 'POST' // headers: {
+                //     'Accept': 'application/json',
+                //     'Content-Type': 'application/json',
+                //     'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+                // },
+
+              });
+
+            case 6:
+              request = _context2.sent;
+              _context2.next = 9;
+              return request.json();
+
+            case 9:
+              board = _context2.sent;
+              setContextBoard(board);
+              _context2.next = 16;
+              break;
 
             case 13:
+              _context2.prev = 13;
+              _context2.t0 = _context2["catch"](3);
+              alert(_context2.t0);
+
+            case 16:
             case "end":
               return _context2.stop();
           }
         }
-      }, _callee2, null, [[0, 10]]);
+      }, _callee2, null, [[3, 13]]);
     }));
 
-    return function newBoard(_x2) {
+    return function getBoard(_x2) {
       return _ref2.apply(this, arguments);
     };
   }();
@@ -390,38 +400,39 @@ var ManageBoardsContextProvider = function ManageBoardsContextProvider(props) {
   function () {
     var _ref3 = Object(_babel_runtime_corejs2_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_3__["default"])(
     /*#__PURE__*/
-    _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_2___default.a.mark(function _callee3() {
+    _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee3() {
       var teamsNoFrontendIDs, request, success;
-      return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_2___default.a.wrap(function _callee3$(_context3) {
+      return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
               console.log('SAVING');
 
-              if (contextBoard.groups.useTeams) {
-                teamsNoFrontendIDs = contextBoard.groups.teams.map(function (team) {
-                  if (!team._id || team._id.includes('team')) {
+              if (contextBoard.useTeams) {
+                teamsNoFrontendIDs = contextBoard.teams.map(function (team) {
+                  if (!team.id || team.id.includes('team')) {
                     return {
                       name: team.name,
-                      accessCode: team.accessCode
+                      accessCode: team.accessCode,
+                      id: uuidv4()
                     };
                   }
 
                   return team;
                 });
-                contextBoard.groups.teams = teamsNoFrontendIDs;
+                contextBoard.teams = teamsNoFrontendIDs;
               }
 
               _context3.prev = 2;
               _context3.next = 5;
-              return isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_6___default()("".concat(_constants_constants__WEBPACK_IMPORTED_MODULE_7__["default"], "/boards/").concat(contextBoard._id), {
-                method: 'PATCH',
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json',
-                  'Authorization': "Bearer ".concat(localStorage.getItem('bingo_token'))
-                },
-                body: _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_1___default()(Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, contextBoard, {
+              return isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_6___default()("".concat(_constants_constants__WEBPACK_IMPORTED_MODULE_7__["default"], "/boards/update/").concat(contextBoard.id), {
+                method: 'POST',
+                // headers: {
+                //   'Accept': 'application/json',
+                //   'Content-Type': 'application/json',
+                //   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+                // },
+                body: _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_2___default()(Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, contextBoard, {
                   modified: new Date()
                 }))
               });
@@ -439,7 +450,7 @@ var ManageBoardsContextProvider = function ManageBoardsContextProvider(props) {
 
               if (success) {
                 setStuffToSave(false);
-                setContextBoard(success.board);
+                setContextBoard(success);
               } else {
                 alert('There was a problem saving your board... please try again later!');
               }
@@ -470,21 +481,21 @@ var ManageBoardsContextProvider = function ManageBoardsContextProvider(props) {
   function () {
     var _ref4 = Object(_babel_runtime_corejs2_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_3__["default"])(
     /*#__PURE__*/
-    _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_2___default.a.mark(function _callee4(boardID) {
+    _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee4(boardID) {
       var request, games;
-      return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_2___default.a.wrap(function _callee4$(_context4) {
+      return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee4$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
             case 0:
               _context4.prev = 0;
               _context4.next = 3;
               return isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_6___default()("".concat(_constants_constants__WEBPACK_IMPORTED_MODULE_7__["default"], "/boards/gamesForBoard/").concat(boardID), {
-                method: 'GET',
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json',
-                  'Authorization': "Bearer ".concat(localStorage.getItem('bingo_token'))
-                }
+                method: 'GET' // headers: {
+                //         'Accept': 'application/json',
+                //         'Content-Type': 'application/json',
+                //         'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+                //     },
+
               });
 
             case 3:
@@ -530,7 +541,7 @@ var ManageBoardsContextProvider = function ManageBoardsContextProvider(props) {
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 110
+      lineNumber: 113
     },
     __self: this
   }, props.children);
@@ -575,9 +586,17 @@ var OrgContextProvider = function OrgContextProvider(props) {
       org = _useState[0],
       setOrg = _useState[1];
 
-  var _useState2 = Object(react__WEBPACK_IMPORTED_MODULE_3__["useState"])(false),
-      stuffToSave = _useState2[0],
-      setStuffToSave = _useState2[1];
+  var _useState2 = Object(react__WEBPACK_IMPORTED_MODULE_3__["useState"])([]),
+      users = _useState2[0],
+      setUsers = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_3__["useState"])([]),
+      boards = _useState3[0],
+      setBoards = _useState3[1];
+
+  var _useState4 = Object(react__WEBPACK_IMPORTED_MODULE_3__["useState"])(false),
+      stuffToSave = _useState4[0],
+      setStuffToSave = _useState4[1];
 
   var getOrg =
   /*#__PURE__*/
@@ -595,12 +614,12 @@ var OrgContextProvider = function OrgContextProvider(props) {
               _context.prev = 1;
               _context.next = 4;
               return isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_4___default()("".concat(_constants_constants__WEBPACK_IMPORTED_MODULE_5__["default"], "/orgs/").concat(orgID), {
-                method: 'GET',
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json',
-                  'Authorization': "Bearer ".concat(localStorage.getItem('bingo_token'))
-                }
+                method: 'POST' // headers: {
+                //   'Accept': 'application/json',
+                //   'Content-Type': 'application/json',
+                //   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+                // },
+
               });
 
             case 4:
@@ -610,21 +629,24 @@ var OrgContextProvider = function OrgContextProvider(props) {
 
             case 7:
               _org = _context.sent;
+              console.log('GOT ORG', _org);
+              setUsers(_org.userList);
+              setBoards(_org.boards);
               setOrg(_org);
-              _context.next = 14;
+              _context.next = 17;
               break;
 
-            case 11:
-              _context.prev = 11;
+            case 14:
+              _context.prev = 14;
               _context.t0 = _context["catch"](1);
               alert(_context.t0);
 
-            case 14:
+            case 17:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[1, 11]]);
+      }, _callee, null, [[1, 14]]);
     }));
 
     return function getOrg(_x) {
@@ -647,13 +669,13 @@ var OrgContextProvider = function OrgContextProvider(props) {
               console.log('in save org', orgToSave);
               _context2.prev = 1;
               _context2.next = 4;
-              return isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_4___default()("".concat(_constants_constants__WEBPACK_IMPORTED_MODULE_5__["default"], "/orgs/").concat(orgToSave._id), {
-                method: 'PATCH',
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json',
-                  'Authorization': "Bearer ".concat(localStorage.getItem('bingo_token'))
-                },
+              return isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_4___default()("".concat(_constants_constants__WEBPACK_IMPORTED_MODULE_5__["default"], "/orgs/update/").concat(orgToSave.id), {
+                method: 'POST',
+                // headers: {
+                //   'Accept': 'application/json',
+                //   'Content-Type': 'application/json',
+                //   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+                // },
                 body: _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0___default()(orgToSave)
               });
 
@@ -690,15 +712,19 @@ var OrgContextProvider = function OrgContextProvider(props) {
   return __jsx(OrgContext.Provider, {
     value: {
       contextOrg: org,
+      contextOrgUsers: users,
+      contextOrgBoards: boards,
       updateOrg: setOrg,
       getOrg: getOrg,
       saveOrg: saveOrg,
       setStuffToSave: setStuffToSave,
-      stuffToSave: stuffToSave
+      stuffToSave: stuffToSave,
+      contextSetUsers: setUsers,
+      setBoards: setBoards
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 47
+      lineNumber: 52
     },
     __self: this
   }, props.children);
@@ -756,7 +782,7 @@ var PlayContextProvider = function PlayContextProvider(props) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              if (!(gameID && contextGame._id === gameID)) {
+              if (!(gameID && contextGame.id === gameID)) {
                 _context.next = 3;
                 break;
               }
@@ -777,12 +803,12 @@ var PlayContextProvider = function PlayContextProvider(props) {
               _context.prev = 5;
               _context.next = 8;
               return isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_5___default()("".concat(_constants_constants__WEBPACK_IMPORTED_MODULE_6__["default"], "/games/").concat(gameID, "/").concat(userID), {
-                method: 'GET',
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json',
-                  'Authorization': "Bearer ".concat(localStorage.getItem('bingo_token'))
-                }
+                method: 'POST' // headers: {
+                //     'Accept': 'application/json',
+                //     'Content-Type': 'application/json',
+                //     'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+                // },
+
               });
 
             case 8:
@@ -832,13 +858,13 @@ var PlayContextProvider = function PlayContextProvider(props) {
               console.log('SAVING GAME');
               _context2.prev = 2;
               _context2.next = 5;
-              return isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_5___default()("".concat(_constants_constants__WEBPACK_IMPORTED_MODULE_6__["default"], "/games/").concat(contextGame._id), {
-                method: 'PATCH',
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json',
-                  'Authorization': "Bearer ".concat(localStorage.getItem('bingo_token'))
-                },
+              return isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_5___default()("".concat(_constants_constants__WEBPACK_IMPORTED_MODULE_6__["default"], "/games/update/").concat(contextGame.id), {
+                method: 'POST',
+                // headers: {
+                //   'Accept': 'application/json',
+                //   'Content-Type': 'application/json',
+                //   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+                // },
                 body: _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_1___default()(Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, game))
               });
 
@@ -941,16 +967,20 @@ var UserContextProvider = function UserContextProvider(props) {
       }
 
       localStorage.setItem('bingo_user', _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0___default()({
-        userName: user.userName,
+        userAlias: user.userAlias,
         email: user.email,
-        role: user.role,
-        _id: user._id
+        roleLevel: user.roleLevel,
+        org: user.org,
+        orgName: user.orgName,
+        id: user.id
       }));
       setUser({
-        userName: user.userName,
+        userAlias: user.userAlias,
         email: user.email,
-        role: user.role,
-        _id: user._id
+        roleLevel: user.roleLevel,
+        org: user.org,
+        orgName: user.orgName,
+        id: user.id
       });
     } else {
       alert('Something went wrong logging you in, please try again!');
@@ -973,7 +1003,7 @@ var UserContextProvider = function UserContextProvider(props) {
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 47
+      lineNumber: 51
     },
     __self: this
   }, props.children);
@@ -12320,6 +12350,126 @@ module.exports = {
     return arg == null;
   }
 };
+
+
+/***/ }),
+
+/***/ "./node_modules/uuid/lib/bytesToUuid.js":
+/*!**********************************************!*\
+  !*** ./node_modules/uuid/lib/bytesToUuid.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/**
+ * Convert array of 16 byte values to UUID string format of the form:
+ * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+ */
+var byteToHex = [];
+for (var i = 0; i < 256; ++i) {
+  byteToHex[i] = (i + 0x100).toString(16).substr(1);
+}
+
+function bytesToUuid(buf, offset) {
+  var i = offset || 0;
+  var bth = byteToHex;
+  // join used to fix memory issue caused by concatenation: https://bugs.chromium.org/p/v8/issues/detail?id=3175#c4
+  return ([bth[buf[i++]], bth[buf[i++]], 
+	bth[buf[i++]], bth[buf[i++]], '-',
+	bth[buf[i++]], bth[buf[i++]], '-',
+	bth[buf[i++]], bth[buf[i++]], '-',
+	bth[buf[i++]], bth[buf[i++]], '-',
+	bth[buf[i++]], bth[buf[i++]],
+	bth[buf[i++]], bth[buf[i++]],
+	bth[buf[i++]], bth[buf[i++]]]).join('');
+}
+
+module.exports = bytesToUuid;
+
+
+/***/ }),
+
+/***/ "./node_modules/uuid/lib/rng-browser.js":
+/*!**********************************************!*\
+  !*** ./node_modules/uuid/lib/rng-browser.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// Unique ID creation requires a high quality random # generator.  In the
+// browser this is a little complicated due to unknown quality of Math.random()
+// and inconsistent support for the `crypto` API.  We do the best we can via
+// feature-detection
+
+// getRandomValues needs to be invoked in a context where "this" is a Crypto
+// implementation. Also, find the complete implementation of crypto on IE11.
+var getRandomValues = (typeof(crypto) != 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto)) ||
+                      (typeof(msCrypto) != 'undefined' && typeof window.msCrypto.getRandomValues == 'function' && msCrypto.getRandomValues.bind(msCrypto));
+
+if (getRandomValues) {
+  // WHATWG crypto RNG - http://wiki.whatwg.org/wiki/Crypto
+  var rnds8 = new Uint8Array(16); // eslint-disable-line no-undef
+
+  module.exports = function whatwgRNG() {
+    getRandomValues(rnds8);
+    return rnds8;
+  };
+} else {
+  // Math.random()-based (RNG)
+  //
+  // If all else fails, use Math.random().  It's fast, but is of unspecified
+  // quality.
+  var rnds = new Array(16);
+
+  module.exports = function mathRNG() {
+    for (var i = 0, r; i < 16; i++) {
+      if ((i & 0x03) === 0) r = Math.random() * 0x100000000;
+      rnds[i] = r >>> ((i & 0x03) << 3) & 0xff;
+    }
+
+    return rnds;
+  };
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/uuid/v4.js":
+/*!*********************************!*\
+  !*** ./node_modules/uuid/v4.js ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var rng = __webpack_require__(/*! ./lib/rng */ "./node_modules/uuid/lib/rng-browser.js");
+var bytesToUuid = __webpack_require__(/*! ./lib/bytesToUuid */ "./node_modules/uuid/lib/bytesToUuid.js");
+
+function v4(options, buf, offset) {
+  var i = buf && offset || 0;
+
+  if (typeof(options) == 'string') {
+    buf = options === 'binary' ? new Array(16) : null;
+    options = null;
+  }
+  options = options || {};
+
+  var rnds = options.random || (options.rng || rng)();
+
+  // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
+  rnds[6] = (rnds[6] & 0x0f) | 0x40;
+  rnds[8] = (rnds[8] & 0x3f) | 0x80;
+
+  // Copy bytes to buffer, if provided
+  if (buf) {
+    for (var ii = 0; ii < 16; ++ii) {
+      buf[i + ii] = rnds[ii];
+    }
+  }
+
+  return buf || bytesToUuid(rnds);
+}
+
+module.exports = v4;
 
 
 /***/ }),

@@ -10,7 +10,7 @@ const BoardRewards = () => {
 
     const router = useRouter()
 
-    const [userName, setUserName] = useState('');
+    const [userAlias, setUserName] = useState('');
     const [password, setPassword] = useState('');
 
 

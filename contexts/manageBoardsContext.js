@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import fetch from 'isomorphic-unfetch';
 import FULL_URL from '../constants/constants';
+const uuidv4 = require('uuid/v4');
 
 export const ManageBoardsContext = createContext();
 
@@ -12,66 +13,68 @@ const ManageBoardsContextProvider = (props) => {
     const [ gamesForBoard, setGamesForBoard ] = useState([]);
     const [ stuffToSave, setStuffToSave ] = useState(false);
 
+    const newBoard = async (orgID) => {
+        try {
+            const request = await fetch(`${FULL_URL}/boards`, {
+                method: 'POST',
+                // headers: {
+                //   'Accept': 'application/json',
+                //   'Content-Type': 'application/json',
+                //   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+                // },
+                body: JSON.stringify({
+                    orgID: orgID
+                })
+              })
+              const boardID = await request.json();
+              console.log({boardID})
+              router.push(`/manageBoards/${boardID}`);
+
+        } catch(err) {alert(err)}
+    }
+
     const getBoard = async (boardID) => {
-        if(boardID && contextBoard._id === boardID){
+        if(boardID && contextBoard.id === boardID){
             console.log('go with same board', contextBoard, boardID)
             return;
         }
         try {
             const request = await fetch(`${FULL_URL}/boards/${boardID}`, {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
-                },
+                method: 'POST',
+                // headers: {
+                //     'Accept': 'application/json',
+                //     'Content-Type': 'application/json',
+                //     'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+                // },
                 })
                 const board = await request.json();
                 setContextBoard(board);
         } catch(err) {alert(err)}
     }
 
-    const newBoard = async (orgID) => {
-        try {
-            const request = await fetch(`${FULL_URL}/boards`, {
-                method: 'POST',
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
-                },
-                body: JSON.stringify({
-                    orgID: orgID
-                })
-              })
-              const boardID = await request.json();
-              router.push(`/manageBoards/${boardID}`);
-
-        } catch(err) {alert(err)}
-    }
-
     const saveBoard = async () => {
         console.log('SAVING');
-        if(contextBoard.groups.useTeams){
-            const teamsNoFrontendIDs = contextBoard.groups.teams.map(team => {
-                if(!team._id || team._id.includes('team')){
+        if(contextBoard.useTeams){
+            const teamsNoFrontendIDs = contextBoard.teams.map(team => {
+                if(!team.id || team.id.includes('team')){
                     return {
                         name: team.name,
-                        accessCode: team.accessCode
+                        accessCode: team.accessCode,
+                        id: uuidv4()
                     }
                 }
                 return team
             })
-            contextBoard.groups.teams = teamsNoFrontendIDs;
+            contextBoard.teams = teamsNoFrontendIDs;
         }
         try {
-            const request = await fetch(`${FULL_URL}/boards/${contextBoard._id}`, {
-                method: 'PATCH',
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
-                },
+            const request = await fetch(`${FULL_URL}/boards/update/${contextBoard.id}`, {
+                method: 'POST',
+                // headers: {
+                //   'Accept': 'application/json',
+                //   'Content-Type': 'application/json',
+                //   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+                // },
                 body: JSON.stringify({
                     ...contextBoard,
                     modified: new Date(),
@@ -81,7 +84,7 @@ const ManageBoardsContextProvider = (props) => {
               console.log({success})
               if(success){
                 setStuffToSave(false);
-                setContextBoard(success.board);
+                setContextBoard(success);
               } else {
                   alert('There was a problem saving your board... please try again later!')
               }
@@ -94,11 +97,11 @@ const ManageBoardsContextProvider = (props) => {
         try {
             const request = await fetch(`${FULL_URL}/boards/gamesForBoard/${boardID}`, {
                 method: 'GET',
-                headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
-                    },
+                // headers: {
+                //         'Accept': 'application/json',
+                //         'Content-Type': 'application/json',
+                //         'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+                //     },
                 })
                 const games = await request.json();
                 setGamesForBoard(!games.length ? ['none'] : games);

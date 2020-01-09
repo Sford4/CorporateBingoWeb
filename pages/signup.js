@@ -17,13 +17,13 @@ const Signup = () => {
 
     const router = useRouter()
 
-    const [userName, setUserName] = useState('');
+    const [userAlias, setUserName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
     useEffect(() => {
-        if(user._id && localStorage.getItem('bingo_token')){
+        if(user.id && localStorage.getItem('bingo_token')){
             router.push('/joinGame');
         }
       }, [user])
@@ -40,8 +40,8 @@ const Signup = () => {
     }
     
     const signup = async () => {
-        if(!userName){
-            openWarning('Must have a username!');
+        if(!userAlias){
+            openWarning('Must have a userAlias!');
             return;
         }
         if(!email || !validEmail(email)){
@@ -60,13 +60,11 @@ const Signup = () => {
                   'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    userName,
+                    userAlias,
                     email,
                     password,
-                    role: {
-                        org: null,
-                        level: 3
-                    },
+                    roleLevel: 3,
+                    org: null,
                 })
               })
               const user = await request.json();
@@ -86,7 +84,7 @@ const Signup = () => {
                 <div style={MASTER.pageTitle}>SIGNUP</div>
                 <input 
                     style={MASTER.wideRoundInput} 
-                    value={userName} 
+                    value={userAlias} 
                     onChange={e => setUserName(e.target.value)} 
                     placeholder={'User Name'}
                 />

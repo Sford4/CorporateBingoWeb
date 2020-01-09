@@ -93,7 +93,7 @@ const BoardTeamOrPlayers = (props) => {
 			return games.map((game, index) => {
 				return (
                     <TableRow style={{ cursor: 'pointer' }} onClick={() => setGameToView(game)} key={index}>
-                        <TableCell>{game.organizer.team && 'Team '}{game.organizer.name}</TableCell>
+                        <TableCell>{game.team && 'Team '}{game.organizerName}</TableCell>
                         <TableCell>{getNumTasksComplete(game.squares)}</TableCell>
                         <TableCell>{getNumRewardsEarned(game.rewards)}</TableCell>
                         <TableCell>{moment(game.modified).format("MMM Do, YYYY")}</TableCell>
@@ -138,10 +138,10 @@ const BoardTeamOrPlayers = (props) => {
             </button>
             <Dialog open={!!gameToView} onBackdropClick={() => setGameToView(null)}>
                 <DialogTitle onClose={() => setGameToView(null)}>
-                    {gameToView && `Organizer: ${gameToView.organizer.name}`}
+                    {gameToView && `Organizer: ${gameToView.organizerName}`}
                 </DialogTitle>
                 <div>VIEWING GAME</div>
-                {/* <ViewGame user={gameToView} openPopup={openUserPopup} newUser={newUser} orgID={contextOrg._id} updateUsers={updateUsers} /> */}
+                {/* <ViewGame user={gameToView} openPopup={openUserPopup} newUser={newUser} orgID={contextOrg.id} updateUsers={updateUsers} /> */}
             </Dialog>
             <Dialog open={!!slideShow} onBackdropClick={() => setSlideShow(null)}>
                 <DialogTitle onClose={() => setSlideShow(null)}>

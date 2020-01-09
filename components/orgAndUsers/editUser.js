@@ -11,7 +11,7 @@ import { MASTER, COLORS } from '../../styles/masterStyles';
 
 const EditUser = (props) => {
 
-    const [userName, setUserName] = useState(props.user.userName);
+    const [userAlias, setUserName] = useState(props.user.userAlias);
     const [email, setEmail] = useState(props.user.email);
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -28,8 +28,8 @@ const EditUser = (props) => {
     }
     
     const signup = async () => {
-        if(!userName){
-            openWarning('Must have a username!');
+        if(!userAlias){
+            openWarning('Must have a userAlias!');
             return;
         }
         if(!email || !validEmail(email)){
@@ -48,17 +48,15 @@ const EditUser = (props) => {
                   'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    userName,
+                    userAlias,
                     email,
                     password,
-                    role: {
-                        org: props.orgID,
-                        level: 2
-                    },
+                    roleLevel: 2,
+                    org: props.orgID,
                 })
               })
               const user = await request.json();
-              if(user && user._id){
+              if(user && user.id){
                 props.openPopup(false, false);
                 props.updateUsers('new', user);
               } else {
@@ -68,8 +66,8 @@ const EditUser = (props) => {
     }
 
     const updateUser = async () => {
-        if(!userName){
-            openWarning('Must have a username!');
+        if(!userAlias){
+            openWarning('Must have a user name!');
             return;
         }
         if(!email || !validEmail(email)){
@@ -80,49 +78,49 @@ const EditUser = (props) => {
             openWarning('Passwords must match!');
             return;
         }
+        console.log('user updating', props.user)
         try {
-            const request = await fetch(`${FULL_URL}/users/${props.user._id}`, {
-                method: 'PATCH',
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
-                },
+            const request = await fetch(`${FULL_URL}/users/update/${props.user.id}`, {
+                method: 'POST',
+                // headers: {
+                //   'Accept': 'application/json',
+                //   'Content-Type': 'application/json',
+                //   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+                // },
                 body: JSON.stringify({
-                    _id: props.user._id,
-                    userName,
+                    id: props.user.id,
+                    userAlias,
                     email,
                     password,
-                    role: {
-                        org: props.orgID,
-                        level: 2
-                    },
+                    org: props.org.id,
+                    orgName: props.org.orgName,
+                    roleLevel: 2
                 })
               })
               const user = await request.json();
               console.log('from backend', {user})
-              if(user && user._id){
+              if(user && user.id){
                 props.openPopup(false, false);
                 props.updateUsers('edit', user);
               } else {
-                  alert('There was a problem creating this user...');
+                  alert('There was a problem updating this user...');
               }
         } catch (err) { alert( err ) }
     }
 
     const deleteUser = async id => {
-        if(confirm(`Are you sure? This will delete ${userName} forever!`)){
+        if(confirm(`Are you sure? This will delete ${userAlias} forever!`)){
             try {
-                const request = await fetch(`${FULL_URL}/users/${props.user._id}`, {
-                    method: 'DELETE',
-                    headers: {
-                      'Accept': 'application/json',
-                      'Content-Type': 'application/json',
-                      'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
-                    },
+                const request = await fetch(`${FULL_URL}/users/delete${props.user.id}`, {
+                    method: 'POST',
+                    // headers: {
+                    //   'Accept': 'application/json',
+                    //   'Content-Type': 'application/json',
+                    //   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+                    // },
                   })
                   const response = await request.json();
-                  if(response && response._id){
+                  if(response && response.id){
                     props.updateUsers('delete', id);
                     props.openPopup(false, false);
                   } else {
@@ -138,7 +136,7 @@ const EditUser = (props) => {
             <div style={styles.subcontainer}>
                 <input 
                     style={MASTER.wideRoundInput} 
-                    value={userName} 
+                    value={userAlias} 
                     onChange={e => setUserName(e.target.value)} 
                     placeholder={'User Name'}
                 />
@@ -172,7 +170,7 @@ const EditUser = (props) => {
                     <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <button 
                             style={{ ...MASTER.wideRoundBtn, backgroundColor: 'red', marginTop: 20 }} 
-                            onClick={() => deleteUser(props.user._id)}
+                            onClick={() => deleteUser(props.user.id)}
                         >
                             <span style={MASTER.wideRoundBtnText}>Delete User</span>
                         </button>

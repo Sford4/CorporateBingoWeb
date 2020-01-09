@@ -49,10 +49,10 @@ const ManageBoardsHome = (props) => {
             logout();
         }
     }
-    if(!contextOrg._id && user && user.role && !user.role.org){
+    if(!contextOrg.id && user && !user.org){
         router.push('/joinGame');
-    }else if(!contextOrg._id && user && user.role && user.role.org){
-        getOrg(user.role.org);
+    }else if(!contextOrg.id && user && user.org){
+        getOrg(user.org);
     }
     if(contextOrg && contextOrg.boards && contextOrg.boards.length !== boards.length){
         setBoards(contextOrg.boards);
@@ -60,11 +60,10 @@ const ManageBoardsHome = (props) => {
   }, [contextOrg, user])
 
   const generateBoardRows = () => {
-      console.log({boards})
 		if(boards.length){
 			return boards.map((board, index) => {
 				return (
-                    <Link key={board._id} href={`manageBoards/[boardID]`} as={`manageBoards/${board._id}`}>
+                    <Link key={board.id} href={`manageBoards/[boardID]`} as={`manageBoards/${board.id}`}>
                         <TableRow style={{ cursor: 'pointer' }}>
                             <TableCell>{board.title}</TableCell>
                             <TableCell>{board.numSquares}</TableCell>
@@ -115,7 +114,7 @@ const ManageBoardsHome = (props) => {
             </Paper>
             <button 
                 style={{ ...MASTER.wideRoundBtn, width: 150, position: 'absolute', bottom: 30, right: 20, height: 45 }} 
-                onClick={() => newBoard(contextOrg._id)}
+                onClick={() => newBoard(contextOrg.id)}
             >
                 <div style={MASTER.wideRoundBtnText}>NEW BOARD</div>
             </button>

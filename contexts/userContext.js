@@ -19,16 +19,20 @@ const UserContextProvider = (props) => {
                 localStorage.setItem('bingo_token', user.token);
             }
             localStorage.setItem('bingo_user', JSON.stringify({
-                userName: user.userName,
+                userAlias: user.userAlias,
                 email: user.email,
-                role: user.role,
-                _id: user._id,
+                roleLevel: user.roleLevel,
+                org: user.org,
+                orgName: user.orgName,
+                id: user.id,
             }));
             setUser({
-                userName: user.userName,
+                userAlias: user.userAlias,
                 email: user.email,
-                role: user.role,
-                _id: user._id,
+                roleLevel: user.roleLevel,
+                org: user.org,
+                orgName: user.orgName,
+                id: user.id,
             })
         } else {
             alert('Something went wrong logging you in, please try again!');

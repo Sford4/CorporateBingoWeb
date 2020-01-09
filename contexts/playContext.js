@@ -9,7 +9,7 @@ const PlayContextProvider = (props) => {
     const [ contextGame, setContextGame ] = useState({});
 
     const getGame = async (gameID, userID) => {
-        if(gameID && contextGame._id === gameID){
+        if(gameID && contextGame.id === gameID){
             console.log('go with same game', contextGame, gameID)
             return;
         }
@@ -17,12 +17,12 @@ const PlayContextProvider = (props) => {
         if(gameID && userID){
             try {
                 const request = await fetch(`${FULL_URL}/games/${gameID}/${userID}`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
-                    },
+                    method: 'POST',
+                    // headers: {
+                    //     'Accept': 'application/json',
+                    //     'Content-Type': 'application/json',
+                    //     'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+                    // },
                     })
                     const game = await request.json();
                     console.log({game})
@@ -35,13 +35,13 @@ const PlayContextProvider = (props) => {
         setContextGame(game);
         console.log('SAVING GAME');
         try {
-            const request = await fetch(`${FULL_URL}/games/${contextGame._id}`, {
-                method: 'PATCH',
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
-                },
+            const request = await fetch(`${FULL_URL}/games/update/${contextGame.id}`, {
+                method: 'POST',
+                // headers: {
+                //   'Accept': 'application/json',
+                //   'Content-Type': 'application/json',
+                //   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+                // },
                 body: JSON.stringify({
                     ...game
                 })

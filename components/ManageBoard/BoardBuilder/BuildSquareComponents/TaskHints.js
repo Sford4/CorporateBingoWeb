@@ -29,7 +29,7 @@ const BuildHintTask = (props) => {
     const addHint = text => {
         if(text){
             const hintList = hints;
-            if(!hintList.includes(text)){
+            if(hintList && !hintList.includes(text)){
                 setText('');
                 hintList.push(text),
                 props.updateTask('hints', hintList);
@@ -42,15 +42,17 @@ const BuildHintTask = (props) => {
     }
 
   const generateHints = () => {
-    return hints.map((hint, index) => {
-        return (
-            <Chip
-                key={`hint${index}`}
-                label={hint}
-                onDelete={() => handleHintDelete(hint)}
-            />
-        )
-    })
+      if(hints && hints.length){
+        return hints.map((hint, index) => {
+            return (
+                <Chip
+                    key={`hint${index}`}
+                    label={hint}
+                    onDelete={() => handleHintDelete(hint)}
+                />
+            )
+        })
+      }
   }
 
   return (

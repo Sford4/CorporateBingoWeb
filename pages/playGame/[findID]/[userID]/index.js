@@ -73,7 +73,7 @@ const PlayHome = (props) => {
   const [reward, setReward] = useState({});
 
   useEffect(() => {
-    if(!contextGame._id){
+    if(!contextGame.id){
       console.log(props.findID)
         getGame(props.findID, props.userID);
     } else {
@@ -101,14 +101,14 @@ const updateGame = game => {
       );
   }
 
-  if(game && game._id){
+  if(game && game.id){
     return (
       <Layout>
         <div style={styles.container}>
           <div style={{width: '100%'}}> 
             <div style={MASTER.pageTitle}>Playing {game.title}</div>
-            <div style={{  }}>Created by {game.org.name}</div>
-            <div style={{ marginBottom: 20 }}>Organized by {game.organizer.name}</div>
+            <div style={{  }}>Created by {game.orgName}</div>
+            <div style={{ marginBottom: 20 }}>Organized by {game.organizerName}</div>
           </div>
           {game.rewards.length && game.rewards[game.rewards.length - 1].position.includes('wholeBoard') && game.rewards[game.rewards.length - 1].title ? generateWholeBoardRewardIcon(game.rewards[game.rewards.length - 1]) : null}
           <PlayBoard 

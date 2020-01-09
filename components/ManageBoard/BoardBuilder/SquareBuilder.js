@@ -55,10 +55,10 @@ const SquareBuilder = (props) => {
   const [task, setTask] = useState(props.task);
 
   useEffect(() => {
-    if(!contextBoard._id){
+    if(!contextBoard.id){
         setTask(props.task);
     } else {
-        setTask(contextBoard.squares.filter(task => task._id === props.task._id)[0]);
+        setTask(contextBoard.squares.filter(task => task.id === props.task.id)[0]);
     }
   }, [contextBoard])
 
@@ -67,7 +67,7 @@ const SquareBuilder = (props) => {
     updateBoard({
         ...board,
         squares: board.squares.map(oldTask => {
-            if(oldTask._id === props.task._id){
+            if(oldTask.id === props.task.id){
                 if(field === 'task'){
                     return {
                         ...oldTask,
@@ -125,7 +125,7 @@ const SquareBuilder = (props) => {
                 <span style={styles.inputLabel}>Title (will also appear on the square)</span>
                 <input 
                     style={{ ...MASTER.wideRoundInput, marginTop: 2 }} 
-                    value={task.squareText} 
+                    value={task.squareText || ''} 
                     onChange={e => {
                         updateTask('squareText', e.target.value);
                         setTask({...task, squareText: e.target.value});
@@ -141,7 +141,7 @@ const SquareBuilder = (props) => {
                         updateTask('description', e.target.value);
                         setTask({...task, description: e.target.value});
                     }}
-                    value={task.description} 
+                    value={task.description || ''} 
                     placeholder={'e.g. Make two sales in one hour and enter their ids below!'}
                 />
                 <span style={{ ...styles.inputLabel, marginRight: 10, marginLeft: 5}}>Hints:</span>

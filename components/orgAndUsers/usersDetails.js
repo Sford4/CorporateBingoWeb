@@ -56,11 +56,11 @@ import { UserContext } from '../../contexts/userContext';
 
 const UsersDetails = (props) => {
 
-    const { contextOrg, getOrg, updateOrg } = useContext(OrgContext);
+    const { contextOrg, getOrg, contextOrgUsers, contextSetUsers, } = useContext(OrgContext);
     const { user, } = useContext(UserContext);
 
   const [searchText, setSearchText] = useState('');
-  const [users, setUsers] = useState(contextOrg.users || []);
+  const [users, setUsers] = useState(contextOrgUsers || []);
   const [userToEdit, setUserToEdit] = useState(false);
   const [newUser, setNewUser] = useState(false);
 
@@ -77,50 +77,42 @@ const UsersDetails = (props) => {
   const updateUsers = (type, user) => {
     if(type === 'delete'){
         console.log(user)
-        updateOrg({
-            ...contextOrg,
-            users: contextOrg.users.filter(oldUser => oldUser._id !== user)
-        })
+        contextSetUsers(users.filter(oldUser => oldUser.id !== user))
     } else if(type === 'new'){
-        const users = contextOrg.users;
+        const users = contextOrgUsers;
         users.push(user);
-        updateOrg({
-            ...contextOrg,
-            users: users,
-        })
+        contextSetUsers(users);
     } else if(type === 'edit'){
         console.log('updating user', user)
-        updateOrg({
-            ...contextOrg,
-            users: contextOrg.users.map(oldUser => {
-                if(oldUser._id === user._id){
-                    return user;
-                } 
-                return oldUser;
-            }),
+        let usersToSave = contextOrgUsers.map(oldUser => {
+            if(oldUser.id === user.id){
+                return user;
+            } 
+            return oldUser;
         })
+        contextSetUsers(usersToSave);
     }
   }
 
   useEffect(() => {
-    if(!contextOrg._id && user && user.role && user.role.org){
-        getOrg(user.role.org);
+    if(!contextOrg.id && user && user.org){
+        getOrg(user.org);
     }
-    if(contextOrg && contextOrg._id && contextOrg.users){
-        console.log('users after update', contextOrg.users)
-        setUsers(contextOrg.users);
+    if(contextOrg && contextOrg.id && contextOrgUsers){
+        console.log('users after update', contextOrgUsers)
+        setUsers(contextOrgUsers);
     }
-  }, [contextOrg, user])
+  }, [contextOrg, contextOrgUsers, user])
 
   const generateBoardRows = () => {
 		if(users.length){
 			return users.map((user, index) => {
 				return (
-                        <TableRow style={{ cursor: 'pointer' }} onClick={() => setUserToEdit(user, false)} key={index}>
-                            <TableCell>{user.userName}</TableCell>
-                            <TableCell>{user.email}</TableCell>
-                            <TableCell>{moment(user.modified).format("MMM Do, YYYY")}</TableCell>
-                        </TableRow>
+                    <TableRow style={{ cursor: 'pointer' }} onClick={() => setUserToEdit(user, false)} key={index}>
+                        <TableCell>{user.userAlias}</TableCell>
+                        <TableCell>{user.email}</TableCell>
+                        <TableCell>{moment(user.modified).format("MMM Do, YYYY")}</TableCell>
+                    </TableRow>
 				)
 			})
 		}
@@ -156,9 +148,9 @@ const UsersDetails = (props) => {
             </button>
             <Dialog open={!!userToEdit} onBackdropClick={() => openUserPopup(false, false)}>
                 <DialogTitle onClose={() => openUserPopup(false, false)}>
-                    {newUser ? 'New User' : `Editing User: ${userToEdit && userToEdit.userName}`}
+                    {newUser ? 'New User' : `Editing User: ${userToEdit && userToEdit.userAlias}`}
                 </DialogTitle>
-                <EditUser user={userToEdit} openPopup={openUserPopup} newUser={newUser} orgID={contextOrg._id} updateUsers={updateUsers} />
+                <EditUser user={userToEdit} openPopup={openUserPopup} newUser={newUser} org={contextOrg} updateUsers={updateUsers} />
             </Dialog>
         </div>
   );

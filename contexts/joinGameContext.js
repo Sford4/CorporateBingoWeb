@@ -16,13 +16,16 @@ const JoinGameContextProvider = (props) => {
     const getAccessBoards = async (userID) => {
         console.log('getting access boards', userID)
         try {  
-            const request = await fetch(`${FULL_URL}/games/user/${userID}`, {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
-                },
+            const request = await fetch(`${FULL_URL}/games/user`, {
+                    method: 'POST',
+                    // headers: {
+                    //     'Accept': 'application/json',
+                    //     'Content-Type': 'application/json',
+                    //     'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+                    // },
+                    body: JSON.stringify({
+                        userID
+                    })
                 })
                 const result = await request.json();
                 console.log({result})
@@ -36,11 +39,11 @@ const JoinGameContextProvider = (props) => {
         try {
             const request = await fetch(`${FULL_URL}/games/search`, {
                 method: 'POST',
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
-                },
+                // headers: {
+                //   'Accept': 'application/json',
+                //   'Content-Type': 'application/json',
+                //   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+                // },
                 body: JSON.stringify({
                     accessCode,
                     gamesAlreadyFound: usedGameIDs,

@@ -22,15 +22,15 @@ const OrgAndUsersIndex = (props) => {
   const [org, setOrg] = useState({});
 
   useEffect(() => {
-    if(!contextOrg._id && user && user.org){
+    if(!contextOrg.id && user && user.org){
         getOrg(user.org);
-    } else if(contextOrg && contextOrg._id) {
+    } else if(contextOrg && contextOrg.id) {
         setOrg(contextOrg);
     }
 }, [contextOrg, stuffToSave])
 
   
-if(contextOrg && contextOrg._id){
+if(contextOrg && contextOrg.id){
     return (
         <Layout>
             <div style={styles.container}>

@@ -104,8 +104,9 @@ module.exports =
 __webpack_require__.r(__webpack_exports__);
 const URL = "http://localhost";
 const PORT = '8000'; // export default FULL_URL = `${URL}:${PORT}`;
+// const FULL_URL = 'http://localhost:8000';
 
-const FULL_URL = 'http://localhost:8000'; // const FULL_URL = 'http://ec2-3-86-157-120.compute-1.amazonaws.com:8000';
+const FULL_URL = 'https://api.gamifytech.com/v1'; // const FULL_URL = 'http://ec2-3-86-157-120.compute-1.amazonaws.com:8000';
 
 /* harmony default export */ __webpack_exports__["default"] = (FULL_URL);
 
@@ -162,13 +163,16 @@ const JoinGameContextProvider = props => {
     console.log('getting access boards', userID);
 
     try {
-      const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_3___default()(`${_constants_constants__WEBPACK_IMPORTED_MODULE_4__["default"]}/games/user/${userID}`, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
-        }
+      const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_3___default()(`${_constants_constants__WEBPACK_IMPORTED_MODULE_4__["default"]}/games/user`, {
+        method: 'POST',
+        // headers: {
+        //     'Accept': 'application/json',
+        //     'Content-Type': 'application/json',
+        //     'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+        // },
+        body: _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0___default()({
+          userID
+        })
       });
       const result = await request.json();
       console.log({
@@ -186,11 +190,11 @@ const JoinGameContextProvider = props => {
     try {
       const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_3___default()(`${_constants_constants__WEBPACK_IMPORTED_MODULE_4__["default"]}/games/search`, {
         method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
-        },
+        // headers: {
+        //   'Accept': 'application/json',
+        //   'Content-Type': 'application/json',
+        //   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+        // },
         body: _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0___default()({
           accessCode,
           gamesAlreadyFound: usedGameIDs,
@@ -227,7 +231,7 @@ const JoinGameContextProvider = props => {
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 68
+      lineNumber: 71
     },
     __self: undefined
   }, props.children);
@@ -265,6 +269,9 @@ var __jsx = react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement;
 
 
 
+
+const uuidv4 = __webpack_require__(/*! uuid/v4 */ "uuid/v4");
+
 const ManageBoardsContext = Object(react__WEBPACK_IMPORTED_MODULE_2__["createContext"])();
 
 const ManageBoardsContextProvider = props => {
@@ -282,20 +289,43 @@ const ManageBoardsContextProvider = props => {
     1: setStuffToSave
   } = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])(false);
 
+  const newBoard = async orgID => {
+    try {
+      const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_4___default()(`${_constants_constants__WEBPACK_IMPORTED_MODULE_5__["default"]}/boards`, {
+        method: 'POST',
+        // headers: {
+        //   'Accept': 'application/json',
+        //   'Content-Type': 'application/json',
+        //   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+        // },
+        body: _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_1___default()({
+          orgID: orgID
+        })
+      });
+      const boardID = await request.json();
+      console.log({
+        boardID
+      });
+      router.push(`/manageBoards/${boardID}`);
+    } catch (err) {
+      alert(err);
+    }
+  };
+
   const getBoard = async boardID => {
-    if (boardID && contextBoard._id === boardID) {
+    if (boardID && contextBoard.id === boardID) {
       console.log('go with same board', contextBoard, boardID);
       return;
     }
 
     try {
       const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_4___default()(`${_constants_constants__WEBPACK_IMPORTED_MODULE_5__["default"]}/boards/${boardID}`, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
-        }
+        method: 'POST' // headers: {
+        //     'Accept': 'application/json',
+        //     'Content-Type': 'application/json',
+        //     'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+        // },
+
       });
       const board = await request.json();
       setContextBoard(board);
@@ -304,51 +334,32 @@ const ManageBoardsContextProvider = props => {
     }
   };
 
-  const newBoard = async orgID => {
-    try {
-      const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_4___default()(`${_constants_constants__WEBPACK_IMPORTED_MODULE_5__["default"]}/boards`, {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
-        },
-        body: _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_1___default()({
-          orgID: orgID
-        })
-      });
-      const boardID = await request.json();
-      router.push(`/manageBoards/${boardID}`);
-    } catch (err) {
-      alert(err);
-    }
-  };
-
   const saveBoard = async () => {
     console.log('SAVING');
 
-    if (contextBoard.groups.useTeams) {
-      const teamsNoFrontendIDs = contextBoard.groups.teams.map(team => {
-        if (!team._id || team._id.includes('team')) {
+    if (contextBoard.useTeams) {
+      const teamsNoFrontendIDs = contextBoard.teams.map(team => {
+        if (!team.id || team.id.includes('team')) {
           return {
             name: team.name,
-            accessCode: team.accessCode
+            accessCode: team.accessCode,
+            id: uuidv4()
           };
         }
 
         return team;
       });
-      contextBoard.groups.teams = teamsNoFrontendIDs;
+      contextBoard.teams = teamsNoFrontendIDs;
     }
 
     try {
-      const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_4___default()(`${_constants_constants__WEBPACK_IMPORTED_MODULE_5__["default"]}/boards/${contextBoard._id}`, {
-        method: 'PATCH',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
-        },
+      const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_4___default()(`${_constants_constants__WEBPACK_IMPORTED_MODULE_5__["default"]}/boards/update/${contextBoard.id}`, {
+        method: 'POST',
+        // headers: {
+        //   'Accept': 'application/json',
+        //   'Content-Type': 'application/json',
+        //   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+        // },
         body: _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_1___default()(Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, contextBoard, {
           modified: new Date()
         }))
@@ -360,7 +371,7 @@ const ManageBoardsContextProvider = props => {
 
       if (success) {
         setStuffToSave(false);
-        setContextBoard(success.board);
+        setContextBoard(success);
       } else {
         alert('There was a problem saving your board... please try again later!');
       }
@@ -372,12 +383,12 @@ const ManageBoardsContextProvider = props => {
   const getAllGamesForBoard = async boardID => {
     try {
       const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_4___default()(`${_constants_constants__WEBPACK_IMPORTED_MODULE_5__["default"]}/boards/gamesForBoard/${boardID}`, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
-        }
+        method: 'GET' // headers: {
+        //         'Accept': 'application/json',
+        //         'Content-Type': 'application/json',
+        //         'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+        //     },
+
       });
       const games = await request.json();
       setGamesForBoard(!games.length ? ['none'] : games);
@@ -400,7 +411,7 @@ const ManageBoardsContextProvider = props => {
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 110
+      lineNumber: 113
     },
     __self: undefined
   }, props.children);
@@ -441,6 +452,14 @@ const OrgContextProvider = props => {
     1: setOrg
   } = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])({});
   const {
+    0: users,
+    1: setUsers
+  } = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])([]);
+  const {
+    0: boards,
+    1: setBoards
+  } = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])([]);
+  const {
     0: stuffToSave,
     1: setStuffToSave
   } = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false);
@@ -450,14 +469,17 @@ const OrgContextProvider = props => {
 
     try {
       const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_2___default()(`${_constants_constants__WEBPACK_IMPORTED_MODULE_3__["default"]}/orgs/${orgID}`, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
-        }
+        method: 'POST' // headers: {
+        //   'Accept': 'application/json',
+        //   'Content-Type': 'application/json',
+        //   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+        // },
+
       });
       const org = await request.json();
+      console.log('GOT ORG', org);
+      setUsers(org.userList);
+      setBoards(org.boards);
       setOrg(org);
     } catch (err) {
       alert(err);
@@ -468,13 +490,13 @@ const OrgContextProvider = props => {
     console.log('in save org', orgToSave);
 
     try {
-      const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_2___default()(`${_constants_constants__WEBPACK_IMPORTED_MODULE_3__["default"]}/orgs/${orgToSave._id}`, {
-        method: 'PATCH',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
-        },
+      const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_2___default()(`${_constants_constants__WEBPACK_IMPORTED_MODULE_3__["default"]}/orgs/update/${orgToSave.id}`, {
+        method: 'POST',
+        // headers: {
+        //   'Accept': 'application/json',
+        //   'Content-Type': 'application/json',
+        //   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+        // },
         body: _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0___default()(orgToSave)
       });
       const org = await request.json();
@@ -488,15 +510,19 @@ const OrgContextProvider = props => {
   return __jsx(OrgContext.Provider, {
     value: {
       contextOrg: org,
+      contextOrgUsers: users,
+      contextOrgBoards: boards,
       updateOrg: setOrg,
       getOrg: getOrg,
       saveOrg,
       setStuffToSave,
-      stuffToSave
+      stuffToSave,
+      contextSetUsers: setUsers,
+      setBoards
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 47
+      lineNumber: 52
     },
     __self: undefined
   }, props.children);
@@ -540,7 +566,7 @@ const PlayContextProvider = props => {
   } = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])({});
 
   const getGame = async (gameID, userID) => {
-    if (gameID && contextGame._id === gameID) {
+    if (gameID && contextGame.id === gameID) {
       console.log('go with same game', contextGame, gameID);
       return;
     }
@@ -552,12 +578,12 @@ const PlayContextProvider = props => {
     if (gameID && userID) {
       try {
         const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_3___default()(`${_constants_constants__WEBPACK_IMPORTED_MODULE_4__["default"]}/games/${gameID}/${userID}`, {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
-          }
+          method: 'POST' // headers: {
+          //     'Accept': 'application/json',
+          //     'Content-Type': 'application/json',
+          //     'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+          // },
+
         });
         const game = await request.json();
         console.log({
@@ -575,13 +601,13 @@ const PlayContextProvider = props => {
     console.log('SAVING GAME');
 
     try {
-      const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_3___default()(`${_constants_constants__WEBPACK_IMPORTED_MODULE_4__["default"]}/games/${contextGame._id}`, {
-        method: 'PATCH',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
-        },
+      const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_3___default()(`${_constants_constants__WEBPACK_IMPORTED_MODULE_4__["default"]}/games/update/${contextGame.id}`, {
+        method: 'POST',
+        // headers: {
+        //   'Accept': 'application/json',
+        //   'Content-Type': 'application/json',
+        //   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+        // },
         body: _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_1___default()(Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, game))
       });
       const success = await request.json();
@@ -660,16 +686,20 @@ const UserContextProvider = props => {
       }
 
       localStorage.setItem('bingo_user', _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0___default()({
-        userName: user.userName,
+        userAlias: user.userAlias,
         email: user.email,
-        role: user.role,
-        _id: user._id
+        roleLevel: user.roleLevel,
+        org: user.org,
+        orgName: user.orgName,
+        id: user.id
       }));
       setUser({
-        userName: user.userName,
+        userAlias: user.userAlias,
         email: user.email,
-        role: user.role,
-        _id: user._id
+        roleLevel: user.roleLevel,
+        org: user.org,
+        orgName: user.orgName,
+        id: user.id
       });
     } else {
       alert('Something went wrong logging you in, please try again!');
@@ -692,7 +722,7 @@ const UserContextProvider = props => {
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 47
+      lineNumber: 51
     },
     __self: undefined
   }, props.children);
@@ -2983,6 +3013,17 @@ module.exports = require("styled-jsx/style");
 /***/ (function(module, exports) {
 
 module.exports = require("url");
+
+/***/ }),
+
+/***/ "uuid/v4":
+/*!**************************!*\
+  !*** external "uuid/v4" ***!
+  \**************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("uuid/v4");
 
 /***/ })
 

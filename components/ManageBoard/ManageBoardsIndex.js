@@ -21,7 +21,7 @@ const ManageBoardsIndex = (props) => {
   const [changesToSave, setChangesToSave] = useState(false)
 
   useEffect(() => {
-    if(!contextBoard._id){
+    if(!contextBoard.id){
         getBoard(router.query.boardID);
     } else {
         setBoard(contextBoard);
@@ -32,7 +32,7 @@ const ManageBoardsIndex = (props) => {
 }, [contextBoard, changesToSave])
 
   
-if(board && board._id){
+if(board && board.id){
     return (
           <Layout>
             <div style={styles.container}>

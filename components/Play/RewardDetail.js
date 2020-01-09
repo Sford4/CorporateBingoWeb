@@ -32,7 +32,7 @@ const RewardDetail = (props) => {
 
    useEffect(() => {
     contextGame.rewards.map(contextReward => {
-      if(contextReward._id === reward._id){
+      if(contextReward.id === reward.id){
         setReward(contextReward);
       }
     })
@@ -42,7 +42,7 @@ const RewardDetail = (props) => {
     saveGame({
       ...contextGame,
       rewards: contextGame.rewards.map(contextReward => {
-        if(contextReward._id === reward._id){
+        if(contextReward.id === reward.id){
           return {
             ...reward,
             redeemed: true,

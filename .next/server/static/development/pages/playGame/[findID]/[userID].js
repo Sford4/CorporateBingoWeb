@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -129,18 +129,18 @@ const Layout = props => {
     getOrg
   } = Object(react__WEBPACK_IMPORTED_MODULE_1__["useContext"])(_contexts_orgContext__WEBPACK_IMPORTED_MODULE_4__["OrgContext"]);
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(() => {
-    if (!user._id && localStorage.getItem('bingo_user') && localStorage.getItem('bingo_token')) {
+    if (!user.id && localStorage.getItem('bingo_user') && localStorage.getItem('bingo_token')) {
       storeUser(JSON.parse(localStorage.getItem('bingo_user')));
     } else if (!localStorage.getItem('bingo_token') || !user) {
       logout();
     }
 
-    if (user && user.role && user.role.org && !org) {
-      getOrg(user.role.org);
+    if (user && user.org && !org) {
+      getOrg(user.org);
     }
   }, [user]);
 
-  if (!user || !user._id) {
+  if (!user || !user.id) {
     return __jsx("div", {
       __source: {
         fileName: _jsxFileName,
@@ -174,7 +174,7 @@ const Layout = props => {
   }, props.children), __jsx(styled_jsx_style__WEBPACK_IMPORTED_MODULE_0___default.a, {
     id: "2546284142",
     __self: undefined
-  }, "#layout.jsx-2546284142{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row;height:100vh;width:100vw;font:roboto;}.child-component-container.jsx-2546284142{padding:20px;width:100%;}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9zcGVuY2VyZm9yZC9Eb2N1bWVudHMvREVWeWFsbC9QZXJzb25hbFByb2plY3RzL0NvcnBvcmF0ZUJpbmdvV2ViL2NvbXBvbmVudHMvTGF5b3V0LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQWtDaUIsQUFHc0MsQUFPQSxhQUNGLFdBQ2Ysa0RBUnVCLHFFQUNOLGFBQ0QsWUFDQSxZQUNoQiIsImZpbGUiOiIvVXNlcnMvc3BlbmNlcmZvcmQvRG9jdW1lbnRzL0RFVnlhbGwvUGVyc29uYWxQcm9qZWN0cy9Db3Jwb3JhdGVCaW5nb1dlYi9jb21wb25lbnRzL0xheW91dC5qcyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBSZWFjdCwgeyB1c2VTdGF0ZSwgdXNlRWZmZWN0LCB1c2VDb250ZXh0IH0gZnJvbSAncmVhY3QnO1xuaW1wb3J0IFNpZGVOYXYgZnJvbSAnLi9TaWRlTmF2JztcblxuLy8gY29udGV4dCBpbXBvcnRzXG5pbXBvcnQgeyBVc2VyQ29udGV4dCB9IGZyb20gJy4uL2NvbnRleHRzL3VzZXJDb250ZXh0JztcbmltcG9ydCB7IE9yZ0NvbnRleHQgfSBmcm9tICcuLi9jb250ZXh0cy9vcmdDb250ZXh0JztcblxuY29uc3QgTGF5b3V0ID0gKHByb3BzID0+IHtcblxuICAgIGNvbnN0IHsgdXNlciwgc3RvcmVVc2VyLCBsb2dvdXQgfSA9IHVzZUNvbnRleHQoVXNlckNvbnRleHQpO1xuICAgIGNvbnN0IHsgb3JnLCBnZXRPcmcgfSA9IHVzZUNvbnRleHQoT3JnQ29udGV4dCk7XG5cbiAgICB1c2VFZmZlY3QoKCkgPT4ge1xuICAgICAgICBpZighdXNlci5faWQgJiYgbG9jYWxTdG9yYWdlLmdldEl0ZW0oJ2JpbmdvX3VzZXInKSAmJiBsb2NhbFN0b3JhZ2UuZ2V0SXRlbSgnYmluZ29fdG9rZW4nKSl7XG4gICAgICAgICAgICBzdG9yZVVzZXIoSlNPTi5wYXJzZShsb2NhbFN0b3JhZ2UuZ2V0SXRlbSgnYmluZ29fdXNlcicpKSk7XG4gICAgICAgIH0gZWxzZSBpZighbG9jYWxTdG9yYWdlLmdldEl0ZW0oJ2JpbmdvX3Rva2VuJykgfHwgIXVzZXIpe1xuICAgICAgICAgICAgbG9nb3V0KCk7XG4gICAgICAgIH1cbiAgICAgICAgaWYodXNlciAmJiB1c2VyLnJvbGUgJiYgdXNlci5yb2xlLm9yZyAmJiAhb3JnKXtcbiAgICAgICAgICAgIGdldE9yZyh1c2VyLnJvbGUub3JnKTtcbiAgICAgICAgfVxuICAgIH0sW3VzZXJdKTtcblxuICAgIGlmKCF1c2VyIHx8ICF1c2VyLl9pZCl7XG4gICAgICAgIHJldHVybiA8ZGl2PmxvYWRpbmc8L2Rpdj5cbiAgICB9XG5cbiAgICByZXR1cm4gKFxuICAgICAgICA8ZGl2IGlkPSdsYXlvdXQnPlxuICAgICAgICAgICAgPFNpZGVOYXYgLz5cbiAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSdjaGlsZC1jb21wb25lbnQtY29udGFpbmVyJz5cbiAgICAgICAgICAgICAgICB7cHJvcHMuY2hpbGRyZW59XG4gICAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICAgIDxzdHlsZSBqc3g+XG4gICAgICAgICAgICAgICAge2BcbiAgICAgICAgICAgICAgICAgICAgI2xheW91dCB7XG4gICAgICAgICAgICAgICAgICAgICAgICBkaXNwbGF5OiBmbGV4O1xuICAgICAgICAgICAgICAgICAgICAgICAgZmxleC1kaXJlY3Rpb246IHJvdztcbiAgICAgICAgICAgICAgICAgICAgICAgIGhlaWdodDogMTAwdmg7XG4gICAgICAgICAgICAgICAgICAgICAgICB3aWR0aDogMTAwdnc7XG4gICAgICAgICAgICAgICAgICAgICAgICBmb250OiByb2JvdG87XG4gICAgICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgICAgICAgICAgLmNoaWxkLWNvbXBvbmVudC1jb250YWluZXIge1xuICAgICAgICAgICAgICAgICAgICAgICAgcGFkZGluZzogMjBweDtcbiAgICAgICAgICAgICAgICAgICAgICAgIHdpZHRoOiAxMDAlO1xuICAgICAgICAgICAgICAgICAgICB9XG4gICAgICAgICAgICAgICAgYH1cbiAgICAgICAgICAgIDwvc3R5bGU+XG4gICAgICAgIDwvZGl2PlxuICAgIClcbn0pO1xuXG5leHBvcnQgZGVmYXVsdCBMYXlvdXQ7Il19 */\n/*@ sourceURL=/Users/spencerford/Documents/DEVyall/PersonalProjects/CorporateBingoWeb/components/Layout.js */"));
+  }, "#layout.jsx-2546284142{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row;height:100vh;width:100vw;font:roboto;}.child-component-container.jsx-2546284142{padding:20px;width:100%;}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9zcGVuY2VyZm9yZC9Eb2N1bWVudHMvREVWeWFsbC9QZXJzb25hbFByb2plY3RzL0NvcnBvcmF0ZUJpbmdvV2ViL2NvbXBvbmVudHMvTGF5b3V0LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQWtDaUIsQUFHc0MsQUFPQSxhQUNGLFdBQ2Ysa0RBUnVCLHFFQUNOLGFBQ0QsWUFDQSxZQUNoQiIsImZpbGUiOiIvVXNlcnMvc3BlbmNlcmZvcmQvRG9jdW1lbnRzL0RFVnlhbGwvUGVyc29uYWxQcm9qZWN0cy9Db3Jwb3JhdGVCaW5nb1dlYi9jb21wb25lbnRzL0xheW91dC5qcyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBSZWFjdCwgeyB1c2VTdGF0ZSwgdXNlRWZmZWN0LCB1c2VDb250ZXh0IH0gZnJvbSAncmVhY3QnO1xuaW1wb3J0IFNpZGVOYXYgZnJvbSAnLi9TaWRlTmF2JztcblxuLy8gY29udGV4dCBpbXBvcnRzXG5pbXBvcnQgeyBVc2VyQ29udGV4dCB9IGZyb20gJy4uL2NvbnRleHRzL3VzZXJDb250ZXh0JztcbmltcG9ydCB7IE9yZ0NvbnRleHQgfSBmcm9tICcuLi9jb250ZXh0cy9vcmdDb250ZXh0JztcblxuY29uc3QgTGF5b3V0ID0gKHByb3BzID0+IHtcblxuICAgIGNvbnN0IHsgdXNlciwgc3RvcmVVc2VyLCBsb2dvdXQgfSA9IHVzZUNvbnRleHQoVXNlckNvbnRleHQpO1xuICAgIGNvbnN0IHsgb3JnLCBnZXRPcmcgfSA9IHVzZUNvbnRleHQoT3JnQ29udGV4dCk7XG5cbiAgICB1c2VFZmZlY3QoKCkgPT4ge1xuICAgICAgICBpZighdXNlci5pZCAmJiBsb2NhbFN0b3JhZ2UuZ2V0SXRlbSgnYmluZ29fdXNlcicpICYmIGxvY2FsU3RvcmFnZS5nZXRJdGVtKCdiaW5nb190b2tlbicpKXtcbiAgICAgICAgICAgIHN0b3JlVXNlcihKU09OLnBhcnNlKGxvY2FsU3RvcmFnZS5nZXRJdGVtKCdiaW5nb191c2VyJykpKTtcbiAgICAgICAgfSBlbHNlIGlmKCFsb2NhbFN0b3JhZ2UuZ2V0SXRlbSgnYmluZ29fdG9rZW4nKSB8fCAhdXNlcil7XG4gICAgICAgICAgICBsb2dvdXQoKTtcbiAgICAgICAgfVxuICAgICAgICBpZih1c2VyICYmIHVzZXIub3JnICYmICFvcmcpe1xuICAgICAgICAgICAgZ2V0T3JnKHVzZXIub3JnKTtcbiAgICAgICAgfVxuICAgIH0sW3VzZXJdKTtcblxuICAgIGlmKCF1c2VyIHx8ICF1c2VyLmlkKXtcbiAgICAgICAgcmV0dXJuIDxkaXY+bG9hZGluZzwvZGl2PlxuICAgIH1cblxuICAgIHJldHVybiAoXG4gICAgICAgIDxkaXYgaWQ9J2xheW91dCc+XG4gICAgICAgICAgICA8U2lkZU5hdiAvPlxuICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9J2NoaWxkLWNvbXBvbmVudC1jb250YWluZXInPlxuICAgICAgICAgICAgICAgIHtwcm9wcy5jaGlsZHJlbn1cbiAgICAgICAgICAgIDwvZGl2PlxuICAgICAgICAgICAgPHN0eWxlIGpzeD5cbiAgICAgICAgICAgICAgICB7YFxuICAgICAgICAgICAgICAgICAgICAjbGF5b3V0IHtcbiAgICAgICAgICAgICAgICAgICAgICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgICAgICAgICAgICAgICAgICAgICBmbGV4LWRpcmVjdGlvbjogcm93O1xuICAgICAgICAgICAgICAgICAgICAgICAgaGVpZ2h0OiAxMDB2aDtcbiAgICAgICAgICAgICAgICAgICAgICAgIHdpZHRoOiAxMDB2dztcbiAgICAgICAgICAgICAgICAgICAgICAgIGZvbnQ6IHJvYm90bztcbiAgICAgICAgICAgICAgICAgICAgfVxuICAgICAgICAgICAgICAgICAgICAuY2hpbGQtY29tcG9uZW50LWNvbnRhaW5lciB7XG4gICAgICAgICAgICAgICAgICAgICAgICBwYWRkaW5nOiAyMHB4O1xuICAgICAgICAgICAgICAgICAgICAgICAgd2lkdGg6IDEwMCU7XG4gICAgICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgICAgICBgfVxuICAgICAgICAgICAgPC9zdHlsZT5cbiAgICAgICAgPC9kaXY+XG4gICAgKVxufSk7XG5cbmV4cG9ydCBkZWZhdWx0IExheW91dDsiXX0= */\n/*@ sourceURL=/Users/spencerford/Documents/DEVyall/PersonalProjects/CorporateBingoWeb/components/Layout.js */"));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Layout);
@@ -361,7 +361,7 @@ const PlayBoard = props => {
   const updateTask = task => {
     const gameToSave = Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, contextGame, {
       squares: contextGame.squares.map(square => {
-        if (square._id === task._id) {
+        if (square.id === task.id) {
           return task;
         }
 
@@ -765,7 +765,7 @@ const RewardDetail = props => {
 
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(() => {
     contextGame.rewards.map(contextReward => {
-      if (contextReward._id === reward._id) {
+      if (contextReward.id === reward.id) {
         setReward(contextReward);
       }
     });
@@ -774,7 +774,7 @@ const RewardDetail = props => {
   const redeemReward = () => {
     saveGame(Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, contextGame, {
       rewards: contextGame.rewards.map(contextReward => {
-        if (contextReward._id === reward._id) {
+        if (contextReward.id === reward.id) {
           return Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, reward, {
             redeemed: true
           });
@@ -1930,7 +1930,7 @@ const SideNav = props => {
     logout();
   };
 
-  if (!user._id) {
+  if (!user.id) {
     return __jsx("span", {
       __source: {
         fileName: _jsxFileName,
@@ -1980,7 +1980,7 @@ const SideNav = props => {
       lineNumber: 47
     },
     __self: undefined
-  }, "JOIN GAME")), user && user.role.level < 3 && __jsx(next_link__WEBPACK_IMPORTED_MODULE_3___default.a, {
+  }, "JOIN GAME")), user && user.roleLevel < 3 && __jsx(next_link__WEBPACK_IMPORTED_MODULE_3___default.a, {
     href: "/manageBoards",
     __source: {
       fileName: _jsxFileName,
@@ -1995,7 +1995,7 @@ const SideNav = props => {
       lineNumber: 48
     },
     __self: undefined
-  }, "MANAGE BOARDS")), user && user.role.level < 3 && __jsx(next_link__WEBPACK_IMPORTED_MODULE_3___default.a, {
+  }, "MANAGE BOARDS")), user && user.roleLevel < 3 && __jsx(next_link__WEBPACK_IMPORTED_MODULE_3___default.a, {
     href: "/usersAndOrg",
     __source: {
       fileName: _jsxFileName,
@@ -2010,7 +2010,7 @@ const SideNav = props => {
       lineNumber: 49
     },
     __self: undefined
-  }, "USERS & ORG")), user && user.role.level !== 2 && __jsx(next_link__WEBPACK_IMPORTED_MODULE_3___default.a, {
+  }, "USERS & ORG")), user && user.roleLevel !== 2 && __jsx(next_link__WEBPACK_IMPORTED_MODULE_3___default.a, {
     href: "/profile",
     __source: {
       fileName: _jsxFileName,
@@ -2041,7 +2041,7 @@ const SideNav = props => {
   }, "LOGOUT"), __jsx(styled_jsx_style__WEBPACK_IMPORTED_MODULE_0___default.a, {
     id: "1054960106",
     __self: undefined
-  }, "#sidenav.jsx-1054960106{width:20%;max-width:300px;min-width:200px;height:100%;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;box-shadow:2px 0 5px -2px #999;background-color:white;font:roboto;padding:0 .5%;}.sidenavLink.jsx-1054960106{width:90%;text-align:left;margin:20px 0 0 0;-webkit-text-decoration:none;text-decoration:none;font-size:20px;font-weight:bold;}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9zcGVuY2VyZm9yZC9Eb2N1bWVudHMvREVWeWFsbC9QZXJzb25hbFByb2plY3RzL0NvcnBvcmF0ZUJpbmdvV2ViL2NvbXBvbmVudHMvU2lkZU5hdi5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFvRGlCLEFBR21DLEFBYUEsVUFaTSxBQWFBLGdCQVpBLEFBYUUsZ0JBWk4sRUFhUyxVQVpSLHdDQWFFLGVBQ0UsaUJBQ3JCLEVBZDBCLDhFQUNILDZGQUNZLCtCQUNSLHVCQUNYLFlBQ0UsY0FDbEIiLCJmaWxlIjoiL1VzZXJzL3NwZW5jZXJmb3JkL0RvY3VtZW50cy9ERVZ5YWxsL1BlcnNvbmFsUHJvamVjdHMvQ29ycG9yYXRlQmluZ29XZWIvY29tcG9uZW50cy9TaWRlTmF2LmpzIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgdXNlU3RhdGUsIHVzZUNvbnRleHQgfSBmcm9tICdyZWFjdCc7XG5pbXBvcnQgeyB1c2VSb3V0ZXIgfSBmcm9tICduZXh0L3JvdXRlcidcbmltcG9ydCBMaW5rIGZyb20gJ25leHQvbGluayc7XG5cbmltcG9ydCB7IENPTE9SUyB9IGZyb20gJy4uL3N0eWxlcy9tYXN0ZXJTdHlsZXMuanMnO1xuXG4vLyBjb250ZXh0IGltcG9ydHNcbmltcG9ydCB7IFVzZXJDb250ZXh0IH0gZnJvbSAnLi4vY29udGV4dHMvdXNlckNvbnRleHQnO1xuXG5jb25zdCBTaWRlTmF2ID0gKHByb3BzKSA9PiB7XG5cbiAgICBjb25zdCByb3V0ZXIgPSB1c2VSb3V0ZXIoKVxuXG4gICAgY29uc3QgeyB1c2VyLCBsb2dvdXQgfSA9IHVzZUNvbnRleHQoVXNlckNvbnRleHQpO1xuICAgIGNvbnN0IFsgY3VyclJvdXRlLCBzZXRDdXJyUm91dGUgXSA9IHVzZVN0YXRlKHJvdXRlci5wYXRobmFtZSk7XG5cbiAgICBjb25zdCBoYW5kbGVSb3V0ZUNoYW5nZSA9IHVybCA9PiB7XG4gICAgICAgIHNldEN1cnJSb3V0ZSh1cmwpO1xuICAgIH1cbiAgICByb3V0ZXIuZXZlbnRzLm9uKCdyb3V0ZUNoYW5nZVN0YXJ0JywgaGFuZGxlUm91dGVDaGFuZ2UpXG5cbiAgICBjb25zdCBoYW5kbGVSb3V0ZUNoYW5nZUNvbXBsZXRlID0gdXJsID0+IHtcbiAgICAgICAgc2V0Q3VyclJvdXRlKHVybCk7XG4gICAgfVxuICAgIHJvdXRlci5ldmVudHMub24oJ3JvdXRlQ2hhbmdlQ29tcGxldGUnLCBoYW5kbGVSb3V0ZUNoYW5nZUNvbXBsZXRlKVxuXG4gICAgY29uc3QgYWRkRGVmYXVsdFBpYyA9IChldikgPT4ge1xuICAgICAgICBldi50YXJnZXQuc3JjID0gXCJodHRwczovL2kueXRpbWcuY29tL3ZpL2JLY0Y3SlViQ3BvL21heHJlc2RlZmF1bHQuanBnXCI7XG4gICAgfTtcblxuICAgIGNvbnN0IGhhbmRsZUxvZ291dENsaWNrID0gKCkgPT4ge1xuICAgICAgICBsb2dvdXQoKTtcbiAgICB9XG5cbiAgICBpZighdXNlci5faWQpe1xuICAgICAgICByZXR1cm4gPHNwYW4+TE9BRElORy4uLjwvc3Bhbj5cbiAgICB9XG5cbiAgICByZXR1cm4gKFxuICAgICAgICA8ZGl2IGlkPSdzaWRlbmF2JyBzdHlsZT17eyBib3JkZXJSaWdodDogYDJweCBzb2xpZCAke0NPTE9SUy5wcmltYXJ5fWAgfX0+XG4gICAgICAgICAgICA8aW1nIFxuICAgICAgICAgICAgICAgIGFsdD0nQmluZ28gQnVpbGRlcicgXG4gICAgICAgICAgICAgICAgc3JjPXsnL3N0YXRpYy9iaW5nb0J1aWxkZXJMb2dvLnBuZyd9IFxuICAgICAgICAgICAgICAgIHN0eWxlPXt7IHdpZHRoOiAnOTAlJywgbWFyZ2luOiAnMTBweCAwIDEwcHggMCcgfX1cbiAgICAgICAgICAgICAgICBvbkVycm9yPXthZGREZWZhdWx0UGljfVxuICAgICAgICAgICAgLz5cbiAgICAgICAgICAgIDxMaW5rIGhyZWY9Jy9qb2luR2FtZSc+PGEgY2xhc3NOYW1lPSdzaWRlbmF2TGluaycgc3R5bGU9e2N1cnJSb3V0ZSAmJiBjdXJyUm91dGUuaW5jbHVkZXMoJ2pvaW5HYW1lJykgPyBzdHlsZXMuY3VyckxpbmsgOiBzdHlsZXMubGlua30+Sk9JTiBHQU1FPC9hPjwvTGluaz5cbiAgICAgICAgICAgIHt1c2VyICYmIHVzZXIucm9sZS5sZXZlbCA8IDMgJiYgPExpbmsgaHJlZj0nL21hbmFnZUJvYXJkcyc+PGEgY2xhc3NOYW1lPSdzaWRlbmF2TGluaycgc3R5bGU9e2N1cnJSb3V0ZSAmJiBjdXJyUm91dGUuaW5jbHVkZXMoJ21hbmFnZUJvYXJkcycpID8gc3R5bGVzLmN1cnJMaW5rIDogc3R5bGVzLmxpbmt9Pk1BTkFHRSBCT0FSRFM8L2E+PC9MaW5rPn1cbiAgICAgICAgICAgIHt1c2VyICYmIHVzZXIucm9sZS5sZXZlbCA8IDMgJiYgPExpbmsgaHJlZj0nL3VzZXJzQW5kT3JnJz48YSBjbGFzc05hbWU9J3NpZGVuYXZMaW5rJyBzdHlsZT17Y3VyclJvdXRlICYmIGN1cnJSb3V0ZS5pbmNsdWRlcygndXNlcnNBbmRPcmcnKSA/IHN0eWxlcy5jdXJyTGluayA6IHN0eWxlcy5saW5rfT5VU0VSUyAmIE9SRzwvYT48L0xpbms+fVxuICAgICAgICAgICAge3VzZXIgJiYgdXNlci5yb2xlLmxldmVsICE9PSAyICYmIDxMaW5rIGhyZWY9Jy9wcm9maWxlJz48YSBjbGFzc05hbWU9J3NpZGVuYXZMaW5rJyBzdHlsZT17Y3VyclJvdXRlICYmIGN1cnJSb3V0ZS5pbmNsdWRlcygncHJvZmlsZScpID8gc3R5bGVzLmN1cnJMaW5rIDogc3R5bGVzLmxpbmt9Pk1ZIFBST0ZJTEU8L2E+PC9MaW5rPn1cbiAgICAgICAgICAgIDxhIGNsYXNzTmFtZT0nc2lkZW5hdkxpbmsnIHN0eWxlPXt7Y29sb3I6IENPTE9SUy5wcmltYXJ5LCBjdXJzb3I6ICdwb2ludGVyJywgcGFkZGluZzogMTB9fSBvbkNsaWNrPXsoKSA9PiBoYW5kbGVMb2dvdXRDbGljaygpfT5MT0dPVVQ8L2E+XG4gICAgICAgICAgICA8c3R5bGUganN4PlxuICAgICAgICAgICAgICAgIHtgXG4gICAgICAgICAgICAgICAgICAgICNzaWRlbmF2IHtcbiAgICAgICAgICAgICAgICAgICAgICAgIHdpZHRoOiAyMCU7XG4gICAgICAgICAgICAgICAgICAgICAgICBtYXgtd2lkdGg6IDMwMHB4O1xuICAgICAgICAgICAgICAgICAgICAgICAgbWluLXdpZHRoOiAyMDBweDtcbiAgICAgICAgICAgICAgICAgICAgICAgIGhlaWdodDogMTAwJTtcbiAgICAgICAgICAgICAgICAgICAgICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgICAgICAgICAgICAgICAgICAgICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xuICAgICAgICAgICAgICAgICAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICAgICAgICAgICAgICAgICAgICAgIGJveC1zaGFkb3c6IDJweCAwIDVweCAtMnB4ICM5OTk7XG4gICAgICAgICAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kLWNvbG9yOiB3aGl0ZTtcbiAgICAgICAgICAgICAgICAgICAgICAgIGZvbnQ6IHJvYm90bztcbiAgICAgICAgICAgICAgICAgICAgICAgIHBhZGRpbmc6IDAgLjUlO1xuICAgICAgICAgICAgICAgICAgICB9XG4gICAgICAgICAgICAgICAgICAgIC5zaWRlbmF2TGluayB7XG4gICAgICAgICAgICAgICAgICAgICAgICB3aWR0aDogOTAlO1xuICAgICAgICAgICAgICAgICAgICAgICAgdGV4dC1hbGlnbjogbGVmdDtcbiAgICAgICAgICAgICAgICAgICAgICAgIG1hcmdpbjogMjBweCAwIDAgMDtcbiAgICAgICAgICAgICAgICAgICAgICAgIHRleHQtZGVjb3JhdGlvbjogbm9uZTtcbiAgICAgICAgICAgICAgICAgICAgICAgIGZvbnQtc2l6ZTogMjBweDtcbiAgICAgICAgICAgICAgICAgICAgICAgIGZvbnQtd2VpZ2h0OiBib2xkO1xuICAgICAgICAgICAgICAgICAgICB9XG4gICAgICAgICAgICAgICAgICAgIFxuICAgICAgICAgICAgICAgIGB9XG4gICAgICAgICAgICA8L3N0eWxlPlxuICAgICAgICA8L2Rpdj5cbiAgICApXG59XG5cbmNvbnN0IHN0eWxlcyA9IHtcbiAgICBsaW5rOiB7XG4gICAgICAgIGNvbG9yOiBDT0xPUlMucHJpbWFyeSxcbiAgICAgICAgcGFkZGluZzogMTAsXG4gICAgfSxcbiAgICBjdXJyTGluazoge1xuICAgICAgICBjb2xvcjogJ3doaXRlJyxcbiAgICAgICAgYmFja2dyb3VuZENvbG9yOiBDT0xPUlMucHJpbWFyeSxcbiAgICAgICAgcGFkZGluZzogMTAsXG4gICAgICAgIHRleHRBbGlnbjogJ2NlbnRlcicsXG4gICAgICAgIGJvcmRlclJhZGl1czogMjAsXG4gICAgfVxuICB9O1xuXG5leHBvcnQgZGVmYXVsdCBTaWRlTmF2OyJdfQ== */\n/*@ sourceURL=/Users/spencerford/Documents/DEVyall/PersonalProjects/CorporateBingoWeb/components/SideNav.js */"));
+  }, "#sidenav.jsx-1054960106{width:20%;max-width:300px;min-width:200px;height:100%;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;box-shadow:2px 0 5px -2px #999;background-color:white;font:roboto;padding:0 .5%;}.sidenavLink.jsx-1054960106{width:90%;text-align:left;margin:20px 0 0 0;-webkit-text-decoration:none;text-decoration:none;font-size:20px;font-weight:bold;}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9zcGVuY2VyZm9yZC9Eb2N1bWVudHMvREVWeWFsbC9QZXJzb25hbFByb2plY3RzL0NvcnBvcmF0ZUJpbmdvV2ViL2NvbXBvbmVudHMvU2lkZU5hdi5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFvRGlCLEFBR21DLEFBYUEsVUFaTSxBQWFBLGdCQVpBLEFBYUUsZ0JBWk4sRUFhUyxVQVpSLHdDQWFFLGVBQ0UsaUJBQ3JCLEVBZDBCLDhFQUNILDZGQUNZLCtCQUNSLHVCQUNYLFlBQ0UsY0FDbEIiLCJmaWxlIjoiL1VzZXJzL3NwZW5jZXJmb3JkL0RvY3VtZW50cy9ERVZ5YWxsL1BlcnNvbmFsUHJvamVjdHMvQ29ycG9yYXRlQmluZ29XZWIvY29tcG9uZW50cy9TaWRlTmF2LmpzIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgdXNlU3RhdGUsIHVzZUNvbnRleHQgfSBmcm9tICdyZWFjdCc7XG5pbXBvcnQgeyB1c2VSb3V0ZXIgfSBmcm9tICduZXh0L3JvdXRlcidcbmltcG9ydCBMaW5rIGZyb20gJ25leHQvbGluayc7XG5cbmltcG9ydCB7IENPTE9SUyB9IGZyb20gJy4uL3N0eWxlcy9tYXN0ZXJTdHlsZXMuanMnO1xuXG4vLyBjb250ZXh0IGltcG9ydHNcbmltcG9ydCB7IFVzZXJDb250ZXh0IH0gZnJvbSAnLi4vY29udGV4dHMvdXNlckNvbnRleHQnO1xuXG5jb25zdCBTaWRlTmF2ID0gKHByb3BzKSA9PiB7XG5cbiAgICBjb25zdCByb3V0ZXIgPSB1c2VSb3V0ZXIoKVxuXG4gICAgY29uc3QgeyB1c2VyLCBsb2dvdXQgfSA9IHVzZUNvbnRleHQoVXNlckNvbnRleHQpO1xuICAgIGNvbnN0IFsgY3VyclJvdXRlLCBzZXRDdXJyUm91dGUgXSA9IHVzZVN0YXRlKHJvdXRlci5wYXRobmFtZSk7XG5cbiAgICBjb25zdCBoYW5kbGVSb3V0ZUNoYW5nZSA9IHVybCA9PiB7XG4gICAgICAgIHNldEN1cnJSb3V0ZSh1cmwpO1xuICAgIH1cbiAgICByb3V0ZXIuZXZlbnRzLm9uKCdyb3V0ZUNoYW5nZVN0YXJ0JywgaGFuZGxlUm91dGVDaGFuZ2UpXG5cbiAgICBjb25zdCBoYW5kbGVSb3V0ZUNoYW5nZUNvbXBsZXRlID0gdXJsID0+IHtcbiAgICAgICAgc2V0Q3VyclJvdXRlKHVybCk7XG4gICAgfVxuICAgIHJvdXRlci5ldmVudHMub24oJ3JvdXRlQ2hhbmdlQ29tcGxldGUnLCBoYW5kbGVSb3V0ZUNoYW5nZUNvbXBsZXRlKVxuXG4gICAgY29uc3QgYWRkRGVmYXVsdFBpYyA9IChldikgPT4ge1xuICAgICAgICBldi50YXJnZXQuc3JjID0gXCJodHRwczovL2kueXRpbWcuY29tL3ZpL2JLY0Y3SlViQ3BvL21heHJlc2RlZmF1bHQuanBnXCI7XG4gICAgfTtcblxuICAgIGNvbnN0IGhhbmRsZUxvZ291dENsaWNrID0gKCkgPT4ge1xuICAgICAgICBsb2dvdXQoKTtcbiAgICB9XG5cbiAgICBpZighdXNlci5pZCl7XG4gICAgICAgIHJldHVybiA8c3Bhbj5MT0FESU5HLi4uPC9zcGFuPlxuICAgIH1cblxuICAgIHJldHVybiAoXG4gICAgICAgIDxkaXYgaWQ9J3NpZGVuYXYnIHN0eWxlPXt7IGJvcmRlclJpZ2h0OiBgMnB4IHNvbGlkICR7Q09MT1JTLnByaW1hcnl9YCB9fT5cbiAgICAgICAgICAgIDxpbWcgXG4gICAgICAgICAgICAgICAgYWx0PSdCaW5nbyBCdWlsZGVyJyBcbiAgICAgICAgICAgICAgICBzcmM9eycvc3RhdGljL2JpbmdvQnVpbGRlckxvZ28ucG5nJ30gXG4gICAgICAgICAgICAgICAgc3R5bGU9e3sgd2lkdGg6ICc5MCUnLCBtYXJnaW46ICcxMHB4IDAgMTBweCAwJyB9fVxuICAgICAgICAgICAgICAgIG9uRXJyb3I9e2FkZERlZmF1bHRQaWN9XG4gICAgICAgICAgICAvPlxuICAgICAgICAgICAgPExpbmsgaHJlZj0nL2pvaW5HYW1lJz48YSBjbGFzc05hbWU9J3NpZGVuYXZMaW5rJyBzdHlsZT17Y3VyclJvdXRlICYmIGN1cnJSb3V0ZS5pbmNsdWRlcygnam9pbkdhbWUnKSA/IHN0eWxlcy5jdXJyTGluayA6IHN0eWxlcy5saW5rfT5KT0lOIEdBTUU8L2E+PC9MaW5rPlxuICAgICAgICAgICAge3VzZXIgJiYgdXNlci5yb2xlTGV2ZWwgPCAzICYmIDxMaW5rIGhyZWY9Jy9tYW5hZ2VCb2FyZHMnPjxhIGNsYXNzTmFtZT0nc2lkZW5hdkxpbmsnIHN0eWxlPXtjdXJyUm91dGUgJiYgY3VyclJvdXRlLmluY2x1ZGVzKCdtYW5hZ2VCb2FyZHMnKSA/IHN0eWxlcy5jdXJyTGluayA6IHN0eWxlcy5saW5rfT5NQU5BR0UgQk9BUkRTPC9hPjwvTGluaz59XG4gICAgICAgICAgICB7dXNlciAmJiB1c2VyLnJvbGVMZXZlbCA8IDMgJiYgPExpbmsgaHJlZj0nL3VzZXJzQW5kT3JnJz48YSBjbGFzc05hbWU9J3NpZGVuYXZMaW5rJyBzdHlsZT17Y3VyclJvdXRlICYmIGN1cnJSb3V0ZS5pbmNsdWRlcygndXNlcnNBbmRPcmcnKSA/IHN0eWxlcy5jdXJyTGluayA6IHN0eWxlcy5saW5rfT5VU0VSUyAmIE9SRzwvYT48L0xpbms+fVxuICAgICAgICAgICAge3VzZXIgJiYgdXNlci5yb2xlTGV2ZWwgIT09IDIgJiYgPExpbmsgaHJlZj0nL3Byb2ZpbGUnPjxhIGNsYXNzTmFtZT0nc2lkZW5hdkxpbmsnIHN0eWxlPXtjdXJyUm91dGUgJiYgY3VyclJvdXRlLmluY2x1ZGVzKCdwcm9maWxlJykgPyBzdHlsZXMuY3VyckxpbmsgOiBzdHlsZXMubGlua30+TVkgUFJPRklMRTwvYT48L0xpbms+fVxuICAgICAgICAgICAgPGEgY2xhc3NOYW1lPSdzaWRlbmF2TGluaycgc3R5bGU9e3tjb2xvcjogQ09MT1JTLnByaW1hcnksIGN1cnNvcjogJ3BvaW50ZXInLCBwYWRkaW5nOiAxMH19IG9uQ2xpY2s9eygpID0+IGhhbmRsZUxvZ291dENsaWNrKCl9PkxPR09VVDwvYT5cbiAgICAgICAgICAgIDxzdHlsZSBqc3g+XG4gICAgICAgICAgICAgICAge2BcbiAgICAgICAgICAgICAgICAgICAgI3NpZGVuYXYge1xuICAgICAgICAgICAgICAgICAgICAgICAgd2lkdGg6IDIwJTtcbiAgICAgICAgICAgICAgICAgICAgICAgIG1heC13aWR0aDogMzAwcHg7XG4gICAgICAgICAgICAgICAgICAgICAgICBtaW4td2lkdGg6IDIwMHB4O1xuICAgICAgICAgICAgICAgICAgICAgICAgaGVpZ2h0OiAxMDAlO1xuICAgICAgICAgICAgICAgICAgICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgICAgICAgICAgICAgICAgICAgIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XG4gICAgICAgICAgICAgICAgICAgICAgICBhbGlnbi1pdGVtczogY2VudGVyO1xuICAgICAgICAgICAgICAgICAgICAgICAgYm94LXNoYWRvdzogMnB4IDAgNXB4IC0ycHggIzk5OTtcbiAgICAgICAgICAgICAgICAgICAgICAgIGJhY2tncm91bmQtY29sb3I6IHdoaXRlO1xuICAgICAgICAgICAgICAgICAgICAgICAgZm9udDogcm9ib3RvO1xuICAgICAgICAgICAgICAgICAgICAgICAgcGFkZGluZzogMCAuNSU7XG4gICAgICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgICAgICAgICAgLnNpZGVuYXZMaW5rIHtcbiAgICAgICAgICAgICAgICAgICAgICAgIHdpZHRoOiA5MCU7XG4gICAgICAgICAgICAgICAgICAgICAgICB0ZXh0LWFsaWduOiBsZWZ0O1xuICAgICAgICAgICAgICAgICAgICAgICAgbWFyZ2luOiAyMHB4IDAgMCAwO1xuICAgICAgICAgICAgICAgICAgICAgICAgdGV4dC1kZWNvcmF0aW9uOiBub25lO1xuICAgICAgICAgICAgICAgICAgICAgICAgZm9udC1zaXplOiAyMHB4O1xuICAgICAgICAgICAgICAgICAgICAgICAgZm9udC13ZWlnaHQ6IGJvbGQ7XG4gICAgICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgICAgICAgICAgXG4gICAgICAgICAgICAgICAgYH1cbiAgICAgICAgICAgIDwvc3R5bGU+XG4gICAgICAgIDwvZGl2PlxuICAgIClcbn1cblxuY29uc3Qgc3R5bGVzID0ge1xuICAgIGxpbms6IHtcbiAgICAgICAgY29sb3I6IENPTE9SUy5wcmltYXJ5LFxuICAgICAgICBwYWRkaW5nOiAxMCxcbiAgICB9LFxuICAgIGN1cnJMaW5rOiB7XG4gICAgICAgIGNvbG9yOiAnd2hpdGUnLFxuICAgICAgICBiYWNrZ3JvdW5kQ29sb3I6IENPTE9SUy5wcmltYXJ5LFxuICAgICAgICBwYWRkaW5nOiAxMCxcbiAgICAgICAgdGV4dEFsaWduOiAnY2VudGVyJyxcbiAgICAgICAgYm9yZGVyUmFkaXVzOiAyMCxcbiAgICB9XG4gIH07XG5cbmV4cG9ydCBkZWZhdWx0IFNpZGVOYXY7Il19 */\n/*@ sourceURL=/Users/spencerford/Documents/DEVyall/PersonalProjects/CorporateBingoWeb/components/SideNav.js */"));
 };
 
 const styles = {
@@ -2411,8 +2411,9 @@ const boardTemplates = {
 __webpack_require__.r(__webpack_exports__);
 const URL = "http://localhost";
 const PORT = '8000'; // export default FULL_URL = `${URL}:${PORT}`;
+// const FULL_URL = 'http://localhost:8000';
 
-const FULL_URL = 'http://localhost:8000'; // const FULL_URL = 'http://ec2-3-86-157-120.compute-1.amazonaws.com:8000';
+const FULL_URL = 'https://api.gamifytech.com/v1'; // const FULL_URL = 'http://ec2-3-86-157-120.compute-1.amazonaws.com:8000';
 
 /* harmony default export */ __webpack_exports__["default"] = (FULL_URL);
 
@@ -2449,6 +2450,14 @@ const OrgContextProvider = props => {
     1: setOrg
   } = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])({});
   const {
+    0: users,
+    1: setUsers
+  } = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])([]);
+  const {
+    0: boards,
+    1: setBoards
+  } = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])([]);
+  const {
     0: stuffToSave,
     1: setStuffToSave
   } = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false);
@@ -2458,14 +2467,17 @@ const OrgContextProvider = props => {
 
     try {
       const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_2___default()(`${_constants_constants__WEBPACK_IMPORTED_MODULE_3__["default"]}/orgs/${orgID}`, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
-        }
+        method: 'POST' // headers: {
+        //   'Accept': 'application/json',
+        //   'Content-Type': 'application/json',
+        //   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+        // },
+
       });
       const org = await request.json();
+      console.log('GOT ORG', org);
+      setUsers(org.userList);
+      setBoards(org.boards);
       setOrg(org);
     } catch (err) {
       alert(err);
@@ -2476,13 +2488,13 @@ const OrgContextProvider = props => {
     console.log('in save org', orgToSave);
 
     try {
-      const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_2___default()(`${_constants_constants__WEBPACK_IMPORTED_MODULE_3__["default"]}/orgs/${orgToSave._id}`, {
-        method: 'PATCH',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
-        },
+      const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_2___default()(`${_constants_constants__WEBPACK_IMPORTED_MODULE_3__["default"]}/orgs/update/${orgToSave.id}`, {
+        method: 'POST',
+        // headers: {
+        //   'Accept': 'application/json',
+        //   'Content-Type': 'application/json',
+        //   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+        // },
         body: _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0___default()(orgToSave)
       });
       const org = await request.json();
@@ -2496,15 +2508,19 @@ const OrgContextProvider = props => {
   return __jsx(OrgContext.Provider, {
     value: {
       contextOrg: org,
+      contextOrgUsers: users,
+      contextOrgBoards: boards,
       updateOrg: setOrg,
       getOrg: getOrg,
       saveOrg,
       setStuffToSave,
-      stuffToSave
+      stuffToSave,
+      contextSetUsers: setUsers,
+      setBoards
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 47
+      lineNumber: 52
     },
     __self: undefined
   }, props.children);
@@ -2548,7 +2564,7 @@ const PlayContextProvider = props => {
   } = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])({});
 
   const getGame = async (gameID, userID) => {
-    if (gameID && contextGame._id === gameID) {
+    if (gameID && contextGame.id === gameID) {
       console.log('go with same game', contextGame, gameID);
       return;
     }
@@ -2560,12 +2576,12 @@ const PlayContextProvider = props => {
     if (gameID && userID) {
       try {
         const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_3___default()(`${_constants_constants__WEBPACK_IMPORTED_MODULE_4__["default"]}/games/${gameID}/${userID}`, {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
-          }
+          method: 'POST' // headers: {
+          //     'Accept': 'application/json',
+          //     'Content-Type': 'application/json',
+          //     'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+          // },
+
         });
         const game = await request.json();
         console.log({
@@ -2583,13 +2599,13 @@ const PlayContextProvider = props => {
     console.log('SAVING GAME');
 
     try {
-      const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_3___default()(`${_constants_constants__WEBPACK_IMPORTED_MODULE_4__["default"]}/games/${contextGame._id}`, {
-        method: 'PATCH',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
-        },
+      const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_3___default()(`${_constants_constants__WEBPACK_IMPORTED_MODULE_4__["default"]}/games/update/${contextGame.id}`, {
+        method: 'POST',
+        // headers: {
+        //   'Accept': 'application/json',
+        //   'Content-Type': 'application/json',
+        //   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+        // },
         body: _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_1___default()(Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, game))
       });
       const success = await request.json();
@@ -2668,16 +2684,20 @@ const UserContextProvider = props => {
       }
 
       localStorage.setItem('bingo_user', _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0___default()({
-        userName: user.userName,
+        userAlias: user.userAlias,
         email: user.email,
-        role: user.role,
-        _id: user._id
+        roleLevel: user.roleLevel,
+        org: user.org,
+        orgName: user.orgName,
+        id: user.id
       }));
       setUser({
-        userName: user.userName,
+        userAlias: user.userAlias,
         email: user.email,
-        role: user.role,
-        _id: user._id
+        roleLevel: user.roleLevel,
+        org: user.org,
+        orgName: user.orgName,
+        id: user.id
       });
     } else {
       alert('Something went wrong logging you in, please try again!');
@@ -2700,7 +2720,7 @@ const UserContextProvider = props => {
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 47
+      lineNumber: 51
     },
     __self: undefined
   }, props.children);
@@ -5040,7 +5060,7 @@ const PlayHome = props => {
     1: setReward
   } = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({});
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
-    if (!contextGame._id) {
+    if (!contextGame.id) {
       console.log(props.findID);
       getGame(props.findID, props.userID);
     } else {
@@ -5075,7 +5095,7 @@ const PlayHome = props => {
     });
   };
 
-  if (game && game._id) {
+  if (game && game.id) {
     return __jsx(_components_Layout__WEBPACK_IMPORTED_MODULE_4__["default"], {
       __source: {
         fileName: _jsxFileName,
@@ -5112,7 +5132,7 @@ const PlayHome = props => {
         lineNumber: 110
       },
       __self: undefined
-    }, "Created by ", game.org.name), __jsx("div", {
+    }, "Created by ", game.orgName), __jsx("div", {
       style: {
         marginBottom: 20
       },
@@ -5121,7 +5141,7 @@ const PlayHome = props => {
         lineNumber: 111
       },
       __self: undefined
-    }, "Organized by ", game.organizer.name)), game.rewards.length && game.rewards[game.rewards.length - 1].position.includes('wholeBoard') && game.rewards[game.rewards.length - 1].title ? generateWholeBoardRewardIcon(game.rewards[game.rewards.length - 1]) : null, __jsx(_components_Play_PlayBoard__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    }, "Organized by ", game.organizerName)), game.rewards.length && game.rewards[game.rewards.length - 1].position.includes('wholeBoard') && game.rewards[game.rewards.length - 1].title ? generateWholeBoardRewardIcon(game.rewards[game.rewards.length - 1]) : null, __jsx(_components_Play_PlayBoard__WEBPACK_IMPORTED_MODULE_5__["default"], {
       board: game,
       navigation: props.navigation,
       size: `size${game.numSquares}`,
@@ -5361,7 +5381,7 @@ const MASTER = {
 
 /***/ }),
 
-/***/ 4:
+/***/ 3:
 /*!*********************************************************!*\
   !*** multi ./pages/playGame/[findID]/[userID]/index.js ***!
   \*********************************************************/

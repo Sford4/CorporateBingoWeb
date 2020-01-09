@@ -18,16 +18,16 @@ const EditUser = (props) => {
     const { user, storeUser, logout } = useContext(UserContext);
 
 
-    const [userID, setUserID] = useState(user.user_id);
-    const [userName, setUserName] = useState(user.userName);
+    const [userID, setUserID] = useState(user.userid);
+    const [userAlias, setUsername] = useState(user.userAlias);
     const [email, setEmail] = useState(user.email);
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
     useEffect(() => {
-        if(user && user._id){
-            setUserID(user._id);
-            setUserName(user.userName);
+        if(user && user.id){
+            setUserID(user.id);
+            setUsername(user.userAlias);
             setEmail(user.email);
         }
     },[user]);
@@ -44,8 +44,8 @@ const EditUser = (props) => {
     }
 
     const updateUser = async () => {
-        if(!userName){
-            openWarning('Must have a username!');
+        if(!userAlias){
+            openWarning('Must have a userAlias!');
             return;
         }
         if(!email || !validEmail(email)){
@@ -66,19 +66,17 @@ const EditUser = (props) => {
                   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
                 },
                 body: JSON.stringify({
-                    _id: userID,
-                    userName,
+                    id: userID,
+                    userAlias,
                     email,
                     password,
-                    role: {
-                        org: user.role.org,
-                        level: user.role.level
-                    },
+                    roleLevel: user.roleLevel,
+                    org: user.org,
                 })
               })
               const res = await request.json();
               console.log('from backend', {res})
-              if(res && res._id){
+              if(res && res.id){
                 storeUser(res);
               } else {
                   alert('There was a problem updating this user...');
@@ -87,7 +85,7 @@ const EditUser = (props) => {
     }
 
     const deleteUser = async () => {
-        if(confirm(`Are you sure? This will delete ${userName} forever!`)){
+        if(confirm(`Are you sure? This will delete ${userAlias} forever!`)){
             try {
                 const request = await fetch(`${FULL_URL}/users/${userID}`, {
                     method: 'DELETE',
@@ -98,7 +96,7 @@ const EditUser = (props) => {
                     },
                   })
                   const response = await request.json();
-                  if(response && response._id){
+                  if(response && response.id){
                     logout()
                   } else {
                       alert('There was a problem deleting this user...');
@@ -115,8 +113,8 @@ const EditUser = (props) => {
                 <div style={styles.subcontainer}>
                     <input 
                         style={MASTER.wideRoundInput} 
-                        value={userName} 
-                        onChange={e => setUserName(e.target.value)} 
+                        value={userAlias} 
+                        onChange={e => setUsername(e.target.value)} 
                         placeholder={'User Name'}
                     />
                     <input 
@@ -142,7 +140,7 @@ const EditUser = (props) => {
                     <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         {/* <button 
                             style={{ ...MASTER.wideRoundBtn, backgroundColor: 'red', marginTop: 20 }} 
-                            onClick={() => deleteUser(user._id)}
+                            onClick={() => deleteUser(user.id)}
                         >
                             <span style={MASTER.wideRoundBtnText}>Delete User</span>
                         </button> */}

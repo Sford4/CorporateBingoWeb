@@ -19,7 +19,7 @@ const ForgotPassword = () => {
   const [confirmationMessage, setConfirmationMessage] = useState(false);
 
     useEffect(() => {
-        if(user._id && localStorage.getItem('bingo_token')){
+        if(user.id && localStorage.getItem('bingo_token')){
             router.push('/joinGame');
         }
       }, [user])

@@ -32,7 +32,7 @@ const SideNav = (props) => {
         logout();
     }
 
-    if(!user._id){
+    if(!user.id){
         return <span>LOADING...</span>
     }
 
@@ -45,9 +45,9 @@ const SideNav = (props) => {
                 onError={addDefaultPic}
             />
             <Link href='/joinGame'><a className='sidenavLink' style={currRoute && currRoute.includes('joinGame') ? styles.currLink : styles.link}>JOIN GAME</a></Link>
-            {user && user.role.level < 3 && <Link href='/manageBoards'><a className='sidenavLink' style={currRoute && currRoute.includes('manageBoards') ? styles.currLink : styles.link}>MANAGE BOARDS</a></Link>}
-            {user && user.role.level < 3 && <Link href='/usersAndOrg'><a className='sidenavLink' style={currRoute && currRoute.includes('usersAndOrg') ? styles.currLink : styles.link}>USERS & ORG</a></Link>}
-            {user && user.role.level !== 2 && <Link href='/profile'><a className='sidenavLink' style={currRoute && currRoute.includes('profile') ? styles.currLink : styles.link}>MY PROFILE</a></Link>}
+            {user && user.roleLevel < 3 && <Link href='/manageBoards'><a className='sidenavLink' style={currRoute && currRoute.includes('manageBoards') ? styles.currLink : styles.link}>MANAGE BOARDS</a></Link>}
+            {user && user.roleLevel < 3 && <Link href='/usersAndOrg'><a className='sidenavLink' style={currRoute && currRoute.includes('usersAndOrg') ? styles.currLink : styles.link}>USERS & ORG</a></Link>}
+            {user && user.roleLevel !== 2 && <Link href='/profile'><a className='sidenavLink' style={currRoute && currRoute.includes('profile') ? styles.currLink : styles.link}>MY PROFILE</a></Link>}
             <a className='sidenavLink' style={{color: COLORS.primary, cursor: 'pointer', padding: 10}} onClick={() => handleLogoutClick()}>LOGOUT</a>
             <style jsx>
                 {`

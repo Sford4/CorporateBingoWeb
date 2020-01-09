@@ -28,7 +28,7 @@ const BoardSettings = (props) => {
     const [hasTimeLimit, setHasTimeLimit] = useState(!!props.board.timeLimit);
 
     useEffect(() => {
-        if(!contextBoard._id){
+        if(!contextBoard.id){
             setBoard(props.board);
         } else {
             setBoard(contextBoard);
@@ -47,10 +47,10 @@ const BoardSettings = (props) => {
         updateBoard({
             ...board,
             accessCode: '',
-            groups: {
-                ...board.groups,
-                useTeams: bool
-            }
+            teams: [
+                ...board.teams,
+            ],
+            useTeams: bool
         });
         setStuffToSave(true);
     }
@@ -58,10 +58,7 @@ const BoardSettings = (props) => {
     const changeTeams = teams => {
         updateBoard({
             ...board,
-            groups: {
-                ...board.groups,
-                teams: teams
-            }
+            teams: teams,
         });
         setStuffToSave(true);
     }
@@ -69,11 +66,11 @@ const BoardSettings = (props) => {
 
     const deleteTeam = id => {
         // show a popup confirming they want to remove a team, let them know it'll delete any games associate with that team
-        changeTeams(board.groups.teams.filter(team => team._id !== id));
+        changeTeams(board.teams.filter(team => team.id !== id));
     }
 
     const addTeam = () => {
-        changeTeams([...board.groups.teams, {_id: `team${Math.random()}`, name: '', accessCode: ''}]);
+        changeTeams([...board.teams, {id: `team${Math.random()}`, name: '', accessCode: ''}]);
     }
 
     const downloadQRCode = (id, type) => {
@@ -108,15 +105,15 @@ const BoardSettings = (props) => {
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
 
     const generateTeams = () => {
-        return contextBoard.groups.teams.map((team, index) => {
+        return contextBoard.teams.map((team, index) => {
             return (
                 <div key={`team-id-${index}`} style={{ ...styles.labelColumn, flexDirection: 'row', alignItems: 'center', marginTop: 10}}>
                     <span style={{ ...styles.inputLabel,  marginLeft: 5, marginRight: 5}}>Team Name: </span>
                     <input 
                         style={{ ...MASTER.wideRoundInput, marginTop: 5, width: 'auto', padding: '0 20px 0 20px', maxWidth: 700 }} 
-                        value={team.name} 
-                        onChange={e => changeTeams(board.groups.teams.map(group => {
-                            if(group._id === team._id) {
+                        value={team.name || ''} 
+                        onChange={e => changeTeams(board.teams.map(group => {
+                            if(group.id === team.id) {
                                 return {...group, name: e.target.value}
                             }
                             return group;
@@ -126,9 +123,9 @@ const BoardSettings = (props) => {
                     <span style={{ ...styles.inputLabel,  marginLeft: 10, marginRight: 5}}>Access Code: </span>
                     <input 
                         style={{ ...MASTER.wideRoundInput, marginTop: 5, width: 'auto', padding: '0 20px 0 20px', maxWidth: 700 }} 
-                        value={team.accessCode} 
-                        onChange={e => changeTeams(board.groups.teams.map(group => {
-                            if(group._id === team._id) {
+                        value={team.accessCode || ''} 
+                        onChange={e => changeTeams(board.teams.map(group => {
+                            if(group.id === team.id) {
                                 return {...group, accessCode: e.target.value}
                             }
                             return group;
@@ -148,11 +145,11 @@ const BoardSettings = (props) => {
                             <img style={{ height: 20 }} src={'../../static/qr_code_white.png'} alt='qr code' />
                         </button>
                     }
-                    <div style={{ cursor: 'pointer' }} onClick={() => deleteTeam(team._id)}><img src={'../../static/GarbageCan.png'} alt='Delete' style={{ height: 40, marginLeft: 10 }} /></div>
+                    <div style={{ cursor: 'pointer' }} onClick={() => deleteTeam(team.id)}><img src={'../../static/GarbageCan.png'} alt='Delete' style={{ height: 40, marginLeft: 10 }} /></div>
                     <div style={{ display: 'none' }}>
                         <QRCode
                             id={team.accessCode}
-                            value={`{"i": "${board._id}", "c": "${team.accessCode}"}`}
+                            value={`{"i": "${board.id}", "c": "${team.accessCode}"}`}
                             size={200}
                             level={"Q"}
                             includeMargin={false}
@@ -163,7 +160,7 @@ const BoardSettings = (props) => {
         })
     }
 
-    if(!board._id){
+    if(!board.id){
         return <div>LOADING</div>
     }
 
@@ -186,7 +183,7 @@ const BoardSettings = (props) => {
                         <span style={styles.inputLabel}>Description/Instructions/Hint</span>
                         <textarea 
                             style={{ ...MASTER.wideRoundTextArea, marginTop: 5, width: 'auto', padding: '5px 20px', maxWidth: 700 }} 
-                            value={contextBoard.description} 
+                            value={contextBoard.description || ''} 
                             onChange={e => changeRegularValues('description', e.target.value)} 
                             placeholder={'e.g. To be done on the first day in a new office'}
                         />
@@ -279,12 +276,12 @@ const BoardSettings = (props) => {
                 <div style={styles.row}>
                     <div style={{ ...styles.labelColumn, flexDirection: 'row', alignItems: 'center'}}>
                         <Switch
-                            onChange = {() => changeUseGroups(!board.groups.useTeams)}
-                            value = {board.groups.useTeams}
-                            checked={board.groups.useTeams}
+                            onChange = {() => changeUseGroups(!board.useTeams)}
+                            value = {board.useTeams}
+                            checked={board.useTeams}
                         />
                         <span style={{ ...styles.inputLabel,  marginLeft: 5}}>Teams</span>
-                        {board.groups.useTeams &&
+                        {board.useTeams &&
                             <button 
                                 style={{ ...MASTER.wideRoundBtn, width: 80, marginTop: 0, marginLeft: 10, height: 25 }} 
                                 onClick={() => addTeam()}
@@ -294,14 +291,14 @@ const BoardSettings = (props) => {
                         }
                     </div>
                 </div>
-                {board.groups.useTeams &&
+                {board.useTeams &&
                     <div style={styles.row} className="teams-section">
                         <div style={styles.labelColumn}>
                             {generateTeams()}
                         </div>
                     </div>
                 }
-                {!board.groups.useTeams &&
+                {!board.useTeams &&
                     <div style={styles.row}>
                         <div style={styles.labelColumn}>
                             <span style={styles.inputLabel}>Code to Access Board</span>
@@ -329,7 +326,7 @@ const BoardSettings = (props) => {
                                 <div className='QR-maker'>
                                     <QRCode
                                         id={board.accessCode}
-                                        value={`{"i": "${board._id}", "c": ""}`}
+                                        value={`{"i": "${board.id}", "c": ""}`}
                                         size={200}
                                         level={"Q"}
                                         includeMargin={false}
@@ -348,6 +345,7 @@ const BoardSettings = (props) => {
                         <span className='incomplete-color' style={{ ...styles.exampleSquare, backgroundColor: `#${board.incompleteColor}`}}>Incomplete Square Example</span>
                     </div>
                     <div style={{ ...styles.labelColumn, alignItems: 'center', flexDirection: 'row' }}>
+                        {/* {console.log({board})} */}
                         <ChromePicker color={board.completeColor} onChange={(color, e) => changeRegularValues('completeColor', color.hex.substring(1, color.hex.length))} />
                         <span className='complete-color' style={{ ...styles.exampleSquare, backgroundColor: `#${board.completeColor}`}}>Complete Square Example</span>
                     </div>

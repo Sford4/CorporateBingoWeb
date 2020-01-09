@@ -30,7 +30,7 @@ const ManageBoardContainer = (props) => {
                 setComponent(<BoardBuilder changesMade={props.changesMade} board={props.board} />);
                 return;
             case 2:
-                setComponent(<BoardTeamsOrPlayers changesMade={props.changesMade} boardID={props.board._id} />);
+                setComponent(<BoardTeamsOrPlayers changesMade={props.changesMade} boardID={props.board.id} />);
                 return;
             case 3:
                 setComponent(<BoardRewards changesMade={props.changesMade} board={props.board} />);

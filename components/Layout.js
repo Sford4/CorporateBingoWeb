@@ -11,17 +11,17 @@ const Layout = (props => {
     const { org, getOrg } = useContext(OrgContext);
 
     useEffect(() => {
-        if(!user._id && localStorage.getItem('bingo_user') && localStorage.getItem('bingo_token')){
+        if(!user.id && localStorage.getItem('bingo_user') && localStorage.getItem('bingo_token')){
             storeUser(JSON.parse(localStorage.getItem('bingo_user')));
         } else if(!localStorage.getItem('bingo_token') || !user){
             logout();
         }
-        if(user && user.role && user.role.org && !org){
-            getOrg(user.role.org);
+        if(user && user.org && !org){
+            getOrg(user.org);
         }
     },[user]);
 
-    if(!user || !user._id){
+    if(!user || !user.id){
         return <div>loading</div>
     }
 

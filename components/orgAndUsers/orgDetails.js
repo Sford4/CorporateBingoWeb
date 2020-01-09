@@ -19,7 +19,7 @@ const OrgDetails = (props) => {
     const [org, setOrg] = useState(contextOrg);
 
     useEffect(() => {
-        if(!contextOrg._id){
+        if(!contextOrg.id){
             setOrg(props.org);
         } else {
             setOrg(contextOrg);
@@ -53,7 +53,7 @@ const OrgDetails = (props) => {
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
 
 
-    if(!org._id){
+    if(!org.id){
         return <div>LOADING</div>
     }
 
@@ -65,10 +65,10 @@ const OrgDetails = (props) => {
                         <span style={styles.inputLabel}>Org Name</span>
                         <input 
                             style={{ ...MASTER.wideRoundInput, marginTop: 5, width: 'auto', padding: '0 20px 0 20px', maxWidth: 700 }} 
-                            value={org.name} 
+                            value={org.orgName} 
                             onChange={e => {
-                                changeRegularValues('name', e.target.value);
-                                setOrg({...org, name: e.target.value });
+                                changeRegularValues('orgName', e.target.value);
+                                setOrg({...org, orgName: e.target.value });
                             }} 
                             placeholder={'e.g. Example Co'}
                         />
@@ -107,7 +107,7 @@ const OrgDetails = (props) => {
                             }
                         </div>
                         <div style={{ ...styles.exampleSquare, backgroundColor: `#${org.completeColor}`}}>
-                            <img style={styles.image} src={!org.freeSquareIcon ? '../../static/circle_check.png'  : org.freeSquareIcon}  />
+                            <img style={styles.image} src={org.freeSquareIcon === 'default' ? '../../static/circle_check.png'  : org.freeSquareIcon}  />
                         </div>
                     </div>
                     <div style={{ ...styles.labelColumn, alignItems: 'center', flexDirection: 'row' }}>

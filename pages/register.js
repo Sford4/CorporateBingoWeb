@@ -18,13 +18,13 @@ const Register = () => {
     const router = useRouter()
     
     const [orgName, setOrgName] = useState('');
-    const [userName, setUserName] = useState('');
+    const [userAlias, setUserName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
     useEffect(() => {
-        if(user._id && localStorage.getItem('bingo_token')){
+        if(user.id && localStorage.getItem('bingo_token')){
             router.push('/joinGame');
         }
       }, [user])
@@ -41,8 +41,8 @@ const Register = () => {
     }
     
     const register = async () => {
-        if(!userName){
-            openWarning('Must have a username!');
+        if(!userAlias){
+            openWarning('Must have a userAlias!');
             return;
         }
         if(!email || !validEmail(email)){
@@ -56,13 +56,13 @@ const Register = () => {
         try {
             const request = await fetch(`${FULL_URL}/orgs/register`, {
                 method: 'POST',
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json'
-                },
+                // headers: {
+                //   'Accept': 'application/json',
+                //   'Content-Type': 'application/json'
+                // },
                 body: JSON.stringify({
                     orgName,
-                    userName,
+                    userAlias,
                     email,
                     password,
                 })
@@ -90,7 +90,7 @@ const Register = () => {
                 <div style={{ ...MASTER.pageTitle, fontSize: 24, margin: '10px 0 -20px 0' }}>USER DETAILS</div>
                 <input 
                     style={MASTER.wideRoundInput} 
-                    value={userName} 
+                    value={userAlias} 
                     onChange={e => setUserName(e.target.value)} 
                     placeholder={'User Name'}
                 />

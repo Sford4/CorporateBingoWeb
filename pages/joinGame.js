@@ -20,6 +20,7 @@ import Paper from '@material-ui/core/Paper';
 // context imports
 import { JoinGameContext } from '../contexts/joinGameContext';
 import { UserContext } from '../contexts/userContext';
+import { PlayContext } from '../contexts/playContext';
 
 const materialStyles = theme => ({
   root: {
@@ -59,11 +60,12 @@ const BoardFind = (props) => {
 
   const { accessBoards, getAccessBoards, foundBoards, findBoards, setFoundBoards } = useContext(JoinGameContext);
   const { user } = useContext(UserContext);
+  const { updateGame } = useContext(PlayContext);
 
   useEffect(() => {
     if(!accessBoards || !accessBoards.length && !accessBoardsFound){
         if(user){
-          getAccessBoards(user._id);
+          getAccessBoards(user.id);
         }
     } else {
         setAccessBoardsFound(true);
@@ -85,18 +87,22 @@ const BoardFind = (props) => {
     setPastFoundBoards([]);
   }
 
+  const clearOutCurrGame = () => {
+    updateGame({});
+  }
+
   const generateBoardCards = boards => {
     if(boards[0] === 'none'){
       return <div style={{ marginTop: 15 }}>We couldn't find any games you've already played, try searching for one using it's access code!</div>;
     }
     return boards.map((board, index) => {
       return (
-        <Link href={`playGame/[findID]/[userID]`} as={`playGame/game-${board._id}/${user._id}`} key={index}>
-            <button key={`board-${board._id}`} style={MASTER.card}>
+        <Link href={`playGame/[findID]/[userID]`} as={`playGame/${board.id}/${user.id}`} key={index}>
+            <button key={`board-${board.id}`} style={MASTER.card} onClick={() => clearOutCurrGame()}>
             <div style={MASTER.cardInteriordiv}>
                 <div style={{fontSize: 18, fontWeight: 'bold'}}>{board.title}</div>
-                <div>Created by {board.org.name}</div>
-                <div>Played by {board.organizer.team ? board.organizer.name : 'you!'}</div>
+                <div>Created by {board.orgName}</div>
+                <div>Played by {board.team ? board.organizerName : 'you!'}</div>
             </div>
             </button>
         </Link>
@@ -109,11 +115,10 @@ const BoardFind = (props) => {
       return <div>No games found, double check your code or make sure you don't already already have a game on that board!</div>
     }
     return foundBoards.map((board, index) => {
-      console.log('found board',)
       return (
         <Link 
           href={`playGame/[findID]/[userID]`} 
-          as={`playGame/${board.team === 'No teams' ? 'board' : 'game'}-${board._id}/${user._id}`} 
+          as={`playGame/${board.id}/${user.id}`} 
           key={index}
         >
           <div 

@@ -30,12 +30,12 @@ const RewardBuilder = (props) => {
   }
 
   useEffect(() => {
-    if(!contextBoard._id){
+    if(!contextBoard.id){
         setReward(props.reward);
     } else {
-        setReward(contextBoard.rewards.filter(reward => reward._id === props.reward._id)[0]);
+        setReward(contextBoard.rewards.filter(reward => reward.id === props.reward.id)[0]);
     }
-    if(reward._id && !reward.howToEarn){
+    if(reward.id && !reward.howToEarn){
         updateReward('howToEarn', generateHowToEarn(reward.position));
     }
   }, [contextBoard])
@@ -65,7 +65,7 @@ const RewardBuilder = (props) => {
         updateBoard({
             ...board,
             rewards: board.rewards.map(oldReward => {
-                if(oldReward._id === reward._id){
+                if(oldReward.id === reward.id){
                     return {
                         ...oldReward,
                         [field]: val
@@ -82,7 +82,7 @@ const RewardBuilder = (props) => {
         updateBoard({
             ...board,
             rewards: board.rewards.map(oldReward => {
-                if(oldReward._id === id){
+                if(oldReward.id === id){
                     return {
                         ...oldReward,
                         img: '',
@@ -100,7 +100,7 @@ const RewardBuilder = (props) => {
     props.openPopup(false);
   }
 
-  if(!reward._id){
+  if(!reward.id){
     return <div>LOADING</div>
   }
 
@@ -110,7 +110,8 @@ const RewardBuilder = (props) => {
         
       <div {...getRootProps()}>
         <input {...getInputProps()} />
-        {reward.img.length ? 
+        {console.log({reward})}
+        {!!reward.img ? 
             <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                 <img 
                     style={styles.pic} 
@@ -128,7 +129,7 @@ const RewardBuilder = (props) => {
       <span style={styles.inputLabel}>Title</span>
       <input 
             style={{ ...MASTER.wideRoundInput, marginTop: 2 }} 
-            value={reward.title} 
+            value={reward.title || ''} 
             onChange={e => {
                 updateReward('title', e.target.value);
                 setReward({...reward, title: e.target.value});
@@ -143,13 +144,13 @@ const RewardBuilder = (props) => {
                 updateReward('description', e.target.value);
                 setReward({...reward, description: e.target.value});
             }}
-            value={reward.description} 
+            value={reward.description || ''} 
             placeholder={'e.g. A t shirt!'}
         />
          <span style={styles.inputLabel}>Item they'll earn (for their player record)</span>
         <input 
             style={{ ...MASTER.wideRoundInput, marginTop: 2 }} 
-            value={reward.item} 
+            value={reward.item || ''} 
             onChange={e => {
                 updateReward('item', e.target.value);
                 setReward({...reward, item: e.target.value});
@@ -159,7 +160,7 @@ const RewardBuilder = (props) => {
          <span style={styles.inputLabel}>Points they'll earn (for their player record)</span>
         <input 
             style={{ ...MASTER.wideRoundInput, marginTop: 2 }} 
-            value={reward.points} 
+            value={reward.points || 0} 
             onChange={e => {
                 updateReward('points', e.target.value);
                 setReward({...reward, points: e.target.value});
@@ -174,13 +175,13 @@ const RewardBuilder = (props) => {
                 updateReward('howToEarn', e.target.value);
                 setReward({...reward, howToEarn: e.target.value});
             }}
-            value={reward.howToEarn} 
+            value={reward.howToEarn || ''} 
             placeholder={'e.g. Complete all the speed goals'}
             
         />
         <button 
             style={{ ...MASTER.wideRoundBtn, backgroundColor: 'red', marginTop: 20 }} 
-            onClick={() => remove(reward._id)}
+            onClick={() => remove(reward.id)}
         >
             <span style={MASTER.wideRoundBtnText}>Remove Reward</span>
         </button>

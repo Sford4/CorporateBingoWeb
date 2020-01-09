@@ -21,7 +21,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
 
     useEffect(() => {
-        if(user._id && localStorage.getItem('bingo_token')){
+        if(user.id && localStorage.getItem('bingo_token')){
             router.push('/joinGame');
         }
       }, [user])
@@ -34,10 +34,10 @@ const Login = () => {
         try {
             const request = await fetch(`${FULL_URL}/users/login`, {
                 method: 'POST',
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json'
-                },
+                // headers: {
+                //   'Accept': 'application/json',
+                //   'Content-Type': 'application/json'
+                // },
                 body: JSON.stringify({
                     email,
                     password,
@@ -50,8 +50,8 @@ const Login = () => {
               }
               storeUser(user);
               console.log({user})
-              if(user.role.org && !contextOrg._id){
-                  getOrg(user.role.org);
+              if(user.org && !contextOrg.id){
+                  getOrg(user.org);
               }
               router.push('/joinGame');
             } catch(err) {alert(err)}

@@ -101,7 +101,7 @@ const PlayBoard = (props) => {
     const gameToSave = {
       ...contextGame, 
       squares: contextGame.squares.map((square) => {
-          if(square._id === task._id){
+          if(square.id === task.id){
             return task;
           }
           return square;
