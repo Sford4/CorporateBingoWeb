@@ -43,13 +43,20 @@ const PlayContextProvider = (props) => {
                 //   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
                 // },
                 body: JSON.stringify({
-                    ...game
+                    id: game.id,
+                    startTime: game.startTime,
+                    squares: game.squares,
+                    rewards: game.rewards
                 })
               })
               const success = await request.json();
               console.log({success})
               if(success){
-                setContextGame(success);
+                setContextGame({ 
+                    ...game, 
+                    rewards: success.rewards,
+                    squares: success.squares
+                });
               } else {
                   alert('There was a problem saving your board... please try again later!')
               }

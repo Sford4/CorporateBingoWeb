@@ -64,7 +64,7 @@ const BoardFind = (props) => {
 
   useEffect(() => {
     if(!accessBoards || !accessBoards.length && !accessBoardsFound){
-        if(user){
+        if(user && user.id){
           getAccessBoards(user.id);
         }
     } else {

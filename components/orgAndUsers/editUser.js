@@ -29,7 +29,7 @@ const EditUser = (props) => {
     
     const signup = async () => {
         if(!userAlias){
-            openWarning('Must have a userAlias!');
+            openWarning('Must have a user name!');
             return;
         }
         if(!email || !validEmail(email)){
@@ -43,16 +43,17 @@ const EditUser = (props) => {
         try {
             const request = await fetch(`${FULL_URL}/users/signup`, {
                 method: 'POST',
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json'
-                },
+                // headers: {
+                //   'Accept': 'application/json',
+                //   'Content-Type': 'application/json'
+                // },
                 body: JSON.stringify({
                     userAlias,
                     email,
                     password,
                     roleLevel: 2,
-                    org: props.orgID,
+                    org: props.org.id,
+                    orgName: props.org.orgName,
                 })
               })
               const user = await request.json();
@@ -136,13 +137,13 @@ const EditUser = (props) => {
             <div style={styles.subcontainer}>
                 <input 
                     style={MASTER.wideRoundInput} 
-                    value={userAlias} 
+                    value={userAlias || ''} 
                     onChange={e => setUserName(e.target.value)} 
                     placeholder={'User Name'}
                 />
                 <input 
                     style={MASTER.wideRoundInput} 
-                    value={email} 
+                    value={email || ''} 
                     onChange={e => setEmail(e.target.value)} 
                     placeholder={'Email'}
                 />

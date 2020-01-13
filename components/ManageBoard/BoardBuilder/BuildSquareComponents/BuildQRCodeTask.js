@@ -25,7 +25,7 @@ const BuildQRCodeTask = (props) => {
         <div style={{ marginTop: -10, marginBottom: -5 }}>
             <QRCode
                 id="123456"
-                value={props.task.id}
+                value={`{"tID": "${props.task.id}"}`}
                 size={200}
                 level={"Q"}
                 includeMargin={false}

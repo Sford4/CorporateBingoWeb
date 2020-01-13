@@ -12,8 +12,9 @@ __webpack_require__.r(__webpack_exports__);
 var URL = "http://localhost";
 var PORT = '8000'; // export default FULL_URL = `${URL}:${PORT}`;
 // const FULL_URL = 'http://localhost:8000';
+// const FULL_URL = 'https://api.gamifytech.com/v1';
 
-var FULL_URL = 'https://api.gamifytech.com/v1'; // const FULL_URL = 'http://ec2-3-86-157-120.compute-1.amazonaws.com:8000';
+var FULL_URL = 'https://8n5rviefak.execute-api.us-east-1.amazonaws.com/bingo'; // const FULL_URL = 'http://ec2-3-86-157-120.compute-1.amazonaws.com:8000';
 
 /* harmony default export */ __webpack_exports__["default"] = (FULL_URL);
 
@@ -108,22 +109,20 @@ var JoinGameContextProvider = function JoinGameContextProvider(props) {
                 result: result
               });
               setAccessBoards(result.games);
-              setUsedGameIDs(result.gameIDs);
-              setUsedBoardIDs(result.boardIDs);
-              _context.next = 17;
+              _context.next = 15;
               break;
 
-            case 14:
-              _context.prev = 14;
+            case 12:
+              _context.prev = 12;
               _context.t0 = _context["catch"](1);
               alert(_context.t0);
 
-            case 17:
+            case 15:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[1, 14]]);
+      }, _callee, null, [[1, 12]]);
     }));
 
     return function getAccessBoards(_x) {
@@ -152,9 +151,7 @@ var JoinGameContextProvider = function JoinGameContextProvider(props) {
                 //   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
                 // },
                 body: _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_1___default()({
-                  accessCode: accessCode,
-                  gamesAlreadyFound: usedGameIDs,
-                  boardsAlreadyFound: usedBoardIDs
+                  accessCode: accessCode
                 })
               });
 
@@ -215,7 +212,7 @@ var JoinGameContextProvider = function JoinGameContextProvider(props) {
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 71
+      lineNumber: 67
     },
     __self: this
   }, props.children);
@@ -865,7 +862,12 @@ var PlayContextProvider = function PlayContextProvider(props) {
                 //   'Content-Type': 'application/json',
                 //   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
                 // },
-                body: _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_1___default()(Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, game))
+                body: _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_1___default()({
+                  id: game.id,
+                  startTime: game.startTime,
+                  squares: game.squares,
+                  rewards: game.rewards
+                })
               });
 
             case 5:
@@ -880,7 +882,10 @@ var PlayContextProvider = function PlayContextProvider(props) {
               });
 
               if (success) {
-                setContextGame(success);
+                setContextGame(Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, game, {
+                  rewards: success.rewards,
+                  squares: success.squares
+                }));
               } else {
                 alert('There was a problem saving your board... please try again later!');
               }
@@ -915,7 +920,7 @@ var PlayContextProvider = function PlayContextProvider(props) {
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 63
+      lineNumber: 70
     },
     __self: this
   }, props.children);

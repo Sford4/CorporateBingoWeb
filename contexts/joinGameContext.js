@@ -30,8 +30,6 @@ const JoinGameContextProvider = (props) => {
                 const result = await request.json();
                 console.log({result})
                 setAccessBoards(result.games);
-                setUsedGameIDs(result.gameIDs);
-                setUsedBoardIDs(result.boardIDs);
         } catch(err) {alert(err)}
     }
 
@@ -46,8 +44,6 @@ const JoinGameContextProvider = (props) => {
                 // },
                 body: JSON.stringify({
                     accessCode,
-                    gamesAlreadyFound: usedGameIDs,
-                    boardsAlreadyFound: usedBoardIDs,
                 })
               })
               const success = await request.json();

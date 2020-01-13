@@ -121,7 +121,7 @@ const UsersDetails = (props) => {
 
   return (
         <div style={styles.container}>
-            <div style={MASTER.pageTitle}>Admins for {contextOrg.name} (click to edit)</div>
+            <div style={MASTER.pageTitle}>Admins for {contextOrg.orgName} (click to edit)</div>
             {/* <input 
                 style={{ ...MASTER.wideRoundInput, maxWidth: 300 }} 
                 value={searchText} 

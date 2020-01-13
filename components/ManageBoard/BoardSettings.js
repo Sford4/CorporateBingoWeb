@@ -73,14 +73,14 @@ const BoardSettings = (props) => {
         changeTeams([...board.teams, {id: `team${Math.random()}`, name: '', accessCode: ''}]);
     }
 
-    const downloadQRCode = (id, type) => {
+    const downloadQRCode = (id, title, type) => {
             const canvas = document.getElementById(id);
             const pngUrl = canvas
                 .toDataURL("image/png")
                 .replace("image/png", "image/octet-stream");
             let downloadLink = document.createElement("a");
             downloadLink.href = pngUrl;
-            downloadLink.download = `bingo-${type}-code-${id}.png`;
+            downloadLink.download = `${title}-${type}-code-${id}.png`;
             document.body.appendChild(downloadLink);
             downloadLink.click();
             document.body.removeChild(downloadLink);
@@ -135,7 +135,7 @@ const BoardSettings = (props) => {
                     {team.accessCode && team.name ?
                     <button 
                         style={{ ...MASTER.wideRoundBtn, width: 60, marginTop: 4, marginLeft: 10, height: 35 }} 
-                        onClick={() => downloadQRCode(team.accessCode, 'team')}
+                        onClick={() => downloadQRCode(team.accessCode, board.title, 'team')}
                     >
                         <img style={{ height: 20 }} src={'../../static/qr_code_white.png'} alt='qr code' />
                     </button>
@@ -312,7 +312,7 @@ const BoardSettings = (props) => {
                                 {board.accessCode ? 
                                     <button 
                                         style={{ ...MASTER.wideRoundBtn, width: 100, marginTop: 5, marginLeft: 5 }} 
-                                        onClick={() => downloadQRCode(board.accessCode, 'board')}
+                                        onClick={() => downloadQRCode(board.accessCode, board.title, 'board')}
                                     >
                                         <div style={MASTER.wideRoundBtnText}>QR Code</div>
                                     </button>

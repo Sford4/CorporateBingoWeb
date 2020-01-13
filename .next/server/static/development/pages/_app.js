@@ -105,8 +105,9 @@ __webpack_require__.r(__webpack_exports__);
 const URL = "http://localhost";
 const PORT = '8000'; // export default FULL_URL = `${URL}:${PORT}`;
 // const FULL_URL = 'http://localhost:8000';
+// const FULL_URL = 'https://api.gamifytech.com/v1';
 
-const FULL_URL = 'https://api.gamifytech.com/v1'; // const FULL_URL = 'http://ec2-3-86-157-120.compute-1.amazonaws.com:8000';
+const FULL_URL = 'https://8n5rviefak.execute-api.us-east-1.amazonaws.com/bingo'; // const FULL_URL = 'http://ec2-3-86-157-120.compute-1.amazonaws.com:8000';
 
 /* harmony default export */ __webpack_exports__["default"] = (FULL_URL);
 
@@ -179,8 +180,6 @@ const JoinGameContextProvider = props => {
         result
       });
       setAccessBoards(result.games);
-      setUsedGameIDs(result.gameIDs);
-      setUsedBoardIDs(result.boardIDs);
     } catch (err) {
       alert(err);
     }
@@ -196,9 +195,7 @@ const JoinGameContextProvider = props => {
         //   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
         // },
         body: _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0___default()({
-          accessCode,
-          gamesAlreadyFound: usedGameIDs,
-          boardsAlreadyFound: usedBoardIDs
+          accessCode
         })
       });
       const success = await request.json();
@@ -231,7 +228,7 @@ const JoinGameContextProvider = props => {
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 71
+      lineNumber: 67
     },
     __self: undefined
   }, props.children);
@@ -608,7 +605,12 @@ const PlayContextProvider = props => {
         //   'Content-Type': 'application/json',
         //   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
         // },
-        body: _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_1___default()(Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, game))
+        body: _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_1___default()({
+          id: game.id,
+          startTime: game.startTime,
+          squares: game.squares,
+          rewards: game.rewards
+        })
       });
       const success = await request.json();
       console.log({
@@ -616,7 +618,10 @@ const PlayContextProvider = props => {
       });
 
       if (success) {
-        setContextGame(success);
+        setContextGame(Object(_babel_runtime_corejs2_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, game, {
+          rewards: success.rewards,
+          squares: success.squares
+        }));
       } else {
         alert('There was a problem saving your board... please try again later!');
       }
@@ -634,7 +639,7 @@ const PlayContextProvider = props => {
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 63
+      lineNumber: 70
     },
     __self: undefined
   }, props.children);
