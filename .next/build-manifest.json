@@ -12,7 +12,11 @@
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ],
-    "/manageBoards/[boardID]": [
+    "/joinGame": [
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
+    ],
+    "/manageBoards": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ]

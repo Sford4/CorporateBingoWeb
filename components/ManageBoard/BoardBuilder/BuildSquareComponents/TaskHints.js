@@ -3,10 +3,6 @@ import React, { useState, useEffect, } from 'react';
 // Component imports
 import { CSVDownload } from "react-csv";
 
-// Material UI
-// import Switch from '@material-ui/core/Switch';
-import Chip from '@material-ui/core/Chip';
-
 // Style imports
 import { MASTER, COLORS } from '../../../../styles/masterStyles';
 
@@ -44,12 +40,12 @@ const BuildHintTask = (props) => {
   const generateHints = () => {
       if(hints && hints.length){
         return hints.map((hint, index) => {
+            let multilineHint = hint.replace('\\n', '\n');
             return (
-                <Chip
-                    key={`hint${index}`}
-                    label={hint}
-                    onDelete={() => handleHintDelete(hint)}
-                />
+                <div style={{ display: 'flex', maxWidth: '100%' }} key={`hint${index}`}>
+                    <span style={ styles.deleteHintX } onClick={() => handleHintDelete(hint)}>x</span>
+                    <div style={{ marginLeft: 5 }}>{multilineHint}</div>
+                </div>
             )
         })
       }
@@ -57,18 +53,18 @@ const BuildHintTask = (props) => {
 
   return (
     <div style={styles.container}>
-        <div style={styles.row}>
-            <input 
-                style={{ ...MASTER.wideRoundInput, width: 300, marginTop: 0 }} 
+        <div style={styles.col}>
+            <textarea 
+                style={{ ...MASTER.wideRoundTextArea, width: '100%' }} 
                 value={text} 
                 onChange={e => setText(e.target.value)} 
                 placeholder={'e.g. Behind the mirror'}
             />
             <button 
-                style={{ ...MASTER.wideRoundBtn, width: 80, marginTop: 0 }} 
+                style={{ ...MASTER.wideRoundBtn, marginTop: 2 }} 
                 onClick={() => addHint(text)}
             >
-                <span style={MASTER.wideRoundBtnText}>+ Add</span>
+                <span style={MASTER.wideRoundBtnText}>+ Add Hint</span>
             </button>
         </div>
         <div style={{ width: '90%' }}>
@@ -85,12 +81,28 @@ const styles = {
         display: 'flex',
         justifyContent: 'center',
         flexWrap: 'wrap',
+        width: '100%',
     },
-  row: {
+  col: {
       display: 'flex',
+      flexDirection: 'column',
       alignItems: 'center',
-      maxWidth: '90%',
+      width: '90%',
       justifyContent: 'center',
+  },
+  deleteHintX: {
+    backgroundColor: 'gray',
+    width: 15,
+    height: 15,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
+    paddingBottom: 2,
+    color: 'white',
+    cursor: 'pointer',
+    minWidth: 15,
+    minHeight: 15,
   }
 };
 

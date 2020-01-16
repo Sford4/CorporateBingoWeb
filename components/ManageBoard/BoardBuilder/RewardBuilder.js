@@ -89,6 +89,8 @@ const RewardBuilder = (props) => {
                         title: '',
                         howToEarn: '',
                         description: '',
+                        item: '',
+                        points: 0,
                     }
                 }
                 return oldReward;
@@ -160,10 +162,10 @@ const RewardBuilder = (props) => {
          <span style={styles.inputLabel}>Points they'll earn (for their player record)</span>
         <input 
             style={{ ...MASTER.wideRoundInput, marginTop: 2 }} 
-            value={reward.points || 0} 
+            value={reward.points} 
             onChange={e => {
-                updateReward('points', e.target.value);
-                setReward({...reward, points: e.target.value});
+                updateReward('points', parseInt(e.target.value));
+                setReward({...reward, points: parseInt(e.target.value)});
             }} 
             type="number"
         />
