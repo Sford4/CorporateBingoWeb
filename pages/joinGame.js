@@ -16,6 +16,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Paper from '@material-ui/core/Paper';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 // context imports
 import { JoinGameContext } from '../contexts/joinGameContext';
@@ -51,8 +52,6 @@ const DialogTitle = withStyles(materialStyles)(props => {
 
 const BoardFind = (props) => {
 
-  const router = useRouter()
-
   const [findCode, setFindCode] = useState('');
   const [accessBoardsFound, setAccessBoardsFound] = useState(false);
   const [foundBoardsPopup, openFoundBoardsPopup] = useState(false);
@@ -63,19 +62,20 @@ const BoardFind = (props) => {
   const { updateGame } = useContext(PlayContext);
 
   useEffect(() => {
-    if(!accessBoards || !accessBoards.length && !accessBoardsFound){
+    console.log({accessBoards})
+    if((!accessBoards || !accessBoards.length) && !accessBoardsFound){
         if(user && user.id){
           getAccessBoards(user.id);
+          setAccessBoardsFound(true);
         }
-    } else {
-        setAccessBoardsFound(true);
+    } else if(accessBoards && accessBoards.length) {
+      setAccessBoardsFound(true); 
     }
     if(foundBoards.length !== pastFoundBoards.length){
-      console.log('setting found boards popup open', foundBoards.length)
       openFoundBoardsPopup(true);
       setPastFoundBoards(foundBoards);
     }
-  }, [accessBoards, foundBoards])
+  }, [accessBoards, foundBoards, user])
 
   const searchForBoard = () => {
     findBoards(findCode);
@@ -99,11 +99,11 @@ const BoardFind = (props) => {
       return (
         <Link href={`playGame/[findID]/[userID]`} as={`playGame/${board.id}/${user.id}`} key={index}>
             <button key={`board-${board.id}`} style={MASTER.card} onClick={() => clearOutCurrGame()}>
-            <div style={MASTER.cardInteriordiv}>
-                <div style={{fontSize: 18, fontWeight: 'bold'}}>{board.title}</div>
-                <div>Created by {board.orgName}</div>
-                <div>Played by {board.team ? board.organizerName : 'you!'}</div>
-            </div>
+              <div style={MASTER.cardInteriordiv}>
+                  <div style={{fontSize: 18, fontWeight: 'bold'}}>{board.title}</div>
+                  <div>Created by {board.orgName}</div>
+                  <div>Played by {board.team ? board.organizerName : 'you!'}</div>
+              </div>
             </button>
         </Link>
       )
@@ -142,7 +142,11 @@ const BoardFind = (props) => {
   }
 
   if(!accessBoardsFound){
-    return (<Layout><div>JOIN BOARD LOADING</div></Layout>);
+    return (<Layout>
+      <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <LoadingSpinner size={100} color={COLORS.primary} thickness={5} />
+        </div>
+    </Layout>);
   }
 
   return (
@@ -165,7 +169,8 @@ const BoardFind = (props) => {
                       <div style={MASTER.wideRoundBtnText}>SEARCH</div>
                   </button>
               </div>
-              {accessBoards.length && generateBoardCards(accessBoards)}
+              {!!accessBoards.length && generateBoardCards(accessBoards)}
+              {!accessBoards.length && <div style={{margin: 20}}><LoadingSpinner size={75} color={COLORS.primary} thickness={4} /></div> }
               </div>
             </Paper>
         </div>

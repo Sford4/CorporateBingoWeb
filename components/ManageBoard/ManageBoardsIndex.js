@@ -10,6 +10,7 @@ import { MASTER, COLORS } from '../../styles/masterStyles';
 // component imports
 import Layout from '../Layout';
 import ManageBoardContainer from './ManageBoardContainer';
+import LoadingSpinner from '../LoadingSpinner';
 
 
 const ManageBoardsIndex = (props) => {
@@ -77,7 +78,9 @@ if(board && board.id){
 }
   return (
     <Layout>
-        <div>NO BOARD</div>
+        <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <LoadingSpinner size={100} color={COLORS.primary} thickness={5} />
+        </div>
     </Layout>
   )
 }

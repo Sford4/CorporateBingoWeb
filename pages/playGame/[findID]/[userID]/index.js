@@ -20,6 +20,7 @@ import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import LoadingSpinner from '../../../../components/LoadingSpinner';
 
 
 const DialogActions = withStyles(theme => ({
@@ -129,7 +130,9 @@ const updateGame = game => {
   }
   return (
     <Layout>
-        <div>NO GAME</div>
+        <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <LoadingSpinner size={100} color={COLORS.primary} thickness={5} />
+        </div>
     </Layout>
   )
 }

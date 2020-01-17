@@ -138,8 +138,18 @@ const PlayBoard = (props) => {
     }
   }
 
+  const determineRewardHeight = (somethingUp, somethingRight, squareWidth, id) => {
+    if(!somethingRight && (id.includes('row') || id.includes('diagonalUpRight'))){
+      return 1;
+    } else if(!somethingUp && (id.includes('col') || id.includes('diagonalUpRight'))) {
+      return 1;
+    }
+    return `${squareWidth}vw`
+  }
+
   const generateRow = row => {
     const SOMETHING_RIGHT = contextGame.rewards.filter(reward => (reward.position.includes('row') || reward.position.includes('diagonalUpRight')) && reward.title)[0];
+    const SOMETHING_UP = contextGame.rewards.filter(reward => (reward.position.includes('col') || reward.position.includes('diagonalUpRight')) && reward.title)[0];
     return row.map((square, index) => {
       switch (square.type) {
         case 'reward':
@@ -148,13 +158,10 @@ const PlayBoard = (props) => {
             return <div key={`empty${index}`} 
                       style={{
                         width: !SOMETHING_RIGHT && (square.id.includes('row') || square.id.includes('diagonalUpRight')) ? 1 : `${SQUARE_WIDTH}vw`,
-                        height: !SOMETHING_RIGHT && (square.id.includes('row') || square.id.includes('diagonalUpRight')) ? 1 : `${SQUARE_WIDTH}vw`,
-                        // paddingTop: `${SQUARE_WIDTH * .72}%`,
-                        // position: 'relative',
+                        height: determineRewardHeight(SOMETHING_UP, SOMETHING_RIGHT, SQUARE_WIDTH, square.id),
                         maxWidth: 110,
                         maxHeight: 110,
                         minWidth: !SOMETHING_RIGHT && (square.id.includes('row') || square.id.includes('diagonalUpRight')) ? 1 : 100,
-                        // minHeight: 100,
                       }} 
                     />;
           }

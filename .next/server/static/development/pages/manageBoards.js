@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 7);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -2958,7 +2958,7 @@ const ManageBoardsHome = props => {
       }
     }
 
-    if (!contextOrg.id && user && !user.org) {
+    if (!contextOrg.id && user && user.id && !user.org) {
       router.push('/joinGame');
     } else if (!contextOrg.id && user && user.org) {
       getOrg(user.org);
@@ -2966,6 +2966,7 @@ const ManageBoardsHome = props => {
 
     if (contextOrg && contextOrg.boards && contextOrg.boards.length !== boards.length) {
       setBoards(contextOrg.boards);
+      setRows(contextOrg.boards);
     }
   }, [contextOrg, user]);
 
@@ -3015,8 +3016,6 @@ const ManageBoardsHome = props => {
   };
 
   const generateBoardRows = () => {
-    console.log('generating ROWS');
-
     if (rows.length) {
       return stableSort(rows, getSorting(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(board => {
         return __jsx(next_link__WEBPACK_IMPORTED_MODULE_6___default.a, {
@@ -3417,7 +3416,7 @@ const MASTER = {
 
 /***/ }),
 
-/***/ 4:
+/***/ 7:
 /*!*******************************************!*\
   !*** multi ./pages/manageBoards/index.js ***!
   \*******************************************/

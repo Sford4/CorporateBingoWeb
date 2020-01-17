@@ -50607,7 +50607,7 @@ var ManageBoardsHome = function ManageBoardsHome(props) {
       }
     }
 
-    if (!contextOrg.id && user && !user.org) {
+    if (!contextOrg.id && user && user.id && !user.org) {
       router.push('/joinGame');
     } else if (!contextOrg.id && user && user.org) {
       getOrg(user.org);
@@ -50615,6 +50615,7 @@ var ManageBoardsHome = function ManageBoardsHome(props) {
 
     if (contextOrg && contextOrg.boards && contextOrg.boards.length !== boards.length) {
       setBoards(contextOrg.boards);
+      setRows(contextOrg.boards);
     }
   }, [contextOrg, user]);
 
@@ -50674,8 +50675,6 @@ var ManageBoardsHome = function ManageBoardsHome(props) {
   };
 
   var generateBoardRows = function generateBoardRows() {
-    console.log('generating ROWS');
-
     if (rows.length) {
       return stableSort(rows, getSorting(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(function (board) {
         return __jsx(next_link__WEBPACK_IMPORTED_MODULE_7___default.a, {

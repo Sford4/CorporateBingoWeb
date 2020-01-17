@@ -112,7 +112,6 @@ const RewardBuilder = (props) => {
         
       <div {...getRootProps()}>
         <input {...getInputProps()} />
-        {console.log({reward})}
         {!!reward.img ? 
             <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                 <img 

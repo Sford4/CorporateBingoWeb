@@ -12,11 +12,11 @@
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ],
-    "/joinGame": [
+    "/manageBoards": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ],
-    "/manageBoards": [
+    "/usersAndOrg": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ]
