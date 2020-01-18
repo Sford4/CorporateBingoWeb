@@ -16,7 +16,7 @@ import LoadingSpinner from '../LoadingSpinner';
 const ManageBoardsIndex = (props) => {
     const router = useRouter()
     
-    const { contextBoard, getBoard, setStuffToSave, stuffToSave, saveBoard } = useContext(ManageBoardsContext);
+    const { contextBoard, getBoard, setStuffToSave, stuffToSave, saveBoard, saving } = useContext(ManageBoardsContext);
 
   const [board, setBoard] = useState({});
   const [changesToSave, setChangesToSave] = useState(false)
@@ -31,7 +31,6 @@ const ManageBoardsIndex = (props) => {
         setStuffToSave(true)
     }
 }, [contextBoard, changesToSave])
-
   
 if(board && board.id){
     return (
@@ -39,19 +38,34 @@ if(board && board.id){
             <div style={styles.container}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
                     <div style={{ ...MASTER.pageTitle }}>MANAGING BOARD: {board.title}</div>
-                    {stuffToSave ?
-                    <button 
-                        style={{ ...MASTER.wideRoundBtn, width: 150, margin: 0 }} 
-                        onClick={() => saveBoard()}
-                        className='pulse-btn'
-                    >
-                        <div style={MASTER.wideRoundBtnText}>SAVE</div>
-                    </button> :
-                    <button 
-                        style={{ ...MASTER.wideRoundBtn, width: 150, margin: 0, backgroundColor: 'gray' }} 
-                    >
-                        <div style={MASTER.wideRoundBtnText}>SAVE</div>
-                    </button>}
+                    {
+                        !!saving ?
+                            (
+                                <button 
+                                    style={{ ...MASTER.wideRoundBtn, width: 150, margin: 0 }} 
+                                    className='pulse-btn'
+                                >
+                                    <LoadingSpinner size={20} color={COLORS.green} thickness={2} />
+                                </button>
+                            ) :
+                        stuffToSave ?
+                            (
+                                <button 
+                                    style={{ ...MASTER.wideRoundBtn, width: 150, margin: 0 }} 
+                                    onClick={() => saveBoard()}
+                                    className='pulse-btn'
+                                >
+                                    <div style={MASTER.wideRoundBtnText}>SAVE</div>
+                                </button>
+                            ) :
+                        (
+                            <button 
+                                style={{ ...MASTER.wideRoundBtn, width: 150, margin: 0, backgroundColor: 'gray' }} 
+                            >
+                                <div style={MASTER.wideRoundBtnText}>SAVE</div>
+                            </button>
+                        )
+                    }
                 </div>
                 <ManageBoardContainer board={board} changesMade={setChangesToSave} />
             </div>

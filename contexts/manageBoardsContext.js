@@ -12,6 +12,7 @@ const ManageBoardsContextProvider = (props) => {
     const [ contextBoard, setContextBoard ] = useState({});
     const [ gamesForBoard, setGamesForBoard ] = useState([]);
     const [ stuffToSave, setStuffToSave ] = useState(false);
+    const [ saving, setSaving ] = useState(false);
 
     const newBoard = async (orgID) => {
         try {
@@ -54,6 +55,7 @@ const ManageBoardsContextProvider = (props) => {
 
     const saveBoard = async () => {
         console.log('SAVING');
+        setSaving(true);
         if(contextBoard.useTeams){
             const teamsNoFrontendIDs = contextBoard.teams.map(team => {
                 if(!team.id || team.id.includes('team')){
@@ -82,6 +84,7 @@ const ManageBoardsContextProvider = (props) => {
               })
               const success = await request.json();
               console.log({success})
+              setSaving(false);
               if(success){
                 setStuffToSave(false);
                 setContextBoard(success);
@@ -121,6 +124,7 @@ const ManageBoardsContextProvider = (props) => {
                 saveBoard,
                 getAllGamesForBoard,
                 gamesForBoard,
+                saving,
             }}>
             {props.children}
         </ManageBoardsContext.Provider>

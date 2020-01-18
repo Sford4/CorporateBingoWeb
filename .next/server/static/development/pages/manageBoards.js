@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 7);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -440,6 +440,10 @@ const ManageBoardsContextProvider = props => {
     0: stuffToSave,
     1: setStuffToSave
   } = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])(false);
+  const {
+    0: saving,
+    1: setSaving
+  } = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])(false);
 
   const newBoard = async orgID => {
     try {
@@ -488,6 +492,7 @@ const ManageBoardsContextProvider = props => {
 
   const saveBoard = async () => {
     console.log('SAVING');
+    setSaving(true);
 
     if (contextBoard.useTeams) {
       const teamsNoFrontendIDs = contextBoard.teams.map(team => {
@@ -520,6 +525,7 @@ const ManageBoardsContextProvider = props => {
       console.log({
         success
       });
+      setSaving(false);
 
       if (success) {
         setStuffToSave(false);
@@ -559,11 +565,12 @@ const ManageBoardsContextProvider = props => {
       stuffToSave,
       saveBoard,
       getAllGamesForBoard,
-      gamesForBoard
+      gamesForBoard,
+      saving
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 113
+      lineNumber: 116
     },
     __self: undefined
   }, props.children);
@@ -615,6 +622,10 @@ const OrgContextProvider = props => {
     0: stuffToSave,
     1: setStuffToSave
   } = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false);
+  const {
+    0: saving,
+    1: setSaving
+  } = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false);
 
   const getOrg = async orgID => {
     console.log('in get org', orgID);
@@ -639,6 +650,7 @@ const OrgContextProvider = props => {
   };
 
   const saveOrg = async orgToSave => {
+    setSaving(true);
     console.log('in save org', orgToSave);
 
     try {
@@ -652,6 +664,7 @@ const OrgContextProvider = props => {
         body: _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0___default()(orgToSave)
       });
       const org = await request.json();
+      setSaving(false);
       setOrg(org);
       setStuffToSave(false);
     } catch (err) {
@@ -670,11 +683,12 @@ const OrgContextProvider = props => {
       setStuffToSave,
       stuffToSave,
       contextSetUsers: setUsers,
-      setBoards
+      setBoards,
+      saving
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 52
+      lineNumber: 55
     },
     __self: undefined
   }, props.children);
@@ -3416,7 +3430,7 @@ const MASTER = {
 
 /***/ }),
 
-/***/ 7:
+/***/ 5:
 /*!*******************************************!*\
   !*** multi ./pages/manageBoards/index.js ***!
   \*******************************************/

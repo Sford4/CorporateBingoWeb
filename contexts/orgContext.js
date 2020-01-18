@@ -9,6 +9,7 @@ const OrgContextProvider = (props) => {
     const [users, setUsers] = useState([]);
     const [boards, setBoards] = useState([]);
     const [ stuffToSave, setStuffToSave ] = useState(false);
+    const [ saving, setSaving ] = useState(false);
 
 
     const getOrg = async (orgID) => {
@@ -31,6 +32,7 @@ const OrgContextProvider = (props) => {
     }
 
     const saveOrg = async (orgToSave) => {
+        setSaving(true);
         console.log('in save org', orgToSave)
         try {
             const request = await fetch(`${FULL_URL}/orgs/update/${orgToSave.id}`, {
@@ -43,6 +45,7 @@ const OrgContextProvider = (props) => {
                 body: JSON.stringify(orgToSave),
               })
               const org = await request.json();
+              setSaving(false);
               setOrg(org);
               setStuffToSave(false);
             } catch(err) {alert(err)}
@@ -59,7 +62,8 @@ const OrgContextProvider = (props) => {
             setStuffToSave,
             stuffToSave,
             contextSetUsers: setUsers,
-            setBoards
+            setBoards,
+            saving,
         }}>
             {props.children}
         </OrgContext.Provider>

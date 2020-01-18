@@ -16,6 +16,10 @@
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ],
+    "/manageBoards/[boardID]": [
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
+    ],
     "/usersAndOrg": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"

@@ -355,6 +355,10 @@ var ManageBoardsContextProvider = function ManageBoardsContextProvider(props) {
       stuffToSave = _useState3[0],
       setStuffToSave = _useState3[1];
 
+  var _useState4 = Object(react__WEBPACK_IMPORTED_MODULE_4__["useState"])(false),
+      saving = _useState4[0],
+      setSaving = _useState4[1];
+
   var newBoard =
   /*#__PURE__*/
   function () {
@@ -484,6 +488,7 @@ var ManageBoardsContextProvider = function ManageBoardsContextProvider(props) {
           switch (_context3.prev = _context3.next) {
             case 0:
               console.log('SAVING');
+              setSaving(true);
 
               if (contextBoard.useTeams) {
                 teamsNoFrontendIDs = contextBoard.teams.map(function (team) {
@@ -500,8 +505,8 @@ var ManageBoardsContextProvider = function ManageBoardsContextProvider(props) {
                 contextBoard.teams = teamsNoFrontendIDs;
               }
 
-              _context3.prev = 2;
-              _context3.next = 5;
+              _context3.prev = 3;
+              _context3.next = 6;
               return isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_6___default()("".concat(_constants_constants__WEBPACK_IMPORTED_MODULE_7__["default"], "/boards/update/").concat(contextBoard.id), {
                 method: 'POST',
                 // headers: {
@@ -514,16 +519,17 @@ var ManageBoardsContextProvider = function ManageBoardsContextProvider(props) {
                 }))
               });
 
-            case 5:
+            case 6:
               request = _context3.sent;
-              _context3.next = 8;
+              _context3.next = 9;
               return request.json();
 
-            case 8:
+            case 9:
               success = _context3.sent;
               console.log({
                 success: success
               });
+              setSaving(false);
 
               if (success) {
                 setStuffToSave(false);
@@ -532,20 +538,20 @@ var ManageBoardsContextProvider = function ManageBoardsContextProvider(props) {
                 alert('There was a problem saving your board... please try again later!');
               }
 
-              _context3.next = 16;
+              _context3.next = 18;
               break;
 
-            case 13:
-              _context3.prev = 13;
-              _context3.t0 = _context3["catch"](2);
+            case 15:
+              _context3.prev = 15;
+              _context3.t0 = _context3["catch"](3);
               alert(_context3.t0);
 
-            case 16:
+            case 18:
             case "end":
               return _context3.stop();
           }
         }
-      }, _callee3, null, [[2, 13]]);
+      }, _callee3, null, [[3, 15]]);
     }));
 
     return function saveBoard() {
@@ -614,11 +620,12 @@ var ManageBoardsContextProvider = function ManageBoardsContextProvider(props) {
       stuffToSave: stuffToSave,
       saveBoard: saveBoard,
       getAllGamesForBoard: getAllGamesForBoard,
-      gamesForBoard: gamesForBoard
+      gamesForBoard: gamesForBoard,
+      saving: saving
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 113
+      lineNumber: 116
     },
     __self: this
   }, props.children);
@@ -674,6 +681,10 @@ var OrgContextProvider = function OrgContextProvider(props) {
   var _useState4 = Object(react__WEBPACK_IMPORTED_MODULE_3__["useState"])(false),
       stuffToSave = _useState4[0],
       setStuffToSave = _useState4[1];
+
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_3__["useState"])(false),
+      saving = _useState5[0],
+      setSaving = _useState5[1];
 
   var getOrg =
   /*#__PURE__*/
@@ -743,9 +754,10 @@ var OrgContextProvider = function OrgContextProvider(props) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
+              setSaving(true);
               console.log('in save org', orgToSave);
-              _context2.prev = 1;
-              _context2.next = 4;
+              _context2.prev = 2;
+              _context2.next = 5;
               return isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_4___default()("".concat(_constants_constants__WEBPACK_IMPORTED_MODULE_5__["default"], "/orgs/update/").concat(orgToSave.id), {
                 method: 'POST',
                 // headers: {
@@ -756,29 +768,30 @@ var OrgContextProvider = function OrgContextProvider(props) {
                 body: _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0___default()(orgToSave)
               });
 
-            case 4:
+            case 5:
               request = _context2.sent;
-              _context2.next = 7;
+              _context2.next = 8;
               return request.json();
 
-            case 7:
+            case 8:
               _org2 = _context2.sent;
+              setSaving(false);
               setOrg(_org2);
               setStuffToSave(false);
-              _context2.next = 15;
+              _context2.next = 17;
               break;
 
-            case 12:
-              _context2.prev = 12;
-              _context2.t0 = _context2["catch"](1);
+            case 14:
+              _context2.prev = 14;
+              _context2.t0 = _context2["catch"](2);
               alert(_context2.t0);
 
-            case 15:
+            case 17:
             case "end":
               return _context2.stop();
           }
         }
-      }, _callee2, null, [[1, 12]]);
+      }, _callee2, null, [[2, 14]]);
     }));
 
     return function saveOrg(_x2) {
@@ -797,11 +810,12 @@ var OrgContextProvider = function OrgContextProvider(props) {
       setStuffToSave: setStuffToSave,
       stuffToSave: stuffToSave,
       contextSetUsers: setUsers,
-      setBoards: setBoards
+      setBoards: setBoards,
+      saving: saving
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 52
+      lineNumber: 55
     },
     __self: this
   }, props.children);
@@ -51081,7 +51095,7 @@ var MASTER = {
 
 /***/ }),
 
-/***/ 1:
+/***/ 2:
 /*!**************************************************************************************************************************************************************************************************!*\
   !*** multi next-client-pages-loader?page=%2FmanageBoards&absolutePagePath=%2FUsers%2Fspencerford%2FDocuments%2FDEVyall%2FPersonalProjects%2FCorporateBingoWeb%2Fpages%2FmanageBoards%2Findex.js ***!
   \**************************************************************************************************************************************************************************************************/
@@ -51104,5 +51118,5 @@ module.exports = dll_ea92a4d9664833a26066;
 
 /***/ })
 
-},[[1,"static/runtime/webpack.js"]]]);
+},[[2,"static/runtime/webpack.js"]]]);
 //# sourceMappingURL=manageBoards.js.map
