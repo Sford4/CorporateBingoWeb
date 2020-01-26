@@ -157,7 +157,7 @@ const ManageBoardsHome = (props) => {
                     <Table style={{ width:"100%" }}>
                         <TableHead>
                             <TableRow>
-                                {headCells.map(headCell => (
+                                {headCells.map(headCell => ( 
                                     <TableCell
                                         key={headCell.id}
                                         align={headCell.numeric ? 'right' : 'left'}
