@@ -40,8 +40,7 @@ if(contextOrg && contextOrg.id){
                         !!saving ?
                             (
                                 <button 
-                                    style={{ ...MASTER.wideRoundBtn, width: 150, margin: 0 }} 
-                                    className='pulse-btn'
+                                    style={{ ...MASTER.wideRoundBtn, width: 150, margin: 0 }}
                                 >
                                     <LoadingSpinner size={20} color={COLORS.green} thickness={2} />
                                 </button>

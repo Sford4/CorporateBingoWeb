@@ -29,7 +29,7 @@ const SquareDetail = (props) => {
       case 'text':
         return <TaskText task={task} updateTask={updateTask} completeSquare={setIsComplete} />;
       case 'picture':
-        return <TaskPicture task={task} updateTask={updateTask} completeSquare={setIsComplete} />;
+        return <TaskPicture task={task} updateTask={updateTask} completeSquare={setIsComplete} gameID={props.gameID} />;
       case 'qrCode':
         return <TaskQRCode task={task} updateTask={updateTask} completeSquare={setIsComplete} />;
       // case 'proximity':

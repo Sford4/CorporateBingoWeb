@@ -7,6 +7,12 @@ import { useRouter } from 'next/router'
 // context imports
 import { UserContext } from '../contexts/userContext';
 
+// Component imports
+import LoadingSpinner from '../components/LoadingSpinner';
+
+// Style imports
+import { COLORS } from '../styles/masterStyles';
+
 const Index = () => {
 
     const { user, storeUser, logout } = useContext(UserContext);
@@ -27,8 +33,8 @@ const Index = () => {
  
 
     return (
-        <div>
-            <p>Loading...</p>
+        <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <LoadingSpinner size={100} color={COLORS.primary} thickness={5} />
         </div>
     )
   };

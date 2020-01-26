@@ -7,6 +7,9 @@ import { COLORS } from '../styles/masterStyles.js';
 // context imports
 import { UserContext } from '../contexts/userContext';
 
+// Component imports
+import LoadingSpinner from '../components/LoadingSpinner';
+
 const SideNav = (props) => {
 
     const router = useRouter()
@@ -33,19 +36,23 @@ const SideNav = (props) => {
     }
 
     if(!user.id){
-        return <span>LOADING...</span>
+        return (
+        <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <LoadingSpinner size={50} color={COLORS.primary} thickness={4} />
+        </div>)
     }
 
     return (
         <div id='sidenav' style={{ borderRight: `2px solid ${COLORS.primary}` }}>
             <img 
                 alt='Bingo Builder' 
-                src={'/static/bingoBuilderLogo.png'} 
+                // src={'/static/bingoBuilderLogo.png'} 
+                src={'https://ofscienceandswords.com.au/media/image/29/52/99/everemore-loho_600x600.png'}
                 style={{ width: '90%', margin: '10px 0 10px 0' }}
                 onError={addDefaultPic}
             />
             <Link href='/joinGame'><a className='sidenavLink' style={currRoute && currRoute.includes('joinGame') ? styles.currLink : styles.link}>JOIN GAME</a></Link>
-            {user && user.roleLevel < 3 && <Link href='/manageBoards'><a className='sidenavLink' style={currRoute && currRoute.includes('manageBoards') ? styles.currLink : styles.link}>MANAGE BOARDS</a></Link>}
+            {user && user.roleLevel < 3 && <Link href='/manageBoards'><a className='sidenavLink' style={currRoute && currRoute.includes('manageBoards') ? styles.currLink : styles.link}>MANAGE QUESTS</a></Link>}
             {user && user.roleLevel < 3 && <Link href='/usersAndOrg'><a className='sidenavLink' style={currRoute && currRoute.includes('usersAndOrg') ? styles.currLink : styles.link}>USERS & ORG</a></Link>}
             {user && user.roleLevel !== 2 && <Link href='/profile'><a className='sidenavLink' style={currRoute && currRoute.includes('profile') ? styles.currLink : styles.link}>MY PROFILE</a></Link>}
             <a className='sidenavLink' style={{color: COLORS.primary, cursor: 'pointer', padding: 10}} onClick={() => handleLogoutClick()}>LOGOUT</a>

@@ -113,6 +113,179 @@ const FULL_URL = 'https://8n5rviefak.execute-api.us-east-1.amazonaws.com/bingo';
 
 /***/ }),
 
+/***/ "./contexts/biosContext.js":
+/*!*********************************!*\
+  !*** ./contexts/biosContext.js ***!
+  \*********************************/
+/*! exports provided: BiosContext, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BiosContext", function() { return BiosContext; });
+/* harmony import */ var _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/json/stringify */ "./node_modules/@babel/runtime-corejs2/core-js/json/stringify.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! isomorphic-unfetch */ "isomorphic-unfetch");
+/* harmony import */ var isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _constants_constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../constants/constants */ "./constants/constants.js");
+
+var _jsxFileName = "/Users/spencerford/Documents/DEVyall/PersonalProjects/CorporateBingoWeb/contexts/biosContext.js";
+var __jsx = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement;
+
+
+
+const dummyBios = [{
+  name: 'Ezmer',
+  img: '',
+  description: [{
+    id: 1,
+    type: 'paragraph',
+    text: 'This is the first paragraph'
+  }, {
+    id: 2,
+    type: 'paragraph',
+    text: 'This is the second paragraph'
+  }],
+  world: 'Utah',
+  bioType: 'Character',
+  race: 'Human',
+  faction: 'Knights',
+  display: true,
+  modified: new Date().getTime()
+}, {
+  name: 'Peabody',
+  img: '',
+  description: [{
+    id: 1,
+    type: 'paragraph',
+    text: 'This is the first paragraph'
+  }, {
+    id: 2,
+    type: 'paragraph',
+    text: 'This is the second paragraph'
+  }],
+  world: 'Utah',
+  bioType: 'Character',
+  race: 'Human',
+  faction: 'Pirates',
+  display: true,
+  modified: new Date().getTime()
+}, {
+  name: 'Waaaaagh',
+  img: '',
+  description: [{
+    id: 1,
+    type: 'paragraph',
+    text: 'This is the first paragraph'
+  }, {
+    id: 2,
+    type: 'paragraph',
+    text: 'This is the second paragraph'
+  }],
+  world: 'Utah',
+  bioType: 'Character',
+  race: 'Orc',
+  faction: 'Orcs',
+  display: false,
+  modified: new Date().getTime()
+}, {
+  name: 'The Tavern',
+  img: '',
+  description: [{
+    id: 1,
+    type: 'paragraph',
+    text: 'This is the first paragraph'
+  }],
+  world: 'Utah',
+  bioType: 'Location',
+  race: 'N/A',
+  faction: 'N/A',
+  display: true,
+  modified: new Date().getTime()
+}];
+const BiosContext = Object(react__WEBPACK_IMPORTED_MODULE_1__["createContext"])();
+
+const BiosContextProvider = props => {
+  const {
+    0: bios,
+    1: setBios
+  } = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(dummyBios);
+  const {
+    0: saving,
+    1: setSaving
+  } = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false);
+
+  const getBios = async biosID => {
+    console.log('in get bios', biosID);
+
+    try {
+      const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_2___default()(`${_constants_constants__WEBPACK_IMPORTED_MODULE_3__["default"]}/bios`, {
+        method: 'POST' // headers: {
+        //   'Accept': 'application/json',
+        //   'Content-Type': 'application/json',
+        //   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+        // },
+
+      });
+      const bios = await request.json();
+      console.log('GOT BIOS', bios);
+      setBios(bios);
+    } catch (err) {
+      alert(err);
+    }
+  };
+
+  const saveBio = async bioToSave => {
+    setSaving(true);
+    console.log('in save bio', bioToSave);
+
+    try {
+      const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_2___default()(`${_constants_constants__WEBPACK_IMPORTED_MODULE_3__["default"]}/bios/update/${bioToSave.id}`, {
+        method: 'POST',
+        // headers: {
+        //   'Accept': 'application/json',
+        //   'Content-Type': 'application/json',
+        //   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+        // },
+        body: _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0___default()(bioToSave)
+      });
+      const response = await request.json();
+      const updatedBios = bios.map(bio => {
+        if (bio.id === response.id) {
+          return response;
+        }
+
+        return bio;
+      });
+      setSaving(false);
+      setBios(updatedBios);
+    } catch (err) {
+      alert(err);
+    }
+  };
+
+  return __jsx(BiosContext.Provider, {
+    value: {
+      contextBios: bios,
+      updateBios: setBios,
+      getBios: getBios,
+      saveBio,
+      saving
+    },
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 141
+    },
+    __self: undefined
+  }, props.children);
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (BiosContextProvider);
+
+/***/ }),
+
 /***/ "./contexts/joinGameContext.js":
 /*!*************************************!*\
   !*** ./contexts/joinGameContext.js ***!
@@ -2735,6 +2908,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _contexts_manageBoardsContext__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../contexts/manageBoardsContext */ "./contexts/manageBoardsContext.js");
 /* harmony import */ var _contexts_joinGameContext__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../contexts/joinGameContext */ "./contexts/joinGameContext.js");
 /* harmony import */ var _contexts_playContext__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../contexts/playContext */ "./contexts/playContext.js");
+/* harmony import */ var _contexts_biosContext__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../contexts/biosContext */ "./contexts/biosContext.js");
 
 var _jsxFileName = "/Users/spencerford/Documents/DEVyall/PersonalProjects/CorporateBingoWeb/pages/_app.js";
 
@@ -2747,6 +2921,7 @@ var __jsx = react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement;
 
 
 
+ // import LoreContextProvider from '../contexts/loreContext';
 
 class MyApp extends next_app__WEBPACK_IMPORTED_MODULE_3___default.a {
   // Only uncomment this method if you have blocking data requirements for
@@ -2767,20 +2942,20 @@ class MyApp extends next_app__WEBPACK_IMPORTED_MODULE_3___default.a {
     return __jsx("div", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 28
+        lineNumber: 30
       },
       __self: this
     }, __jsx("div", {
       className: "jsx-3259204506",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 29
+        lineNumber: 31
       },
       __self: this
     }, __jsx(next_head__WEBPACK_IMPORTED_MODULE_4___default.a, {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 30
+        lineNumber: 32
       },
       __self: this
     }, __jsx("meta", {
@@ -2789,7 +2964,7 @@ class MyApp extends next_app__WEBPACK_IMPORTED_MODULE_3___default.a {
       className: "jsx-3259204506",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 31
+        lineNumber: 33
       },
       __self: this
     }), __jsx("meta", {
@@ -2797,7 +2972,7 @@ class MyApp extends next_app__WEBPACK_IMPORTED_MODULE_3___default.a {
       className: "jsx-3259204506",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 32
+        lineNumber: 34
       },
       __self: this
     }), __jsx("link", {
@@ -2807,49 +2982,55 @@ class MyApp extends next_app__WEBPACK_IMPORTED_MODULE_3___default.a {
       className: "jsx-3259204506",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 33
+        lineNumber: 35
       },
       __self: this
     })), __jsx(styled_jsx_style__WEBPACK_IMPORTED_MODULE_1___default.a, {
       id: "3259204506",
       __self: this
-    }, "body{margin:0px;font-family:'Roboto',sans-serif;}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9zcGVuY2VyZm9yZC9Eb2N1bWVudHMvREVWeWFsbC9QZXJzb25hbFByb2plY3RzL0NvcnBvcmF0ZUJpbmdvV2ViL3BhZ2VzL19hcHAuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBa0NtQyxBQUdvQyxXQUNzQixnQ0FDckMiLCJmaWxlIjoiL1VzZXJzL3NwZW5jZXJmb3JkL0RvY3VtZW50cy9ERVZ5YWxsL1BlcnNvbmFsUHJvamVjdHMvQ29ycG9yYXRlQmluZ29XZWIvcGFnZXMvX2FwcC5qcyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBSZWFjdCBmcm9tICdyZWFjdCdcbmltcG9ydCBBcHAgZnJvbSAnbmV4dC9hcHAnXG5pbXBvcnQgSGVhZCBmcm9tICduZXh0L2hlYWQnXG5cbmltcG9ydCBVc2VyQ29udGV4dFByb3ZpZGVyIGZyb20gJy4uL2NvbnRleHRzL3VzZXJDb250ZXh0JztcbmltcG9ydCBPcmdDb250ZXh0UHJvdmlkZXIgZnJvbSAnLi4vY29udGV4dHMvb3JnQ29udGV4dCc7XG5pbXBvcnQgTWFuYWdlQm9hcmRzQ29udGV4dFByb3ZpZGVyIGZyb20gJy4uL2NvbnRleHRzL21hbmFnZUJvYXJkc0NvbnRleHQnO1xuaW1wb3J0IEpvaW5HYW1lQ29udGV4dFByb3ZpZGVyIGZyb20gJy4uL2NvbnRleHRzL2pvaW5HYW1lQ29udGV4dCc7XG5pbXBvcnQgUGxheUNvbnRleHRQcm92aWRlciBmcm9tICcuLi9jb250ZXh0cy9wbGF5Q29udGV4dCc7XG5cbmNsYXNzIE15QXBwIGV4dGVuZHMgQXBwIHtcbiAgLy8gT25seSB1bmNvbW1lbnQgdGhpcyBtZXRob2QgaWYgeW91IGhhdmUgYmxvY2tpbmcgZGF0YSByZXF1aXJlbWVudHMgZm9yXG4gIC8vIGV2ZXJ5IHNpbmdsZSBwYWdlIGluIHlvdXIgYXBwbGljYXRpb24uIFRoaXMgZGlzYWJsZXMgdGhlIGFiaWxpdHkgdG9cbiAgLy8gcGVyZm9ybSBhdXRvbWF0aWMgc3RhdGljIG9wdGltaXphdGlvbiwgY2F1c2luZyBldmVyeSBwYWdlIGluIHlvdXIgYXBwIHRvXG4gIC8vIGJlIHNlcnZlci1zaWRlIHJlbmRlcmVkLlxuICAvL1xuLy8gICBzdGF0aWMgYXN5bmMgZ2V0SW5pdGlhbFByb3BzKGFwcENvbnRleHQpIHtcbi8vICAgICAvLyBjYWxscyBwYWdlJ3MgYGdldEluaXRpYWxQcm9wc2AgYW5kIGZpbGxzIGBhcHBQcm9wcy5wYWdlUHJvcHNgXG4vLyAgICAgY29uc3QgYXBwUHJvcHMgPSBhd2FpdCBBcHAuZ2V0SW5pdGlhbFByb3BzKGFwcENvbnRleHQpO1xuICBcbi8vICAgICByZXR1cm4geyAuLi5hcHBQcm9wcyB9XG4vLyAgIH1cblxuICByZW5kZXIoKSB7XG4gICAgY29uc3QgeyBDb21wb25lbnQsIHBhZ2VQcm9wcyB9ID0gdGhpcy5wcm9wcztcblxuICAgIHJldHVybiAoXG4gICAgICAgIDxkaXY+XG4gICAgICAgICAgICA8ZGl2PlxuICAgICAgICAgICAgICAgIDxIZWFkPlxuICAgICAgICAgICAgICAgICAgICA8bWV0YSBuYW1lPVwidmlld3BvcnRcIiBjb250ZW50PVwid2lkdGg9ZGV2aWNlLXdpZHRoLCBpbml0aWFsLXNjYWxlPTFcIiAvPlxuICAgICAgICAgICAgICAgICAgICA8bWV0YSBjaGFyU2V0PVwidXRmLThcIiAvPlxuICAgICAgICAgICAgICAgICAgICA8bGluayByZWw9XCJpY29uXCIgdHlwZT1cImltYWdlL3gtaWNvblwiIGhyZWY9XCIuLi9zdGF0aWMvZmF2aWNvbi5pY29cIiAvPlxuICAgICAgICAgICAgICAgIDwvSGVhZD5cbiAgICAgICAgICAgICAgICA8c3R5bGUganN4IGdsb2JhbD57YFxuICAgICAgICAgICAgICAgICAgICBib2R5IHsgXG4gICAgICAgICAgICAgICAgICAgICAgICBtYXJnaW46IDBweDtcbiAgICAgICAgICAgICAgICAgICAgICAgIGZvbnQtZmFtaWx5OiAnUm9ib3RvJywgc2Fucy1zZXJpZjtcbiAgICAgICAgICAgICAgICAgICAgfVxuICAgICAgICAgICAgICAgIGB9PC9zdHlsZT5cbiAgICAgICAgICAgIDwvZGl2PlxuICAgICAgICAgICAgPFBsYXlDb250ZXh0UHJvdmlkZXI+XG4gICAgICAgICAgICAgICAgPEpvaW5HYW1lQ29udGV4dFByb3ZpZGVyPlxuICAgICAgICAgICAgICAgICAgICA8TWFuYWdlQm9hcmRzQ29udGV4dFByb3ZpZGVyPlxuICAgICAgICAgICAgICAgICAgICAgICAgPE9yZ0NvbnRleHRQcm92aWRlcj5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICA8VXNlckNvbnRleHRQcm92aWRlcj5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPENvbXBvbmVudCB7Li4ucGFnZVByb3BzfSAvPlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvVXNlckNvbnRleHRQcm92aWRlcj5cbiAgICAgICAgICAgICAgICAgICAgICAgIDwvT3JnQ29udGV4dFByb3ZpZGVyPlxuICAgICAgICAgICAgICAgICAgICA8L01hbmFnZUJvYXJkc0NvbnRleHRQcm92aWRlcj5cbiAgICAgICAgICAgICAgICA8L0pvaW5HYW1lQ29udGV4dFByb3ZpZGVyPlxuICAgICAgICAgICAgPC9QbGF5Q29udGV4dFByb3ZpZGVyPlxuICAgICAgICA8L2Rpdj5cbiAgICApXG4gIH1cbn1cblxuZXhwb3J0IGRlZmF1bHQgTXlBcHAiXX0= */\n/*@ sourceURL=/Users/spencerford/Documents/DEVyall/PersonalProjects/CorporateBingoWeb/pages/_app.js */")), __jsx(_contexts_playContext__WEBPACK_IMPORTED_MODULE_9__["default"], {
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 42
-      },
-      __self: this
-    }, __jsx(_contexts_joinGameContext__WEBPACK_IMPORTED_MODULE_8__["default"], {
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 43
-      },
-      __self: this
-    }, __jsx(_contexts_manageBoardsContext__WEBPACK_IMPORTED_MODULE_7__["default"], {
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 44
-      },
-      __self: this
-    }, __jsx(_contexts_orgContext__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    }, "body{margin:0px;font-family:'Roboto',sans-serif;}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9zcGVuY2VyZm9yZC9Eb2N1bWVudHMvREVWeWFsbC9QZXJzb25hbFByb2plY3RzL0NvcnBvcmF0ZUJpbmdvV2ViL3BhZ2VzL19hcHAuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBb0NtQyxBQUdvQyxXQUNzQixnQ0FDckMiLCJmaWxlIjoiL1VzZXJzL3NwZW5jZXJmb3JkL0RvY3VtZW50cy9ERVZ5YWxsL1BlcnNvbmFsUHJvamVjdHMvQ29ycG9yYXRlQmluZ29XZWIvcGFnZXMvX2FwcC5qcyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBSZWFjdCBmcm9tICdyZWFjdCdcbmltcG9ydCBBcHAgZnJvbSAnbmV4dC9hcHAnXG5pbXBvcnQgSGVhZCBmcm9tICduZXh0L2hlYWQnXG5cbmltcG9ydCBVc2VyQ29udGV4dFByb3ZpZGVyIGZyb20gJy4uL2NvbnRleHRzL3VzZXJDb250ZXh0JztcbmltcG9ydCBPcmdDb250ZXh0UHJvdmlkZXIgZnJvbSAnLi4vY29udGV4dHMvb3JnQ29udGV4dCc7XG5pbXBvcnQgTWFuYWdlQm9hcmRzQ29udGV4dFByb3ZpZGVyIGZyb20gJy4uL2NvbnRleHRzL21hbmFnZUJvYXJkc0NvbnRleHQnO1xuaW1wb3J0IEpvaW5HYW1lQ29udGV4dFByb3ZpZGVyIGZyb20gJy4uL2NvbnRleHRzL2pvaW5HYW1lQ29udGV4dCc7XG5pbXBvcnQgUGxheUNvbnRleHRQcm92aWRlciBmcm9tICcuLi9jb250ZXh0cy9wbGF5Q29udGV4dCc7XG5pbXBvcnQgQmlvc0NvbnRleHRQcm92aWRlciBmcm9tICcuLi9jb250ZXh0cy9iaW9zQ29udGV4dCc7XG4vLyBpbXBvcnQgTG9yZUNvbnRleHRQcm92aWRlciBmcm9tICcuLi9jb250ZXh0cy9sb3JlQ29udGV4dCc7XG5cbmNsYXNzIE15QXBwIGV4dGVuZHMgQXBwIHtcbiAgLy8gT25seSB1bmNvbW1lbnQgdGhpcyBtZXRob2QgaWYgeW91IGhhdmUgYmxvY2tpbmcgZGF0YSByZXF1aXJlbWVudHMgZm9yXG4gIC8vIGV2ZXJ5IHNpbmdsZSBwYWdlIGluIHlvdXIgYXBwbGljYXRpb24uIFRoaXMgZGlzYWJsZXMgdGhlIGFiaWxpdHkgdG9cbiAgLy8gcGVyZm9ybSBhdXRvbWF0aWMgc3RhdGljIG9wdGltaXphdGlvbiwgY2F1c2luZyBldmVyeSBwYWdlIGluIHlvdXIgYXBwIHRvXG4gIC8vIGJlIHNlcnZlci1zaWRlIHJlbmRlcmVkLlxuICAvL1xuLy8gICBzdGF0aWMgYXN5bmMgZ2V0SW5pdGlhbFByb3BzKGFwcENvbnRleHQpIHtcbi8vICAgICAvLyBjYWxscyBwYWdlJ3MgYGdldEluaXRpYWxQcm9wc2AgYW5kIGZpbGxzIGBhcHBQcm9wcy5wYWdlUHJvcHNgXG4vLyAgICAgY29uc3QgYXBwUHJvcHMgPSBhd2FpdCBBcHAuZ2V0SW5pdGlhbFByb3BzKGFwcENvbnRleHQpO1xuICBcbi8vICAgICByZXR1cm4geyAuLi5hcHBQcm9wcyB9XG4vLyAgIH1cblxuICByZW5kZXIoKSB7XG4gICAgY29uc3QgeyBDb21wb25lbnQsIHBhZ2VQcm9wcyB9ID0gdGhpcy5wcm9wcztcblxuICAgIHJldHVybiAoXG4gICAgICAgIDxkaXY+XG4gICAgICAgICAgICA8ZGl2PlxuICAgICAgICAgICAgICAgIDxIZWFkPlxuICAgICAgICAgICAgICAgICAgICA8bWV0YSBuYW1lPVwidmlld3BvcnRcIiBjb250ZW50PVwid2lkdGg9ZGV2aWNlLXdpZHRoLCBpbml0aWFsLXNjYWxlPTFcIiAvPlxuICAgICAgICAgICAgICAgICAgICA8bWV0YSBjaGFyU2V0PVwidXRmLThcIiAvPlxuICAgICAgICAgICAgICAgICAgICA8bGluayByZWw9XCJpY29uXCIgdHlwZT1cImltYWdlL3gtaWNvblwiIGhyZWY9XCIuLi9zdGF0aWMvZmF2aWNvbi5pY29cIiAvPlxuICAgICAgICAgICAgICAgIDwvSGVhZD5cbiAgICAgICAgICAgICAgICA8c3R5bGUganN4IGdsb2JhbD57YFxuICAgICAgICAgICAgICAgICAgICBib2R5IHsgXG4gICAgICAgICAgICAgICAgICAgICAgICBtYXJnaW46IDBweDtcbiAgICAgICAgICAgICAgICAgICAgICAgIGZvbnQtZmFtaWx5OiAnUm9ib3RvJywgc2Fucy1zZXJpZjtcbiAgICAgICAgICAgICAgICAgICAgfVxuICAgICAgICAgICAgICAgIGB9PC9zdHlsZT5cbiAgICAgICAgICAgIDwvZGl2PlxuICAgICAgICAgICAgey8qIDxMb3JlQ29udGV4dFByb3ZpZGVyPiAqL31cbiAgICAgICAgICAgIDxCaW9zQ29udGV4dFByb3ZpZGVyPlxuICAgICAgICAgICAgICAgIDxQbGF5Q29udGV4dFByb3ZpZGVyPlxuICAgICAgICAgICAgICAgICAgICA8Sm9pbkdhbWVDb250ZXh0UHJvdmlkZXI+XG4gICAgICAgICAgICAgICAgICAgICAgICA8TWFuYWdlQm9hcmRzQ29udGV4dFByb3ZpZGVyPlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxPcmdDb250ZXh0UHJvdmlkZXI+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxVc2VyQ29udGV4dFByb3ZpZGVyPlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPENvbXBvbmVudCB7Li4ucGFnZVByb3BzfSAvPlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L1VzZXJDb250ZXh0UHJvdmlkZXI+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgPC9PcmdDb250ZXh0UHJvdmlkZXI+XG4gICAgICAgICAgICAgICAgICAgICAgICA8L01hbmFnZUJvYXJkc0NvbnRleHRQcm92aWRlcj5cbiAgICAgICAgICAgICAgICAgICAgPC9Kb2luR2FtZUNvbnRleHRQcm92aWRlcj5cbiAgICAgICAgICAgICAgICA8L1BsYXlDb250ZXh0UHJvdmlkZXI+XG4gICAgICAgICAgICA8L0Jpb3NDb250ZXh0UHJvdmlkZXI+XG4gICAgICAgICAgICB7LyogPC9Mb3JlQ29udGV4dFByb3ZpZGVyPiAqL31cbiAgICAgICAgPC9kaXY+XG4gICAgKVxuICB9XG59XG5cbmV4cG9ydCBkZWZhdWx0IE15QXBwIl19 */\n/*@ sourceURL=/Users/spencerford/Documents/DEVyall/PersonalProjects/CorporateBingoWeb/pages/_app.js */")), __jsx(_contexts_biosContext__WEBPACK_IMPORTED_MODULE_10__["default"], {
       __source: {
         fileName: _jsxFileName,
         lineNumber: 45
       },
       __self: this
-    }, __jsx(_contexts_userContext__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    }, __jsx(_contexts_playContext__WEBPACK_IMPORTED_MODULE_9__["default"], {
       __source: {
         fileName: _jsxFileName,
         lineNumber: 46
       },
       __self: this
-    }, __jsx(Component, Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, pageProps, {
+    }, __jsx(_contexts_joinGameContext__WEBPACK_IMPORTED_MODULE_8__["default"], {
       __source: {
         fileName: _jsxFileName,
         lineNumber: 47
       },
       __self: this
-    }))))))));
+    }, __jsx(_contexts_manageBoardsContext__WEBPACK_IMPORTED_MODULE_7__["default"], {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 48
+      },
+      __self: this
+    }, __jsx(_contexts_orgContext__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 49
+      },
+      __self: this
+    }, __jsx(_contexts_userContext__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 50
+      },
+      __self: this
+    }, __jsx(Component, Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, pageProps, {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 51
+      },
+      __self: this
+    })))))))));
   }
 
 }

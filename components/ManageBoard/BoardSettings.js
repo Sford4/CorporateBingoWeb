@@ -1,8 +1,7 @@
 import { useState, useEffect, useCallback, useContext } from 'react';
-import { useRouter } from 'next/router'
 
 // Constants
-import { teamCodePrefix } from '../../constants/constants';
+import FULL_URL from '../../constants/constants';
 
 // Context imports
 import { ManageBoardsContext } from '../../contexts/manageBoardsContext';
@@ -86,6 +85,37 @@ const BoardSettings = (props) => {
             document.body.removeChild(downloadLink);
     }
 
+    const uploadImgToS3 = async (img) => {
+        const request = await fetch(`${FULL_URL}/getSignedUrl`, {
+            method: 'POST',
+            body: JSON.stringify({
+                directory: `freeSquareIcons`, 
+                id: `${board.id}`,
+            })
+          })
+          const success = await request.json();
+          console.log({success})
+          if(success){
+            await fetch(success.presigned, {
+                headers: {
+                        'Content-Type': 'image/*',
+                        'x-amz-acl': 'public-read',
+                    },
+                method: 'PUT',
+                body: img,
+              }).then((response) => {
+                  if(response.status === 200){
+                    changeRegularValues('freeSquareIcon', success.nonPresigned)
+                  } else {
+                    alert('There was a problem saving your image... please try again later!')
+                  }
+                return response;
+              });
+          } else {
+              alert('There was a problem saving your image... please try again later!')
+          }
+    }
+
     const onDrop = useCallback(acceptedFiles => {
         const reader = new FileReader();
         reader.onabort = () => alert('file reading was aborted')
@@ -96,10 +126,10 @@ const BoardSettings = (props) => {
         // } else if (file.size > 10000000){
         //     this.openSnackBar(<FormattedMessage {...UserMessages.picTooBig} />);
         // } else {
-            reader.addEventListener('load', () =>
-                changeRegularValues('freeSquareIcon', reader.result)
-            );
-            reader.readAsDataURL(file);
+        reader.addEventListener('load', () => {
+            uploadImgToS3(reader.result)
+        });
+        reader.readAsArrayBuffer(file)
         // }
     }, []);
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
@@ -201,10 +231,10 @@ const BoardSettings = (props) => {
                                 id: 'num-squares-select',
                             }}
                         >
-                            <MenuItem value="4">4</MenuItem>
-                            <MenuItem value="9">9</MenuItem>
-                            <MenuItem value="16">16</MenuItem>
-                            <MenuItem value="25">25</MenuItem>
+                            <MenuItem value={4}>4</MenuItem>
+                            <MenuItem value={9}>9</MenuItem>
+                            <MenuItem value={16}>16</MenuItem>
+                            <MenuItem value={25}>25</MenuItem>
                         </Select>
                     </div>
                     <div style={{ ...styles.labelColumn, flexDirection: 'row', alignItems: 'center'}}>

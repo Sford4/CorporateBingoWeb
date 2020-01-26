@@ -7,6 +7,8 @@ import OrgContextProvider from '../contexts/orgContext';
 import ManageBoardsContextProvider from '../contexts/manageBoardsContext';
 import JoinGameContextProvider from '../contexts/joinGameContext';
 import PlayContextProvider from '../contexts/playContext';
+import BiosContextProvider from '../contexts/biosContext';
+// import LoreContextProvider from '../contexts/loreContext';
 
 class MyApp extends App {
   // Only uncomment this method if you have blocking data requirements for
@@ -39,17 +41,21 @@ class MyApp extends App {
                     }
                 `}</style>
             </div>
-            <PlayContextProvider>
-                <JoinGameContextProvider>
-                    <ManageBoardsContextProvider>
-                        <OrgContextProvider>
-                            <UserContextProvider>
-                                <Component {...pageProps} />
-                            </UserContextProvider>
-                        </OrgContextProvider>
-                    </ManageBoardsContextProvider>
-                </JoinGameContextProvider>
-            </PlayContextProvider>
+            {/* <LoreContextProvider> */}
+            <BiosContextProvider>
+                <PlayContextProvider>
+                    <JoinGameContextProvider>
+                        <ManageBoardsContextProvider>
+                            <OrgContextProvider>
+                                <UserContextProvider>
+                                    <Component {...pageProps} />
+                                </UserContextProvider>
+                            </OrgContextProvider>
+                        </ManageBoardsContextProvider>
+                    </JoinGameContextProvider>
+                </PlayContextProvider>
+            </BiosContextProvider>
+            {/* </LoreContextProvider> */}
         </div>
     )
   }

@@ -71,11 +71,11 @@ const PlayHome = (props) => {
 
   const [game, setGame] = useState(contextGame);
   const [rewardDialogOpen, setRewardDialogOpen] = useState(false);
+  const [descriptionDialogOpen, setDescriptionDialogOpen] = useState(false);
   const [reward, setReward] = useState({});
 
   useEffect(() => {
     if(!contextGame.id){
-      console.log(props.findID)
         getGame(props.findID, props.userID);
     } else {
         setGame(contextGame);
@@ -107,15 +107,18 @@ const updateGame = game => {
       <Layout>
         <div style={styles.container}>
           <div style={{width: '100%'}}> 
-            <div style={MASTER.pageTitle}>Playing {game.title}</div>
+            <div style={{ display: 'flex' }}>
+              <div style={MASTER.pageTitle}>Playing {game.title}</div>
+              {game.description && <img src='../../../../static/infoIcon.png' style={{ width: 30, height: 30, marginLeft: 10, cursor: 'pointer' }} onClick={() => setDescriptionDialogOpen(true)} />}
+            </div>
             <div style={{  }}>Created by {game.orgName}</div>
-            <div style={{ marginBottom: 20 }}>Organized by {game.organizerName}</div>
+            {/* <div style={{ marginBottom: 20 }}>Organized by {game.organizerName}</div> */}
           </div>
           {game.rewards.length && game.rewards[game.rewards.length - 1].position.includes('wholeBoard') && game.rewards[game.rewards.length - 1].title ? generateWholeBoardRewardIcon(game.rewards[game.rewards.length - 1]) : null}
           <PlayBoard 
             board={game}
             navigation={props.navigation}
-            size={`size${game.numSquares}`}
+            size={`size${game.numSquares}`} 
           />
         </div>
         <Dialog open={rewardDialogOpen} onBackdropClick={() => setRewardDialogOpen(false)}>
@@ -123,6 +126,12 @@ const updateGame = game => {
               REWARD
             </DialogTitle>
           <RewardDetail reward={reward} mustRedeem={game.redeemRewards} openPopup={setRewardDialogOpen} />
+        </Dialog>
+        <Dialog open={descriptionDialogOpen} onBackdropClick={() => setDescriptionDialogOpen(false)}>
+          <DialogTitle onClose={() => setDescriptionDialogOpen(false)}>
+              DESCRIPTION
+            </DialogTitle>
+          <div style={{ padding: 20, paddingTop: 0 }}>{game.description}</div>
         </Dialog>
       </Layout>
     );

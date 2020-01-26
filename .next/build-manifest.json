@@ -16,11 +16,7 @@
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ],
-    "/manageBoards/[boardID]": [
-      "static/runtime/webpack.js",
-      "static/runtime/main.js"
-    ],
-    "/usersAndOrg": [
+    "/playGame/[findID]/[userID]": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ]

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import {useDropzone} from 'react-dropzone'
+import {useDropzone} from 'react-dropzone';
+import FULL_URL from '../../../constants/constants';
 
 // context imports
 
@@ -7,16 +8,19 @@ import {useDropzone} from 'react-dropzone'
 import { MASTER, COLORS } from '../../../styles/masterStyles';
 
 // Component imports
+import LoadingSpinner from '../../../components/LoadingSpinner';
 
 const TaskPicture = (props) => {
 
     const [image, setImage] = useState(props.task.task.answer);
-    const [cameraOpen, setCameraOpen] = useState(false);
-    const [cameraPermission, setCameraPermission] = useState('');
+    const [ loading, setLoading ] = useState(false);
 
     useEffect(() => {
         if(!!image){
-            setComplete(image, !!image);
+            // get the final url from backend
+            const imgUrl = 'url'
+            setComplete(imgUrl, !!image);
+            setLoading(false);
         }
     }, [image])
 
@@ -31,6 +35,38 @@ const TaskPicture = (props) => {
         })
         props.completeSquare(bool);
     } 
+
+    const uploadImgToS3 = async (img) => {
+        setLoading(true);
+        const request = await fetch(`${FULL_URL}/getSignedUrl`, {
+            method: 'POST',
+            body: JSON.stringify({
+                directory: `games/${props.gameID}/tasks`, 
+                id: props.task.id,
+            })
+          })
+          const success = await request.json();
+          console.log({success})
+          if(success){
+            await fetch(success.presigned, {
+                headers: {
+                        'Content-Type': 'image/*',
+                        'x-amz-acl': 'public-read',
+                    },
+                method: 'PUT',
+                body: img,
+              }).then((response) => {
+                  if(response.status === 200){
+                    setImage(success.nonPresigned);
+                  } else {
+                    alert('There was a problem saving your image... please try again later!')
+                  }
+                return response;
+              });
+          } else {
+              alert('There was a problem saving your image... please try again later!')
+          }
+    }
     
     const onDrop = useCallback(acceptedFiles => {
         const reader = new FileReader();
@@ -42,10 +78,10 @@ const TaskPicture = (props) => {
         // } else if (file.size > 10000000){
         //     this.openSnackBar(<FormattedMessage {...UserMessages.picTooBig} />);
         // } else {
-            reader.addEventListener('load', () =>
-                setImage(reader.result)
-            );
-            reader.readAsDataURL(file);
+            reader.addEventListener('load', () => {
+                uploadImgToS3(reader.result)
+            });
+            reader.readAsArrayBuffer(file)
         // }
     }, []);
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
@@ -57,7 +93,7 @@ const TaskPicture = (props) => {
                 !!image && 
                 <div>
                     <img style={styles.image} src={image}  />
-                    <button
+                    {/* <button
                         style={styles.removePhotoBtn}
                         onClick={() => {
                             setImage('');
@@ -65,17 +101,28 @@ const TaskPicture = (props) => {
                         }}
                     >
                         <div style={{ ...MASTER.wideRoundBtnText, fontSize: 30, marginTop: -5 }}>x</div>
-                    </button>
+                    </button> */}
                 </div>
             }
             {!image && 
-            <div {...getRootProps()}>
-                <input {...getInputProps()} />
-                {
-                isDragActive ?
-                    <p>Drop the files here ...</p> :
-                    <p>Drag 'n' drop some files here, or click to select files</p>
+            <div>
+                {loading && 
+                    <div style={styles.grayTransluscentBackground}>
+                        <LoadingSpinner size={50} color={COLORS.primary} thickness={4} />
+                    </div>
                 }
+                <div {...getRootProps()}>
+                    <input {...getInputProps()} />
+                    {
+                    isDragActive ?
+                        <div style={styles.dropzone}>
+                            <p>Drop the file here ...</p>
+                        </div> :
+                        <div style={styles.dropzone}>
+                            <p>Drag and drop a picture here, or click to select a file</p>
+                        </div>
+                    }
+                </div>
             </div>
             }
           </div>
@@ -116,6 +163,28 @@ const styles = {
     position: 'absolute',
     bottom: 10,
     right: 10,
+  },
+  dropzone: {
+    display: 'flex', 
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 200,
+    height: 200,
+    border: '2px dotted black',
+    marginRight: 10,
+    cursor: 'pointer',
+    outline: 'none',
+  },
+  grayTransluscentBackground: {
+      position: 'absolute',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: 210,
+      height: 210,
+      backgroundColor: 'rgba(230, 230, 230, 0.5)',
+      zIndex: 2,
   }
 };
 

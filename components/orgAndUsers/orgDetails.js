@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useContext } from 'react';
+import FULL_URL from '../../constants/constants';
 
 // Context imports
 import { OrgContext } from '../../contexts/orgContext';
@@ -34,6 +35,37 @@ const OrgDetails = (props) => {
         setStuffToSave(true);
     }
 
+    const uploadImgToS3 = async (img) => {
+        const request = await fetch(`${FULL_URL}/getSignedUrl`, {
+            method: 'POST',
+            body: JSON.stringify({
+                directory: `freeSquareIcons`, 
+                id: contextOrg.id,
+            })
+          })
+          const success = await request.json();
+          console.log({success})
+          if(success){
+            await fetch(success.presigned, {
+                headers: {
+                        'Content-Type': 'image/*',
+                        'x-amz-acl': 'public-read',
+                    },
+                method: 'PUT',
+                body: img,
+              }).then((response) => {
+                  if(response.status === 200){
+                    changeRegularValues('freeSquareIcon', success.nonPresigned)
+                  } else {
+                    alert('There was a problem saving your image... please try again later!')
+                  }
+                return response;
+              });
+          } else {
+              alert('There was a problem saving your image... please try again later!')
+          }
+    }
+
     const onDrop = useCallback(acceptedFiles => {
         const reader = new FileReader();
         reader.onabort = () => alert('file reading was aborted')
@@ -44,10 +76,10 @@ const OrgDetails = (props) => {
         // } else if (file.size > 10000000){
         //     this.openSnackBar(<FormattedMessage {...UserMessages.picTooBig} />);
         // } else {
-            reader.addEventListener('load', () =>
-                changeRegularValues('freeSquareIcon', reader.result)
-            );
-            reader.readAsDataURL(file);
+            reader.addEventListener('load', () => {
+                uploadImgToS3(reader.result)
+            });
+            reader.readAsArrayBuffer(file)
         // }
     }, []);
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})

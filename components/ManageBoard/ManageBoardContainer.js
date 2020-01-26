@@ -29,12 +29,12 @@ const ManageBoardContainer = (props) => {
             case 1:
                 setComponent(<BoardBuilder changesMade={props.changesMade} board={props.board} />);
                 return;
-            case 2:
-                setComponent(<BoardTeamsOrPlayers changesMade={props.changesMade} boardID={props.board.id} />);
-                return;
-            case 3:
-                setComponent(<BoardRewards changesMade={props.changesMade} board={props.board} />);
-                return;
+            // case 2:
+            //     setComponent(<BoardTeamsOrPlayers changesMade={props.changesMade} boardID={props.board.id} />);
+            //     return;
+            // case 3:
+            //     setComponent(<BoardRewards changesMade={props.changesMade} board={props.board} />);
+            //     return;
             default:
                 setComponent(<BoardSettings changesMade={props.changesMade} board={props.board} />);
                 return;
@@ -56,8 +56,8 @@ const ManageBoardContainer = (props) => {
             >
                 <Tab label="Settings" />
                 <Tab label="Board" />
-                <Tab label="Games" />
-                <Tab label="Rewards" />
+                {/* <Tab label="Games" />
+                <Tab label="Rewards" /> */}
             </Tabs>
             <div style={{ borderTop: `1px solid ${COLORS.primary}`, maxHeight: 800, display: 'flex', justifyContent: 'center', overflowY: 'scroll' }}>
                 {component}

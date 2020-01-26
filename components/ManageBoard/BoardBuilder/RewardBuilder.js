@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
-
+import FULL_URL from '../../../constants/constants';
 
 // Style imports
 import { MASTER, COLORS } from '../../../styles/masterStyles';
@@ -15,6 +15,8 @@ const RewardBuilder = (props) => {
   const { contextBoard, updateBoard, setStuffToSave } = useContext(ManageBoardsContext);
 
   const [reward, setReward] = useState({});
+  const [imgChange, setImgChange] = useState(false);
+  const [img, setImg] = useState(null);
 
   const generateHowToEarn = position => {
     if(position === 'wholeBoard'){
@@ -38,9 +40,44 @@ const RewardBuilder = (props) => {
     if(reward.id && !reward.howToEarn){
         updateReward('howToEarn', generateHowToEarn(reward.position));
     }
-  }, [contextBoard])
+    if(imgChange){
+        updateReward('img', img);
+        setReward({...reward, img: img});
+        setImgChange(false);
+    }
+  }, [contextBoard, imgChange])
 
-  
+  const uploadImgToS3 = async (img) => {
+    const request = await fetch(`${FULL_URL}/getSignedUrl`, {
+        method: 'POST',
+        body: JSON.stringify({
+            directory: `boards/${contextBoard.id}/rewards`, 
+            id: props.reward.id,
+        })
+      })
+      const success = await request.json();
+      console.log({success})
+      if(success){
+        await fetch(success.presigned, {
+            headers: {
+                    'Content-Type': 'image/*',
+                    'x-amz-acl': 'public-read',
+                },
+            method: 'PUT',
+            body: img,
+          }).then((response) => {
+              if(response.status === 200){
+                setImg(success.nonPresigned);
+                setImgChange(true);
+              } else {
+                alert('There was a problem saving your image... please try again later!')
+              }
+            return response;
+          });
+      } else {
+          alert('There was a problem saving your image... please try again later!')
+      }
+    }
 
   const onDrop = useCallback(acceptedFiles => {
     const reader = new FileReader();
@@ -52,10 +89,10 @@ const RewardBuilder = (props) => {
     // } else if (file.size > 10000000){
     //     this.openSnackBar(<FormattedMessage {...UserMessages.picTooBig} />);
     // } else {
-        reader.addEventListener('load', () =>
-            setImg(reader.result)
-        );
-        reader.readAsDataURL(file);
+        reader.addEventListener('load', () => {
+            uploadImgToS3(reader.result)
+        });
+        reader.readAsArrayBuffer(file)
     // }
     }, []);
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
@@ -158,7 +195,7 @@ const RewardBuilder = (props) => {
             }} 
             placeholder={'e.g. $10 gift card!'}
         />
-         <span style={styles.inputLabel}>Points they'll earn (for their player record)</span>
+         <span style={styles.inputLabel}>Gold they'll earn (for their player record)</span>
         <input 
             style={{ ...MASTER.wideRoundInput, marginTop: 2 }} 
             value={reward.points} 

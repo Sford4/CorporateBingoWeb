@@ -111,7 +111,6 @@ const PlayBoard = (props) => {
     // run saveGame with the result of checkForRewards
     let rewardsChanged = false;
     const earnedRewards = checkForRewards(gameToSave);
-    console.log({earnedRewards})
     const rewards = contextGame.rewards.map(reward => {
       if(earnedRewards.includes(reward.position)){
         if(!reward.earned){
@@ -226,7 +225,7 @@ const PlayBoard = (props) => {
                   maxHeight: 110,
                 }}
               >
-                <img style={MASTER.freeSquareIcon} src={'../../static/circle_check.png'} />
+                <img style={MASTER.freeSquareIcon} src={contextGame.freeSquareIcon} />
               </button>
             )
           } else {
@@ -326,6 +325,7 @@ const PlayBoard = (props) => {
             updateTask={updateTask} 
             previousSquareComplete={previousSquareComplete}
             mustBeDoneInOrder={props.board.mustBeDoneInOrder}  
+            gameID={contextGame.id}
           />
         </Dialog>
       </div>

@@ -143,7 +143,7 @@ const ManageBoardsHome = (props) => {
   return (
       <Layout>
         <div style={styles.container}>
-            <div style={MASTER.pageTitle}>MANAGE BOARDS</div>
+            <div style={MASTER.pageTitle}>MANAGE QUESTS</div>
             <Paper>
                 <div style={{ padding: '1% 3%' }}>
                     <div style={{ display: 'flex' }}>
@@ -151,7 +151,7 @@ const ManageBoardsHome = (props) => {
                             style={{ ...MASTER.wideRoundInput, maxWidth: 300 }} 
                             value={searchText} 
                             onChange={(e) => searchForBoard(e.target.value)} 
-                            placeholder={'Search by name or access code '}
+                            placeholder={'Search by name'}
                         />
                     </div>
                     <Table style={{ width:"100%" }}>
