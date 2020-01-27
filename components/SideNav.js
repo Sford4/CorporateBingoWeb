@@ -54,6 +54,7 @@ const SideNav = (props) => {
             <Link href='/joinGame'><a className='sidenavLink' style={currRoute && currRoute.includes('joinGame') ? styles.currLink : styles.link}>JOIN GAME</a></Link>
             {user && user.roleLevel < 3 && <Link href='/manageBoards'><a className='sidenavLink' style={currRoute && currRoute.includes('manageBoards') ? styles.currLink : styles.link}>MANAGE QUESTS</a></Link>}
             {user && user.roleLevel < 3 && <Link href='/usersAndOrg'><a className='sidenavLink' style={currRoute && currRoute.includes('usersAndOrg') ? styles.currLink : styles.link}>USERS & ORG</a></Link>}
+            {user && user.roleLevel < 3 && <Link href='/mapBiosLore'><a className='sidenavLink' style={currRoute && currRoute.includes('mapBiosLore') ? styles.currLink : styles.link}>MAP, BIOS & LORE</a></Link>}
             {user && user.roleLevel !== 2 && <Link href='/profile'><a className='sidenavLink' style={currRoute && currRoute.includes('profile') ? styles.currLink : styles.link}>MY PROFILE</a></Link>}
             <a className='sidenavLink' style={{color: COLORS.primary, cursor: 'pointer', padding: 10}} onClick={() => handleLogoutClick()}>LOGOUT</a>
             <style jsx>

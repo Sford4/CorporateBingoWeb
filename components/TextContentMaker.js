@@ -44,7 +44,7 @@ const TextContentMaker = (props) => {
         return props.content.map(item => {
             return (
                 <div style={{ width: '100%' }} key={item.id}>
-                    <span style={styles.deleteX} onClick={() => deleteItem(item.id)}>x</span>
+                    {props.content.length > 1 && <span style={styles.deleteX} onClick={() => deleteItem(item.id)}>x</span>}
                     <textarea 
                         style={{ ...MASTER.wideRoundTextArea, width: '100%' }} 
                         value={item.text} 

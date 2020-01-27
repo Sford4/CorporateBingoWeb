@@ -96,10 +96,12 @@ const Bios = (props) => {
     if(type === 'delete'){
         console.log(bio)
         contextSetBios(bios.filter(oldBio => oldBio.id !== bio))
+        setRows(bios.filter(oldBio => oldBio.id !== bio))
     } else if(type === 'new'){
         const bios = contextBios;
         bios.push(bio);
         contextSetBios(bios);
+        setRows(bios);
     } else if(type === 'edit'){
         console.log('updating bio', bio)
         let biosToSave = contextBios.map(oldBio => {
@@ -109,6 +111,7 @@ const Bios = (props) => {
             return oldBio;
         })
         contextSetBios(biosToSave);
+        setRows(biosToSave);
     }
   }
 
@@ -118,6 +121,7 @@ const Bios = (props) => {
     } else {
         console.log('bios after update', contextBios)
         setBios(contextBios);
+        setRows(contextBios);
     }
   }, [contextBios]);
 

@@ -123,105 +123,30 @@ const FULL_URL = 'https://8n5rviefak.execute-api.us-east-1.amazonaws.com/bingo';
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BiosContext", function() { return BiosContext; });
-/* harmony import */ var _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/json/stringify */ "./node_modules/@babel/runtime-corejs2/core-js/json/stringify.js");
-/* harmony import */ var _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! isomorphic-unfetch */ "isomorphic-unfetch");
-/* harmony import */ var isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _constants_constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../constants/constants */ "./constants/constants.js");
-
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _constants_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constants/constants */ "./constants/constants.js");
 var _jsxFileName = "/Users/spencerford/Documents/DEVyall/PersonalProjects/CorporateBingoWeb/contexts/biosContext.js";
-var __jsx = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement;
+var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 
-
-const dummyBios = [{
-  name: 'Ezmer',
-  img: '',
-  description: [{
-    id: 1,
-    type: 'paragraph',
-    text: 'This is the first paragraph'
-  }, {
-    id: 2,
-    type: 'paragraph',
-    text: 'This is the second paragraph'
-  }],
-  world: 'Utah',
-  bioType: 'Character',
-  race: 'Human',
-  faction: 'Knights',
-  display: true,
-  modified: new Date().getTime()
-}, {
-  name: 'Peabody',
-  img: '',
-  description: [{
-    id: 1,
-    type: 'paragraph',
-    text: 'This is the first paragraph'
-  }, {
-    id: 2,
-    type: 'paragraph',
-    text: 'This is the second paragraph'
-  }],
-  world: 'Utah',
-  bioType: 'Character',
-  race: 'Human',
-  faction: 'Pirates',
-  display: true,
-  modified: new Date().getTime()
-}, {
-  name: 'Waaaaagh',
-  img: '',
-  description: [{
-    id: 1,
-    type: 'paragraph',
-    text: 'This is the first paragraph'
-  }, {
-    id: 2,
-    type: 'paragraph',
-    text: 'This is the second paragraph'
-  }],
-  world: 'Utah',
-  bioType: 'Character',
-  race: 'Orc',
-  faction: 'Orcs',
-  display: false,
-  modified: new Date().getTime()
-}, {
-  name: 'The Tavern',
-  img: '',
-  description: [{
-    id: 1,
-    type: 'paragraph',
-    text: 'This is the first paragraph'
-  }],
-  world: 'Utah',
-  bioType: 'Location',
-  race: 'N/A',
-  faction: 'N/A',
-  display: true,
-  modified: new Date().getTime()
-}];
-const BiosContext = Object(react__WEBPACK_IMPORTED_MODULE_1__["createContext"])();
+const BiosContext = Object(react__WEBPACK_IMPORTED_MODULE_0__["createContext"])();
 
 const BiosContextProvider = props => {
   const {
     0: bios,
     1: setBios
-  } = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(dummyBios);
+  } = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]);
   const {
     0: saving,
     1: setSaving
-  } = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false);
+  } = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
 
   const getBios = async biosID => {
     console.log('in get bios', biosID);
 
     try {
-      const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_2___default()(`${_constants_constants__WEBPACK_IMPORTED_MODULE_3__["default"]}/bios`, {
+      const request = await fetch(`${_constants_constants__WEBPACK_IMPORTED_MODULE_1__["default"]}/bios`, {
         method: 'POST' // headers: {
         //   'Accept': 'application/json',
         //   'Content-Type': 'application/json',
@@ -237,46 +162,16 @@ const BiosContextProvider = props => {
     }
   };
 
-  const saveBio = async bioToSave => {
-    setSaving(true);
-    console.log('in save bio', bioToSave);
-
-    try {
-      const request = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_2___default()(`${_constants_constants__WEBPACK_IMPORTED_MODULE_3__["default"]}/bios/update/${bioToSave.id}`, {
-        method: 'POST',
-        // headers: {
-        //   'Accept': 'application/json',
-        //   'Content-Type': 'application/json',
-        //   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
-        // },
-        body: _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0___default()(bioToSave)
-      });
-      const response = await request.json();
-      const updatedBios = bios.map(bio => {
-        if (bio.id === response.id) {
-          return response;
-        }
-
-        return bio;
-      });
-      setSaving(false);
-      setBios(updatedBios);
-    } catch (err) {
-      alert(err);
-    }
-  };
-
   return __jsx(BiosContext.Provider, {
     value: {
       contextBios: bios,
-      updateBios: setBios,
+      contextSetBios: setBios,
       getBios: getBios,
-      saveBio,
       saving
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 141
+      lineNumber: 29
     },
     __self: undefined
   }, props.children);

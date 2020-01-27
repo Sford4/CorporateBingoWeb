@@ -30,120 +30,45 @@ var FULL_URL = 'https://8n5rviefak.execute-api.us-east-1.amazonaws.com/bingo'; /
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BiosContext", function() { return BiosContext; });
-/* harmony import */ var _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/json/stringify */ "./node_modules/@babel/runtime-corejs2/core-js/json/stringify.js");
-/* harmony import */ var _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs2/regenerator */ "./node_modules/@babel/runtime-corejs2/regenerator/index.js");
-/* harmony import */ var _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _babel_runtime_corejs2_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime-corejs2/helpers/esm/asyncToGenerator.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! isomorphic-unfetch */ "./node_modules/isomorphic-unfetch/browser.js");
-/* harmony import */ var isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _constants_constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../constants/constants */ "./constants/constants.js");
-
+/* harmony import */ var _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/regenerator */ "./node_modules/@babel/runtime-corejs2/regenerator/index.js");
+/* harmony import */ var _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_corejs2_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime-corejs2/helpers/esm/asyncToGenerator.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _constants_constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../constants/constants */ "./constants/constants.js");
 
 
 var _jsxFileName = "/Users/spencerford/Documents/DEVyall/PersonalProjects/CorporateBingoWeb/contexts/biosContext.js";
-var __jsx = react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement;
+var __jsx = react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement;
 
 
-
-var dummyBios = [{
-  name: 'Ezmer',
-  img: '',
-  description: [{
-    id: 1,
-    type: 'paragraph',
-    text: 'This is the first paragraph'
-  }, {
-    id: 2,
-    type: 'paragraph',
-    text: 'This is the second paragraph'
-  }],
-  world: 'Utah',
-  bioType: 'Character',
-  race: 'Human',
-  faction: 'Knights',
-  display: true,
-  modified: new Date().getTime()
-}, {
-  name: 'Peabody',
-  img: '',
-  description: [{
-    id: 1,
-    type: 'paragraph',
-    text: 'This is the first paragraph'
-  }, {
-    id: 2,
-    type: 'paragraph',
-    text: 'This is the second paragraph'
-  }],
-  world: 'Utah',
-  bioType: 'Character',
-  race: 'Human',
-  faction: 'Pirates',
-  display: true,
-  modified: new Date().getTime()
-}, {
-  name: 'Waaaaagh',
-  img: '',
-  description: [{
-    id: 1,
-    type: 'paragraph',
-    text: 'This is the first paragraph'
-  }, {
-    id: 2,
-    type: 'paragraph',
-    text: 'This is the second paragraph'
-  }],
-  world: 'Utah',
-  bioType: 'Character',
-  race: 'Orc',
-  faction: 'Orcs',
-  display: false,
-  modified: new Date().getTime()
-}, {
-  name: 'The Tavern',
-  img: '',
-  description: [{
-    id: 1,
-    type: 'paragraph',
-    text: 'This is the first paragraph'
-  }],
-  world: 'Utah',
-  bioType: 'Location',
-  race: 'N/A',
-  faction: 'N/A',
-  display: true,
-  modified: new Date().getTime()
-}];
-var BiosContext = Object(react__WEBPACK_IMPORTED_MODULE_3__["createContext"])();
+var BiosContext = Object(react__WEBPACK_IMPORTED_MODULE_2__["createContext"])();
 
 var BiosContextProvider = function BiosContextProvider(props) {
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_3__["useState"])(dummyBios),
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])([]),
       bios = _useState[0],
       setBios = _useState[1];
 
-  var _useState2 = Object(react__WEBPACK_IMPORTED_MODULE_3__["useState"])(false),
+  var _useState2 = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])(false),
       saving = _useState2[0],
       setSaving = _useState2[1];
 
   var getBios =
   /*#__PURE__*/
   function () {
-    var _ref = Object(_babel_runtime_corejs2_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__["default"])(
+    var _ref = Object(_babel_runtime_corejs2_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__["default"])(
     /*#__PURE__*/
-    _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee(biosID) {
+    _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(biosID) {
       var request, _bios;
 
-      return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee$(_context) {
+      return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               console.log('in get bios', biosID);
               _context.prev = 1;
               _context.next = 4;
-              return isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_4___default()("".concat(_constants_constants__WEBPACK_IMPORTED_MODULE_5__["default"], "/bios"), {
+              return fetch("".concat(_constants_constants__WEBPACK_IMPORTED_MODULE_3__["default"], "/bios"), {
                 method: 'POST' // headers: {
                 //   'Accept': 'application/json',
                 //   'Content-Type': 'application/json',
@@ -182,79 +107,16 @@ var BiosContextProvider = function BiosContextProvider(props) {
     };
   }();
 
-  var saveBio =
-  /*#__PURE__*/
-  function () {
-    var _ref2 = Object(_babel_runtime_corejs2_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__["default"])(
-    /*#__PURE__*/
-    _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee2(bioToSave) {
-      var request, response, updatedBios;
-      return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              setSaving(true);
-              console.log('in save bio', bioToSave);
-              _context2.prev = 2;
-              _context2.next = 5;
-              return isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_4___default()("".concat(_constants_constants__WEBPACK_IMPORTED_MODULE_5__["default"], "/bios/update/").concat(bioToSave.id), {
-                method: 'POST',
-                // headers: {
-                //   'Accept': 'application/json',
-                //   'Content-Type': 'application/json',
-                //   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
-                // },
-                body: _babel_runtime_corejs2_core_js_json_stringify__WEBPACK_IMPORTED_MODULE_0___default()(bioToSave)
-              });
-
-            case 5:
-              request = _context2.sent;
-              _context2.next = 8;
-              return request.json();
-
-            case 8:
-              response = _context2.sent;
-              updatedBios = bios.map(function (bio) {
-                if (bio.id === response.id) {
-                  return response;
-                }
-
-                return bio;
-              });
-              setSaving(false);
-              setBios(updatedBios);
-              _context2.next = 17;
-              break;
-
-            case 14:
-              _context2.prev = 14;
-              _context2.t0 = _context2["catch"](2);
-              alert(_context2.t0);
-
-            case 17:
-            case "end":
-              return _context2.stop();
-          }
-        }
-      }, _callee2, null, [[2, 14]]);
-    }));
-
-    return function saveBio(_x2) {
-      return _ref2.apply(this, arguments);
-    };
-  }();
-
   return __jsx(BiosContext.Provider, {
     value: {
       contextBios: bios,
-      updateBios: setBios,
+      contextSetBios: setBios,
       getBios: getBios,
-      saveBio: saveBio,
       saving: saving
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 141
+      lineNumber: 29
     },
     __self: this
   }, props.children);

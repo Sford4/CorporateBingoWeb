@@ -169,12 +169,12 @@ const EditUser = (props) => {
                         <span style={MASTER.wideRoundBtnText}>Save</span>
                     </button> :
                     <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <button 
+                        {/* <button 
                             style={{ ...MASTER.wideRoundBtn, backgroundColor: 'red', marginTop: 20 }} 
                             onClick={() => deleteUser(props.user.id)}
                         >
                             <span style={MASTER.wideRoundBtnText}>Delete User</span>
-                        </button>
+                        </button> */}
                         <button 
                             style={{ ...MASTER.wideRoundBtn, marginTop: 20 }} 
                             onClick={() => updateUser()}

@@ -4,6 +4,7 @@ import { useState, useCallback, } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import fetch from 'isomorphic-unfetch';
 import FULL_URL from '../../constants/constants';
+const uuidv4 = require('uuid/v4');
 
 // context imports
 
@@ -34,13 +35,18 @@ const useStyles = makeStyles(theme => ({
 const EditBio = (props) => {
     const classes = useStyles();
 
+    const [id, setID] = useState(props.bio.id ? props.bio.id : uuidv4());
     const [name, setName] = useState(props.bio.name);
     const [world, setWorld] = useState(props.bio.world || 'Utah');
     const [bioType, setBioType] = useState(props.bio.bioType || 'Character');
     const [race, setRace] = useState(props.bio.race || 'Human');
     const [faction, setFaction] = useState(props.bio.faction || 'None');
     const [img, setImg] = useState(props.bio.img || '');
-    const [description, setDescription] = useState(props.bio.description || []);
+    const [description, setDescription] = useState(props.bio.description && props.bio.description ?  props.bio.description : [{
+        id: 1,
+        type: 'paragraph',
+        text: ''
+    },]);
     const [display, setDisplay] = useState(props.bio.display);
 
     const openWarning = (message) => {
@@ -53,82 +59,50 @@ const EditBio = (props) => {
         const request = await fetch(`${FULL_URL}/getSignedUrl`, {
             method: 'POST',
             body: JSON.stringify({
-                bucket: 'bioimgs', 
                 directory: `bios`, 
-                id: board.id,
+                id: id
             })
           })
           const success = await request.json();
           console.log({success})
           if(success){
-            const request = await fetch(success, {
+            await fetch(success.presigned, {
+                headers: {
+                        'Content-Type': 'image/*',
+                        'x-amz-acl': 'public-read',
+                    },
                 method: 'PUT',
                 body: img,
-              })
-              const res = await request.json();
-              console.log({res})
-              if(res){
-                setImg(success)
-              } else {
-                  alert('There was a problem saving your image... please try again later!')
-              }
+              }).then((response) => {
+                  if(response.status === 200){
+                    setImg(success.nonPresigned)
+                  } else {
+                    alert('There was a problem saving your image... please try again later!')
+                  }
+                return response;
+              });
           } else {
               alert('There was a problem saving your image... please try again later!')
           }
     }
 
-    const onDrop = useCallback((acceptedFiles) => {
-        console.log('in onDrop')
+    const onDrop = useCallback(acceptedFiles => {
         const reader = new FileReader();
         reader.onabort = () => alert('file reading was aborted')
         reader.onerror = () => alert('file reading has failed')
         const file = acceptedFiles[0];
         // if(!supportedFileTypes.includes(file.type)){
-        //     alert('wrongFileType');
+        //     this.openSnackBar(<FormattedMessage {...UserMessages.wrongFileType} />);
         // } else if (file.size > 10000000){
-        //     alert('picTooBig');
+        //     this.openSnackBar(<FormattedMessage {...UserMessages.picTooBig} />);
         // } else {
-            console.log({file})
-            reader.addEventListener('load', () => {
-                console.log('SETTING IMG')
-                uploadImgToS3(reader.result);
-            }
-            );
-            reader.readAsDataURL(file);
+        reader.addEventListener('load', () => {
+            uploadImgToS3(reader.result)
+        });
+        reader.readAsArrayBuffer(file)
         // }
     }, []);
-    const {getRootProps, getInputProps} = useDropzone({onDrop})
-
-    const newBio = async () => {
-        if(!name){
-            openWarning('Must have a name!');
-            return;
-        }
-        try {
-            const request = await fetch(`${FULL_URL}/bios/new`, {
-                method: 'POST',
-                // headers: {
-                //   'Accept': 'application/json',
-                //   'Content-Type': 'application/json'
-                // },
-                body: JSON.stringify({
-                    name,
-                    world,
-                    bioType,
-                    race,
-                    faction,
-                    display
-                })
-              })
-              const user = await request.json();
-              if(user && bio.id){
-                props.openPopup(false, false);
-                props.updateBios('new', user);
-              } else {
-                  alert('There was a problem creating this bio...');
-              }
-        } catch (err) { alert( err ) }
-    }
+    const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
 
     const updateBio = async () => {
         if(!name){
@@ -137,7 +111,7 @@ const EditBio = (props) => {
         }
         console.log('user updating', props.user)
         try {
-            const request = await fetch(`${FULL_URL}/users/update/${props.bio.id}`, {
+            const request = await fetch(`${FULL_URL}/bios/update`, {
                 method: 'POST',
                 // headers: {
                 //   'Accept': 'application/json',
@@ -145,42 +119,50 @@ const EditBio = (props) => {
                 //   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
                 // },
                 body: JSON.stringify({
-                    id: props.bio.id,
+                    id,
                     name,
+                    world,
+                    bioType,
+                    race,
+                    faction,
+                    img,
+                    description,
+                    display,
+                    modified: new Date().getTime(),
                 })
               })
               const bio = await request.json();
               console.log('from backend', {bio})
               if(bio && bio.id){
                 props.openPopup(false, false);
-                props.updateBios('edit', bio);
+                props.updateBios(props.newBio ? 'new' : 'edit', bio);
               } else {
                   alert('There was a problem updating this bio...');
               }
         } catch (err) { alert( err ) }
     }
 
-    const deleteBio = async id => {
-        if(confirm(`Are you sure? This will delete ${name} forever!`)){
-            try {
-                const request = await fetch(`${FULL_URL}/bios/delete${props.bio.id}`, {
-                    method: 'POST',
-                    // headers: {
-                    //   'Accept': 'application/json',
-                    //   'Content-Type': 'application/json',
-                    //   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
-                    // },
-                  })
-                  const response = await request.json();
-                  if(response && response.id){
-                    props.updateBios('delete', id);
-                    props.openPopup(false, false);
-                  } else {
-                      alert('There was a problem deleting this bio...');
-                  }
-            } catch (err) { alert( err ) }
-        }
-    }
+    // const deleteBio = async id => {
+    //     if(confirm(`Are you sure? This will delete ${name} forever!`)){
+    //         try {
+    //             const request = await fetch(`${FULL_URL}/bios/delete${props.bio.id}`, {
+    //                 method: 'POST',
+    //                 // headers: {
+    //                 //   'Accept': 'application/json',
+    //                 //   'Content-Type': 'application/json',
+    //                 //   'Authorization': `Bearer ${localStorage.getItem('bingo_token')}`
+    //                 // },
+    //               })
+    //               const response = await request.json();
+    //               if(response && response.id){
+    //                 props.updateBios('delete', id);
+    //                 props.openPopup(false, false);
+    //               } else {
+    //                   alert('There was a problem deleting this bio...');
+    //               }
+    //         } catch (err) { alert( err ) }
+    //     }
+    // }
 
 
     return (
@@ -231,8 +213,8 @@ const EditBio = (props) => {
                         onChange={e => {
                             setBioType(e.target.value);
                             if(e.target.value === 'Character'){
-                                setRace('N/A');
-                                setFaction('N/A');
+                                setRace('None');
+                                setFaction('None');
                             }
                         }}
                     >
@@ -250,7 +232,7 @@ const EditBio = (props) => {
                             className={classes.selectMenu}
                             onChange={e => setRace(e.target.value)}
                         >
-                            <MenuItem value={'N/A'}>N/A</MenuItem>
+                            <MenuItem value={'None'}>None</MenuItem>
                             <MenuItem value={'Human'}>Human</MenuItem>
                             <MenuItem value={'Fairy'}>Fairy</MenuItem>
                             <MenuItem value={'Orc'}>Orc</MenuItem>
@@ -267,7 +249,7 @@ const EditBio = (props) => {
                             className={classes.selectMenu}
                             onChange={e => setFaction(e.target.value)}
                         >
-                            <MenuItem value={'N/A'}>N/A</MenuItem>
+                            <MenuItem value={'None'}>None</MenuItem>
                             <MenuItem value={'Knights'}>Knights</MenuItem>
                             <MenuItem value={'Pirates'}>Pirates</MenuItem>
                             <MenuItem value={'Dragon Tamers'}>Dragon Tamers</MenuItem>
@@ -285,28 +267,20 @@ const EditBio = (props) => {
                 </div>
                 <div style={styles.subtitle}>Bio content:</div>
                 <TextContentMaker content={description} updateContent={setDescription} />
-                {props.newBio ?
+                <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    {/* <button 
+                        style={{ ...MASTER.wideRoundBtn, backgroundColor: 'red', marginTop: 20 }} 
+                        onClick={() => deleteBio(props.bio.id)}
+                    >
+                        <span style={MASTER.wideRoundBtnText}>Delete Bio</span>
+                    </button> */}
                     <button 
                         style={{ ...MASTER.wideRoundBtn, marginTop: 20 }} 
-                        onClick={() => newBio()}
+                        onClick={() => updateBio()}
                     >
                         <span style={MASTER.wideRoundBtnText}>Save</span>
-                    </button> :
-                    <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <button 
-                            style={{ ...MASTER.wideRoundBtn, backgroundColor: 'red', marginTop: 20 }} 
-                            onClick={() => deleteBio(props.bio.id)}
-                        >
-                            <span style={MASTER.wideRoundBtnText}>Delete Bio</span>
-                        </button>
-                        <button 
-                            style={{ ...MASTER.wideRoundBtn, marginTop: 20 }} 
-                            onClick={() => updateBio()}
-                        >
-                            <span style={MASTER.wideRoundBtnText}>Save</span>
-                        </button>
-                    </div>
-                }
+                    </button>
+                </div>
             </div>
         </div>
     )
