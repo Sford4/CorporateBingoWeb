@@ -98,10 +98,8 @@ const Bios = (props) => {
         contextSetBios(bios.filter(oldBio => oldBio.id !== bio))
         setRows(bios.filter(oldBio => oldBio.id !== bio))
     } else if(type === 'new'){
-        const bios = contextBios;
-        bios.push(bio);
-        contextSetBios(bios);
-        setRows(bios);
+        contextSetBios([ ...contextBios, bio]);
+        setRows([ ...contextBios, bio]);
     } else if(type === 'edit'){
         console.log('updating bio', bio)
         let biosToSave = contextBios.map(oldBio => {

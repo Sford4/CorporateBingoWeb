@@ -225,7 +225,7 @@ const PlayBoard = (props) => {
                   maxHeight: 110,
                 }}
               >
-                <img style={MASTER.freeSquareIcon} src={contextGame.freeSquareIcon} />
+                <img style={MASTER.freeSquareIcon} src={contextGame.freeSquareIcon === 'default' ? '../../static/circle_check.png' : contextGame.freeSquareIcon} />
               </button>
             )
           } else {

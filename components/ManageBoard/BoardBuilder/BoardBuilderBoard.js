@@ -157,7 +157,7 @@ const BoardBuilderBoard = (props) => {
                 }}
                 onClick={() => openSquareBuilderPopup(task)}
               >
-                <img style={MASTER.freeSquareIcon} src={board.freeSquareIcon} />
+                <img style={MASTER.freeSquareIcon} src={board.freeSquareIcon === 'default' ? '../../../static/circle_check.png' : board.freeSquareIcon} />
               </button>
             )
           }
